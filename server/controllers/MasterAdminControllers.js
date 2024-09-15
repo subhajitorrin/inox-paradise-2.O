@@ -21,16 +21,14 @@ async function loginMasterAdmin(req, res) {
       return res.status(401).json({ message: "Wrong password" });
     }
 
-    const token = jwt.sign(
-      {
-        id: masterAdmin._id,
-        email: masterAdmin.email,
-        role: masterAdmin.role,
-        name: masterAdmin.name
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "30d" }
-    );
+    const user = {
+      id: masterAdmin._id,
+      email: masterAdmin.email,
+      role: masterAdmin.role,
+      name: masterAdmin.name
+    };
+
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "30d" });
 
     res.cookie("token", token, {
       httpOnly: true,
