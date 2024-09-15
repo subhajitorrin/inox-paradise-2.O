@@ -19,7 +19,10 @@ const TheaterAdminSchema = new mongoose.Schema({
     default: "theateradmin"
   },
   foods: [
-    
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Food"
+    }
   ]
 });
 

@@ -22,7 +22,13 @@ const MasterAdminSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "masteradmin"
-  }
+  },
+  movies: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Movie"
+    }
+  ]
 });
 
 const MasterAdmin = mongoose.model("MasterAdmin", MasterAdminSchema);
