@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import bcryptjs from "bcryptjs";
 import MasterAdmin from "../models/MasterAdmin.js";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
 
@@ -63,10 +64,25 @@ async function addTheaterAdmin(req, res) {
   }
 
   try {
-    const existingTheater = TheaterAdminModel.findOne({ email });
+    const existingTheater = await TheaterAdminModel.findOne({ email });
     if (existingTheater) {
       return res.status(409).json({ message: "Theater Admin already exists" });
     }
+    const hashedpassword = await bcryptjs.hash(password, 10);
+    const newTheater = new TheaterAdminModel({
+      email,
+      password: hashedpassword,
+      name
+    });
+
+    await newTheater.save();
+
+    newTheater.password = undefined;
+
+    return res.status(201).json({
+      message: "Theater Admin added successfully",
+      theater: newTheater
+    });
   } catch (error) {
     console.log(error);
     return res
