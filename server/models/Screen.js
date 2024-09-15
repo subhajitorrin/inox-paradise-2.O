@@ -14,10 +14,18 @@ const ScreenSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  seats: [
+  layout: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Seat"
+      row: {
+        type: String,
+        required: true
+      },
+      seats: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Seat"
+        }
+      ]
     }
   ],
   capacity: {
@@ -28,7 +36,19 @@ const ScreenSchema = new mongoose.Schema({
     type: String,
     enum: ["2D", "3D", "IMAX", "4DX"],
     required: true
-  }
+  },
+  schedules: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Schedule"
+    }
+  ],
+  category: [
+    {
+      type: String,
+      required: true
+    }
+  ]
 });
 
 const ScreenModel = mongoose.model("Screen", ScreenSchema);
