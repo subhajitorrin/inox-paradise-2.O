@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import MasterAdminRotuer from "./routers/MasterAdminRouters.js";
+import MovieRouter from "./routers/MovieRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/masteradmin", MasterAdminRotuer);
+app.use("/", MovieRouter);
 
 mongoose
   .connect(MONGOURL)
