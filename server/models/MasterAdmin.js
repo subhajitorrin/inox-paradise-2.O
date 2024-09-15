@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 const MasterAdminSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -12,9 +13,15 @@ const MasterAdminSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  theaters: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Theater"
+  theaters: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Theater"
+    }
+  ],
+  role: {
+    type: String,
+    default: "masteradmin"
   }
 });
 
