@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import TheaterAdminModel from "../models/TheaterAdmin.js";
+import MasterAdminModel from "../models/MasterAdmin.js";
 
 async function loginTheaterAdmin(req, res) {
   const { email, password } = req.body;
@@ -9,7 +11,12 @@ async function loginTheaterAdmin(req, res) {
   }
 
   try {
-    const existingTheaterAdmin = await TheaterAdmin.findOne({ email });
+    const isMasterAdmin = await MasterAdminModel.findOne({ email });
+    if (isMasterAdmin) {
+      return res.status(401).json({ message: "Master admin email!" });
+    }
+
+    const existingTheaterAdmin = await TheaterAdminModel.findOne({ email });
     if (!existingTheaterAdmin) {
       return res.status(404).json({ message: "Theater Admin not found" });
     }
@@ -42,7 +49,7 @@ async function loginTheaterAdmin(req, res) {
     existingTheaterAdmin.password = undefined;
 
     res.status(200).json({
-      message: "Theater admin loggin successful",
+      message: "Theater admin login successful",
       TheaterAdmin: existingTheaterAdmin
     });
   } catch (error) {
