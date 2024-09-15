@@ -1,5 +1,10 @@
 async function getAllMovies(req, res) {
-  const { user } = req.user;
-  return res.status(200).json({ user });
+  const { id, email, role, name } = req;
+  return res.status(200).json({ id, email, role, name });
 }
-export { getAllMovies };
+
+async function addMovie(req,res){
+
+}
+
+export { getAllMovies, addMovie };

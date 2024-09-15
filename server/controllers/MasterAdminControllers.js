@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import MasterAdmin from "../models/MasterAdmin.js";
+import TheaterAdminModel from "../models/TheaterAdmin.js";
 
 dotenv.config();
 
@@ -21,14 +22,16 @@ async function loginMasterAdmin(req, res) {
       return res.status(401).json({ message: "Wrong password" });
     }
 
-    const user = {
-      id: masterAdmin._id,
-      email: masterAdmin.email,
-      role: masterAdmin.role,
-      name: masterAdmin.name
-    };
-
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "30d" });
+    const token = jwt.sign(
+      {
+        id: masterAdmin._id,
+        email: masterAdmin.email,
+        role: masterAdmin.role,
+        name: masterAdmin.name
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -46,4 +49,30 @@ async function loginMasterAdmin(req, res) {
   }
 }
 
-export { loginMasterAdmin };
+async function addTheaterAdmin(req, res) {
+  const { role } = req;
+
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { email, password, name } = req.body;
+
+  if (!email || !password || !name) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const existingTheater = TheaterAdminModel.findOne({ email });
+    if (existingTheater) {
+      return res.status(409).json({ message: "Theater Admin already exists" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while adding theater admin" });
+  }
+}
+
+export { loginMasterAdmin, addTheaterAdmin };

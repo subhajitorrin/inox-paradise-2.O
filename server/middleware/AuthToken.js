@@ -10,12 +10,14 @@ async function AuthToken(req, res, next) {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    req.id = decoded.id;
+    req.email = decoded.email;
+    req.role = decoded.role;
+    req.name = decoded.name;
     next();
-    req.user = decoded;
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Error while verifying token" });
   }
 }
-export default AuthToken
+export default AuthToken;

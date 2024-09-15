@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/masteradmin", MasterAdminRotuer);
+app.use("/", MasterAdminRotuer);
 app.use("/", MovieRouter);
 
 mongoose
