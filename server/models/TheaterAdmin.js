@@ -23,6 +23,12 @@ const TheaterAdminSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Food"
     }
+  ],
+  screens: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Screen"
+    }
   ]
 });
 
