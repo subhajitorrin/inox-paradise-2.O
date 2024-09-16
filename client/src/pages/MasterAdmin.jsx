@@ -1,14 +1,34 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/MasterAdmin/Login";
 import Dashboard from "../components/MasterAdmin/Dashboard";
+import { useMasterAdmin } from "../store/MasterAdmin";
+
+function ProtectedRoutes({ children }) {
+  const isMasterAuthenticated = useMasterAdmin(
+    (state) => state.isMasterAuthenticated
+  );
+
+  if (!isMasterAuthenticated) {
+    return <Navigate to="/masteradmin/login" replace />;
+  }
+  return children;
+}
 
 function MasterAdmin() {
   return (
     <div className="">
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="*" element={<Navigate to="/masteradmin/dashboard" />} />
       </Routes>
     </div>
   );
