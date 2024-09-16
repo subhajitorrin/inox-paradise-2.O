@@ -16,8 +16,21 @@ export const useMasterAdmin = create((set, get) => ({
         email,
         password
       });
-      set({ masterAdmin: res.data.masterAdmin });
+      set({ masterAdmin: res.data.masterAdmin, isMasterAuthenticated: true });
       return res.data.masterAdmin;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  logoutMasterAdmin: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axios.get(`${BASE_URL}/logout`);
+      set({ masterAdmin: null, isMasterAuthenticated: false });
+      return res.data;
     } catch (error) {
       console.log(error);
       throw error;
