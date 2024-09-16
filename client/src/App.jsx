@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import MasterAdmin from "./pages/MasterAdmin";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/masteradmin/*" element={<MasterAdmin />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

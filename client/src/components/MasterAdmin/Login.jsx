@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMasterAdmin } from "../../store/MasterAdmin";
+import { toast } from "react-toastify";
 
 function Login() {
   const loginMasterAdmin = useMasterAdmin((state) => state.loginMasterAdmin);
@@ -11,8 +12,10 @@ function Login() {
     try {
       const res = await loginMasterAdmin(email, password);
       console.log(res);
+      toast.success("Login successfull");
     } catch (error) {
       console.error("Login failed:", error);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
