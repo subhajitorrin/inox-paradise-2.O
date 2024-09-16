@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
 import MasterAdminModel from "../models/MasterAdmin.js";
-import otpModel from "../models/OTP.js"
+import otpModel from "../models/OTP.js";
 import mailSender from "../utils/SendMail.js";
 
 async function loginTheaterAdmin(req, res) {
@@ -141,12 +141,10 @@ async function verifyOtpForTheaterAdmin(req, res) {
 
     existingTheaterAdmin.password = undefined;
 
-    return res
-      .status(200)
-      .json({
-        message: "Otp verified successfully",
-        theaterAdmin: existingTheaterAdmin
-      });
+    return res.status(200).json({
+      message: "Otp verified successfully",
+      theaterAdmin: existingTheaterAdmin
+    });
   } catch (error) {
     console.log(error);
     return res
@@ -162,4 +160,14 @@ function generateOtp(n) {
   return otp;
 }
 
-export { loginTheaterAdmin, loginTheaterAdminWithOtp,verifyOtpForTheaterAdmin };
+async function logout(req, res) {
+  res.clearCookie("token");
+  return res.status(200).json({ message: "Logout successful" });
+}
+
+export {
+  loginTheaterAdmin,
+  loginTheaterAdminWithOtp,
+  verifyOtpForTheaterAdmin,
+  logout
+};
