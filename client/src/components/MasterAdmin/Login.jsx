@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { useMasterAdmin } from "../../store/MasterAdmin";
 
 function Login() {
+  const { loginMasterAdmin } = useMasterAdmin(
+    (state) => state.loginMasterAdmin
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      const res = await loginMasterAdmin(email, password);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
