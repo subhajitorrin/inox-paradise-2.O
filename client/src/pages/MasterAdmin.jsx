@@ -19,6 +19,10 @@ function MasterAdmin() {
   return (
     <div className="">
       <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={"/masteradmin/dashboard"} replace />}
+        />
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
@@ -28,7 +32,10 @@ function MasterAdmin() {
             </ProtectedRoutes>
           }
         />
-        <Route path="*" element={<Navigate to="/masteradmin/dashboard" />} />
+        <Route
+          path="*"
+          element={<Navigate to="/masteradmin/dashboard" replace />}
+        />
       </Routes>
     </div>
   );
