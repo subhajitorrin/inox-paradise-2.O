@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
 import MasterAdminModel from "../models/MasterAdmin.js";
+import otpModel from "../models/OTP.js"
 import mailSender from "../utils/SendMail.js";
 
 async function loginTheaterAdmin(req, res) {
@@ -61,15 +62,10 @@ async function loginTheaterAdmin(req, res) {
 
 async function loginTheaterAdminWithOtp(req, res) {
   const { email } = req.body;
-  if (!email || !password) {
+  if (!email) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
-    const isMasterAdmin = MasterAdminModel.findOne({ email });
-    if (isMasterAdmin) {
-      return res.status(401).json({ message: "Can't login as master admin!" });
-    }
-
     const existingTheaterAdmin = await TheaterAdminModel.findOne({ email });
     if (!existingTheaterAdmin) {
       return res.status(404).json({ message: "Theater Admin not found" });
@@ -90,7 +86,7 @@ async function loginTheaterAdminWithOtp(req, res) {
       body: `Your OTP is ${otp}`
     };
 
-    await mailSender(obj);
+    await mailSender(obj.email, obj.title, obj.body);
 
     return res
       .status(200)
@@ -166,4 +162,4 @@ function generateOtp(n) {
   return otp;
 }
 
-export { loginTheaterAdmin, loginTheaterAdminWithOtp };
+export { loginTheaterAdmin, loginTheaterAdminWithOtp,verifyOtpForTheaterAdmin };
