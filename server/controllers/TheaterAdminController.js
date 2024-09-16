@@ -13,7 +13,7 @@ async function loginTheaterAdmin(req, res) {
   try {
     const isMasterAdmin = await MasterAdminModel.findOne({ email });
     if (isMasterAdmin) {
-      return res.status(401).json({ message: "Master admin email!" });
+      return res.status(401).json({ message: "Can't login as master admin!" });
     }
 
     const existingTheaterAdmin = await TheaterAdminModel.findOne({ email });
