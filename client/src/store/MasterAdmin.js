@@ -16,7 +16,8 @@ export const useMasterAdmin = create((set, get) => ({
         email,
         password
       });
-      return res.data;
+      set({ masterAdmin: res.data.masterAdmin });
+      return res.data.masterAdmin;
     } catch (error) {
       console.log(error);
       throw error;
