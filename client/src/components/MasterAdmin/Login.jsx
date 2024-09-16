@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useMasterAdmin } from "../../store/MasterAdmin";
 
 function Login() {
-  const { loginMasterAdmin } = useMasterAdmin(
-    (state) => state.loginMasterAdmin
-  );
+  const loginMasterAdmin = useMasterAdmin((state) => state.loginMasterAdmin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,7 +12,7 @@ function Login() {
       const res = await loginMasterAdmin(email, password);
       console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error("Login failed:", error);
     }
   };
 
