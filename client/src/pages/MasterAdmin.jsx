@@ -15,6 +15,16 @@ function ProtectedRoutes({ children }) {
   return children;
 }
 
+function RedirectRoutes({ children }) {
+  const isMasterAuthenticated = useMasterAdmin(
+    (state) => state.isMasterAuthenticated
+  );
+  if (isMasterAuthenticated) {
+    return <Navigate to="/masteradmin/dashboard" replace />;
+  }
+  return children;
+}
+
 function MasterAdmin() {
   return (
     <div className="">
@@ -23,7 +33,14 @@ function MasterAdmin() {
           path="/"
           element={<Navigate to={"/masteradmin/dashboard"} replace />}
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <RedirectRoutes>
+              <Login />
+            </RedirectRoutes>
+          }
+        />
         <Route
           path="/dashboard"
           element={
