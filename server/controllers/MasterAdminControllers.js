@@ -171,6 +171,8 @@ async function getAllTheaters(req, res) {
   if (role !== "masteradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  console.log("elo");
+  
   try {
     const theaters = await TheaterAdminModel.find({});
     return res.status(200).json({ theaters });

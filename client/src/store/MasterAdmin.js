@@ -12,6 +12,7 @@ const useMasterAdmin = create(
       masterAdmin: null,
       isMasterAuthenticated: null,
       isLoading: false,
+      theaters: [],
 
       loginMasterAdmin: async (email, password) => {
         set({ isLoading: true });
@@ -106,6 +107,23 @@ const useMasterAdmin = create(
           );
           return data;
         } catch (error) {
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      getAllTheaters: async () => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/masteradmin/get-all-theaters`
+          );
+          set({ theaters: data.theaters });
+          return data.theaters;
+        } catch (error) {
+          console.log(error);
+
           throw error;
         } finally {
           set({ isLoading: false });

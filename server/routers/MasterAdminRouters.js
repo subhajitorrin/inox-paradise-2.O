@@ -25,7 +25,7 @@ MasterAdminRotuer.post(
   sendOTPforTheaterRegistration
 );
 MasterAdminRotuer.get(
-  "masteradmin/get-all-theaters",
+  "/masteradmin/get-all-theaters",
   AuthToken,
   getAllTheaters
 );

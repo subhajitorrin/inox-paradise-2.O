@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useMasterAdmin from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import TheaterCard from "./TheaterCard";
 
 function AddTheater() {
   const [theaterName, setTheaterName] = useState("");
@@ -13,7 +14,16 @@ function AddTheater() {
   const [isLoading, setIsLoading] = useState(false);
   const [otpId, setOtpId] = useState("");
 
-  const { sendOtpForTheaterRegistration, addTheater } = useMasterAdmin();
+  const {
+    sendOtpForTheaterRegistration,
+    addTheater,
+    getAllTheaters,
+    theaters
+  } = useMasterAdmin();
+
+  useEffect(() => {
+    getAllTheaters();
+  }, []);
 
   async function handleAddNewTheater(e) {
     e.preventDefault();
@@ -220,7 +230,18 @@ function AddTheater() {
           )}
         </form>
       </div>
-      <div className="h-full"></div>
+      <div className="h-full w-full">
+        <h2 className="text-[20px] text-center w-full py-[10px]">
+          Update and delete theater
+        </h2>
+        <div className="flex flex-wrap gap-[20px] justify-center overflow-y-auto h-[90%]">
+          {Array.from({ length: 10 })
+            .fill({name:"RDB cenemas",address:"Kolkata",email:"RDB@cenemas"})
+            .map((item, index) => {
+              return <TheaterCard key={index} item={item} />;
+            })}
+        </div>
+      </div>
     </div>
   );
 }
