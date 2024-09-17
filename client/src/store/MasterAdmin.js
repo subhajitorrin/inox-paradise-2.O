@@ -70,6 +70,46 @@ const useMasterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      sendOtpForTheaterRegistration: async (email, name) => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/masteradmin/send-otp-for-theater-registration`,
+            {
+              email,
+              name
+            }
+          );
+          return data.otpid;
+        } catch (error) {
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      addTheater: async (email, password, address, name, otpId, otp) => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/masteradmin/add-theater-admin`,
+            {
+              email,
+              password,
+              address,
+              name,
+              otpId,
+              otp
+            }
+          );
+          return data;
+        } catch (error) {
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
       }
     }),
     {

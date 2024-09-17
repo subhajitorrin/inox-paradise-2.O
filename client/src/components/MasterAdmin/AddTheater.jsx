@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import useMasterAdmin from "../../store/MasterAdmin";
+import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 function AddTheater() {
   const [theaterName, setTheaterName] = useState("");
@@ -7,10 +10,61 @@ function AddTheater() {
   const [address, setaddress] = useState("");
   const [otp, setOtp] = useState("");
   const [toggleOtpVerify, setToggleOtpVerify] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [otpId, setOtpId] = useState("");
+
+  const { sendOtpForTheaterRegistration, addTheater } = useMasterAdmin();
 
   async function handleAddNewTheater(e) {
     e.preventDefault();
-    console.log(theaterName, email, password, address);
+    if (otpId === "" || otp.trim() === "") {
+      toast.warn("Fill OTP!");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await addTheater(
+        email,
+        password,
+        address,
+        theaterName,
+        otpId,
+        otp.trim()
+      );
+      toast.success("Theater added successfully");
+      setToggleOtpVerify(false);
+      setOtpId("");
+      setOtpId("");
+      setEmail("");
+      setPassword("");
+      setTheaterName("");
+      setaddress("");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSendOtp(e) {
+    e.preventDefault();
+    if (!theaterName || !email || !password || !address) {
+      toast.warn("Fill all the fields!");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await sendOtpForTheaterRegistration(email, theaterName);
+      setToggleOtpVerify(true);
+      setOtpId(res);
+      toast.success("Otp send successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -32,6 +86,10 @@ function AddTheater() {
                 setTheaterName(e.target.value);
               }}
               value={theaterName}
+              style={{
+                color: toggleOtpVerify ? "#ffffff7e" : "white",
+                pointerEvents: toggleOtpVerify ? "none" : "auto"
+              }}
               type="text"
               placeholder="Theater name"
               id="theatername"
@@ -48,6 +106,10 @@ function AddTheater() {
                 setaddress(e.target.value);
               }}
               value={address}
+              style={{
+                color: toggleOtpVerify ? "#ffffff7e" : "white",
+                pointerEvents: toggleOtpVerify ? "none" : "auto"
+              }}
               type="text"
               placeholder="Theater address"
               id="theateraddress"
@@ -65,6 +127,10 @@ function AddTheater() {
                 setEmail(e.target.value);
               }}
               value={email}
+              style={{
+                color: toggleOtpVerify ? "#ffffff7e" : "white",
+                pointerEvents: toggleOtpVerify ? "none" : "auto"
+              }}
               type="email"
               placeholder="Admin email"
               id="adminemail"
@@ -82,6 +148,10 @@ function AddTheater() {
                 setPassword(e.target.value);
               }}
               value={password}
+              style={{
+                color: toggleOtpVerify ? "#ffffff7e" : "white",
+                pointerEvents: toggleOtpVerify ? "none" : "auto"
+              }}
               type="password"
               placeholder="Admin password"
               id="adminpassword"
@@ -114,12 +184,40 @@ function AddTheater() {
             </div>
           )}
 
-          <button
-            type="submit"
-            className="font-[500] w-full bg-[green] rounded-[5px] py-[5px]"
-          >
-            Add Theater
-          </button>
+          {toggleOtpVerify && (
+            <p
+              onClick={handleSendOtp}
+              className="cursor-pointer text-[14px] my-[-10px] text-end w-full"
+            >
+              Resend otp
+            </p>
+          )}
+
+          {toggleOtpVerify ? (
+            <button
+              type="submit"
+              style={{ pointerEvents: isLoading ? "none" : "auto" }}
+              className="font-[500] w-full bg-[#879601] rounded-[5px] py-[5px]"
+            >
+              {isLoading ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Verify & Add theater"
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={handleSendOtp}
+              style={{ pointerEvents: isLoading ? "none" : "auto" }}
+              className="font-[500] w-full bg-[green] rounded-[5px] py-[5px]"
+            >
+              {isLoading ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Add Theater"
+              )}
+            </button>
+          )}
         </form>
       </div>
       <div className="h-full"></div>

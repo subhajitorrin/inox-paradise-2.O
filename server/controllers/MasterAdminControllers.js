@@ -5,6 +5,7 @@ import MasterAdmin from "../models/MasterAdmin.js";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
 import generateOtp from "../utils/generateOtp.js";
 import otpModel from "../models/OTP.js";
+import mailSender from "../utils/SendMail.js";
 
 dotenv.config();
 
@@ -79,7 +80,7 @@ async function sendOTPforTheaterRegistration(req, res) {
     await newOtp.save();
 
     const obj = {
-      email: existingTheaterAdmin.email,
+      email: email,
       title: `${name} Theater Registration`,
       body: `Your OTP is ${otp}`
     };
@@ -91,9 +92,7 @@ async function sendOTPforTheaterRegistration(req, res) {
       .json({ message: "Otp send successfully", otpid: newOtp._id });
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ message: "Error while registering theater admin with otp" });
+    return res.status(500).json({ message: "Error register admin" });
   }
 }
 
@@ -103,13 +102,22 @@ async function addTheaterAdmin(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const { email, password, name, address } = req.body;
+  const { email, password, name, address, otpId, otp } = req.body;
 
   if (!email || !password || !name || !address) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
+    const isCorrectOtp = await otpModel.findById(otpId);
+    if (!isCorrectOtp) {
+      return res.status(400).json({ message: "Otp expired, Send again!" });
+    }
+
+    if (isCorrectOtp.otp !== otp) {
+      return res.status(400).json({ message: "Wrong otp" });
+    }
+
     const existingTheater = await TheaterAdminModel.findOne({ email });
     if (existingTheater) {
       return res.status(409).json({ message: "Theater Admin already exists" });
@@ -158,4 +166,9 @@ async function getMasterAdmin(req, res) {
   }
 }
 
-export { loginMasterAdmin, addTheaterAdmin, getMasterAdmin };
+export {
+  loginMasterAdmin,
+  addTheaterAdmin,
+  getMasterAdmin,
+  sendOTPforTheaterRegistration
+};
