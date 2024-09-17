@@ -1,29 +1,8 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/MasterAdmin/Login";
-import Dashboard from "../components/MasterAdmin/Dashboard";
+import MasterAdminHome from "../components/MasterAdmin/MasterAdminHome";
 import useMasterAdmin from "../store/MasterAdmin";
-
-function ProtectedRoutes({ children }) {
-  const isMasterAuthenticated = useMasterAdmin(
-    (state) => state.isMasterAuthenticated
-  );
-
-  if (!isMasterAuthenticated) {
-    return <Navigate to="/masteradmin/login" replace />;
-  }
-  return children;
-}
-
-function RedirectRoutes({ children }) {
-  const isMasterAuthenticated = useMasterAdmin(
-    (state) => state.isMasterAuthenticated
-  );
-  if (isMasterAuthenticated) {
-    return <Navigate to="/masteradmin/dashboard" replace />;
-  }
-  return children;
-}
 
 function MasterAdmin() {
   const { isMasterAuthenticated, getMasterAdmin } = useMasterAdmin();
@@ -34,36 +13,9 @@ function MasterAdmin() {
 
   if (isMasterAuthenticated === null) return <></>;
 
-  return (
-    <div className="">
-      <Routes>
-        <Route
-          path="/"
-          element={<Navigate to={"/masteradmin/dashboard"} replace />}
-        />
-        <Route
-          path="/login"
-          element={
-            <RedirectRoutes>
-              <Login />
-            </RedirectRoutes>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoutes>
-              <Dashboard />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path="*"
-          element={<Navigate to="/masteradmin/dashboard" replace />}
-        />
-      </Routes>
-    </div>
-  );
+  if (isMasterAuthenticated === false) return <Login />;
+
+  if (isMasterAuthenticated === true) return <MasterAdminHome />;
 }
 
 export default MasterAdmin;
