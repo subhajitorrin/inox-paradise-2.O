@@ -139,6 +139,9 @@ const useMasterAdmin = create(
           const { data } = await axios.delete(
             `${BASE_URL}/masteradmin/delete-theater/${id}`
           );
+          set((state) => ({
+            theaters: state.theaters.filter((item) => item._id !== id)
+          }));
           return data;
         } catch (error) {
           throw error;
