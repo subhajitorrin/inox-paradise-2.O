@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useMasterAdmin } from "../../store/MasterAdmin";
 
 const list = [
   { path: "/add-theater", name: "Add Theater" },
@@ -9,6 +10,7 @@ const list = [
 ];
 
 function Dashboard() {
+  const logoutMasterAdmin = useMasterAdmin((state) => state.logoutMasterAdmin);
   return (
     <div className="h-screen bg-[#1e1d1d] flex">
       <div className="w-[20%] h-full border-r border-[#353333] items-center py-[1%] flex flex-col justify-between">
@@ -31,7 +33,13 @@ function Dashboard() {
           </div>
         </div>
         <div className="flex justify-center w-full">
-          <button className="w-[90%] text-[16px] font-[500] bg-[#ff0051] text-white rounded-[5px] py-[5px]">
+          <button
+            onClick={async () => {
+              await logoutMasterAdmin();
+              console.log("clicked logout");
+            }}
+            className="w-[90%] text-[16px] font-[500] bg-[#ff0051] text-white rounded-[5px] py-[5px]"
+          >
             Logout
           </button>
         </div>

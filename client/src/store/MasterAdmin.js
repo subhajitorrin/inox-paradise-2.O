@@ -36,7 +36,7 @@ export const useMasterAdmin = create(
       logoutMasterAdmin: async () => {
         set({ isLoading: true });
         try {
-          const { data } = await axios.get(`${BASE_URL}/logout`);
+          const { data } = await axios.post(`${BASE_URL}/logout`);
           set({
             masterAdmin: null,
             isMasterAuthenticated: false
