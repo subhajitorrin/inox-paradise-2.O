@@ -132,7 +132,7 @@ async function getTheaterAdmin(req, res) {
     }
     return res
       .status(200)
-      .json({ message: "Theater Admin found", theaterAdmin: theaterAdmin });
+      .json({ message: "Theater Admin found", theaterAdmin });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Error fetchinig admin" });

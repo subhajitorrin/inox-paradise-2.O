@@ -50,6 +50,22 @@ const useTheaterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      getTheaterAdmin: async () => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/theateradmin/get-admin`
+          );
+          set({ admin: data.theaterAdmin, isAdminAuthenticated: true });
+          return data;
+        } catch (error) {
+          set({ admin: null, isAdminAuthenticated: false });
+          toast.error(error.response?.data?.message || error.message);
+        } finally {
+          set({ isLoading: false });
+        }
       }
     }),
     {
