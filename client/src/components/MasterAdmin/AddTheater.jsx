@@ -44,7 +44,7 @@ function AddTheater() {
       toast.success("Theater added successfully");
       setToggleOtpVerify(false);
       setOtpId("");
-      setOtpId("");
+      setOtp("");
       setEmail("");
       setPassword("");
       setTheaterName("");
