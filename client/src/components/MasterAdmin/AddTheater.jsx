@@ -79,7 +79,7 @@ function AddTheater() {
 
   return (
     <div className="h-full flex">
-      <div className="h-full border-r p-[20px] ">
+      <div className="h-full border-r border-[#ffffff27] p-[20px] ">
         <form
           onSubmit={handleAddNewTheater}
           className="w-[350px] gap-[20px] py-[1.5rem] p-[20px] rounded-[10px] bg-[#353333] flex justify-center items-center flex-col"
@@ -234,9 +234,13 @@ function AddTheater() {
         <h2 className="text-[20px] text-center w-full py-[10px]">
           Update and delete theater
         </h2>
-        <div className="flex flex-wrap gap-[20px] justify-center overflow-y-auto h-[90%]">
+        <div className="scrollNone flex flex-wrap gap-[20px] justify-center overflow-y-auto h-[90%]">
           {Array.from({ length: 10 })
-            .fill({name:"RDB cenemas",address:"Kolkata",email:"RDB@cenemas"})
+            .fill({
+              name: "RDB cenemas",
+              address: "Kolkata",
+              email: "RDB@cenemas"
+            })
             .map((item, index) => {
               return <TheaterCard key={index} item={item} />;
             })}
