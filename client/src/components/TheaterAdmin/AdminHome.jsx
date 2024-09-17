@@ -20,7 +20,7 @@ function AdminHome() {
         <div className="">
           <div className="text-white text-[2rem] font-[700] text-center mb-[3rem] uppercase">
             <h2>Welcome</h2>
-            <h2 className="mt-[-15px]">Master Admin</h2>
+            <h2 className="mt-[-15px]">Theater Admin</h2>
           </div>
           <div className="text-white  font-[500] text-[16px] flex gap-[1.5rem] flex-col">
             {list.map((item, index) => {
