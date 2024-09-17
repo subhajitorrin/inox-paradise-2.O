@@ -1,5 +1,10 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+axios.defaults.withCredentials = true;
 
 const useTheaterAdmin = create(
   persist(

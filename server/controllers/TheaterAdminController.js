@@ -72,6 +72,14 @@ async function loginTheaterAdminWithOtp(req, res) {
       return res.status(404).json({ message: "Theater Admin not found" });
     }
 
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingTheaterAdmin.password
+    );
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "Wrong password" });
+    }
+
     const otp = generateOtp(5);
 
     const newOtp = await otpModel.create({
@@ -83,7 +91,7 @@ async function loginTheaterAdminWithOtp(req, res) {
 
     const obj = {
       email: existingTheaterAdmin.email,
-      title: "OTP for INOX PARADISE",
+      title: `${existingTheaterAdmin.name} Login OTP`,
       body: `Your OTP is ${otp}`
     };
 

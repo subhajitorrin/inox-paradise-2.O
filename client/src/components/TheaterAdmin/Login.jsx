@@ -7,6 +7,7 @@ function Login() {
   const [email, setemail] = useState(null);
   const [password, setpassword] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [otpid, setOtpid] = useState("");
   const { sendOtpForTheaterRegistration } = useTheaterAdmin();
 
   async function handleSendOtp() {
@@ -17,9 +18,10 @@ function Login() {
     try {
       setIsLoading(true);
       const otpid = await sendOtpForTheaterRegistration(email, password);
+      setOtpid(otpid);
     } catch (error) {
       console.log(error);
-      toast(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       setIsLoading(false);
     }
@@ -33,7 +35,7 @@ function Login() {
         </p>
         <div className="flex flex-col gap-[1rem]">
           <div className="">
-            <p className="text-[15px] mb-[7px] font-[500]">Username</p>
+            <p className="text-[15px] mb-[7px] font-[500]">Email</p>
             <input
               className="bg-[#424242] w-full border border-[#00000057] outline-none rounded-[6px] h-[50px] px-[20px]"
               type="text"
@@ -41,7 +43,7 @@ function Login() {
                 setemail(e.target.value);
               }}
               value={email}
-              placeholder="Enter admin username"
+              placeholder="Enter admin email"
             />
           </div>
           <div className="">
