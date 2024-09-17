@@ -62,7 +62,24 @@ const useTheaterAdmin = create(
           return data;
         } catch (error) {
           set({ admin: null, isAdminAuthenticated: false });
-          toast.error(error.response?.data?.message || error.message);
+          console.log(error);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      logoutAdmin: async () => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(`${BASE_URL}/logout`);
+          set({
+            admin: null,
+            isAdminAuthenticated: false
+          });
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
         } finally {
           set({ isLoading: false });
         }
