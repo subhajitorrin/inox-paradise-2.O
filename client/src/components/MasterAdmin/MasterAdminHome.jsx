@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import useMasterAdmin from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 import AddTheater from "./AddTheater";
@@ -9,7 +9,7 @@ import EditMovie from "./EditMovie";
 import Overview from "./Overview";
 
 const list = [
-  { path: "/masteradmin/", name: "Overview" },
+  { path: "/masteradmin", name: "Overview" },
   { path: "/masteradmin/add-theater", name: "Add Theater" },
   { path: "/masteradmin/edit-theater", name: "Edit Theater" },
   { path: "/masteradmin/add-movie", name: "Add Movie" },
@@ -17,6 +17,7 @@ const list = [
 ];
 
 function MasterAdminHome() {
+  const location = useLocation();
   const logoutMasterAdmin = useMasterAdmin((state) => state.logoutMasterAdmin);
   return (
     <div className="h-screen bg-[#1e1d1d] flex">
@@ -30,7 +31,15 @@ function MasterAdminHome() {
             {list.map((item, index) => {
               return (
                 <Link to={item.path} key={index}>
-                  <p className="cursor-pointer border border-[#ffffff4d] py-[5px] rounded-[5px] px-[1rem]">
+                  <p
+                    style={{
+                      border:
+                        location.pathname === item.path
+                          ? "1px solid #ffffff4d"
+                          : ""
+                    }}
+                    className="cursor-pointer border border-transparent py-[5px] rounded-[5px] px-[1rem]"
+                  >
                     {item.name}
                   </p>
                 </Link>
@@ -52,7 +61,7 @@ function MasterAdminHome() {
       </div>
       <div className="w-[80%] h-full">
         <Routes>
-          <Route path="/" element={<Overview />} />
+          <Route path="" element={<Overview />} />
           <Route path="/add-theater" element={<AddTheater />} />
           <Route path="/edit-theater" element={<EditTheater />} />
           <Route path="/add-movie" element={<AddMovie />} />
