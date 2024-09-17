@@ -1,9 +1,13 @@
-import React from 'react'
+import useTheaterAdmin from "../store/TheaterAdmin";
+import Login from "../components/TheaterAdmin/Login"
+import AdminHome from "../components/TheaterAdmin/AdminHome"
 
 function Admin() {
-  return (
-    <div>Admin</div>
-  )
+  const { isAdminAuthenticated } = useTheaterAdmin();
+
+  if (isAdminAuthenticated === null) return <></>;
+  if (isAdminAuthenticated === false) return <Login />;
+  if (isAdminAuthenticated === true) return <AdminHome />;
 }
 
-export default Admin
+export default Admin;
