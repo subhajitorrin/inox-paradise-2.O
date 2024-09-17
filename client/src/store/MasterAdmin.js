@@ -6,14 +6,13 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 axios.defaults.withCredentials = true;
 
-export const useMasterAdmin = create(
+const useMasterAdmin = create(
   persist(
     (set, get) => ({
       masterAdmin: null,
-      isMasterAuthenticated: false,
+      isMasterAuthenticated: null,
       isLoading: false,
 
-      // Function to login the master admin
       loginMasterAdmin: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -34,7 +33,6 @@ export const useMasterAdmin = create(
         }
       },
 
-      // Function to logout the master admin
       logoutMasterAdmin: async () => {
         set({ isLoading: true });
         try {
@@ -50,10 +48,32 @@ export const useMasterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      getMasterAdmin: async () => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/masteradmin/get-master-admin`
+          );
+          set({
+            masterAdmin: data.masterAdmin,
+            isMasterAuthenticated: true
+          });
+          return data.masterAdmin;
+        } catch (error) {
+          set({
+            masterAdmin: null,
+            isMasterAuthenticated: false
+          });
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
       }
     }),
     {
-      name: "masteradmin", // name of the persisted storage
+      name: "masteradmin",
       partialize: (state) => ({
         masterAdmin: state.masterAdmin,
         isMasterAuthenticated: state.isMasterAuthenticated
@@ -62,3 +82,5 @@ export const useMasterAdmin = create(
     }
   )
 );
+
+export default useMasterAdmin;

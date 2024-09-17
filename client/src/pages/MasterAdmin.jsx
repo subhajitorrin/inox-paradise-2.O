@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/MasterAdmin/Login";
 import Dashboard from "../components/MasterAdmin/Dashboard";
-import { useMasterAdmin } from "../store/MasterAdmin";
+import useMasterAdmin from "../store/MasterAdmin";
 
 function ProtectedRoutes({ children }) {
   const isMasterAuthenticated = useMasterAdmin(
@@ -26,6 +26,14 @@ function RedirectRoutes({ children }) {
 }
 
 function MasterAdmin() {
+  const { isMasterAuthenticated, getMasterAdmin } = useMasterAdmin();
+
+  useEffect(() => {
+    if (isMasterAuthenticated === null) getMasterAdmin();
+  }, [isMasterAuthenticated]);
+
+  if (isMasterAuthenticated === null) return <></>;
+
   return (
     <div className="">
       <Routes>

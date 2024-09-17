@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMasterAdmin } from "../../store/MasterAdmin";
+import  useMasterAdmin  from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 
 function Login() {

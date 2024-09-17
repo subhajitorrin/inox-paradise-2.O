@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { useMasterAdmin } from "../../store/MasterAdmin";
+import  useMasterAdmin  from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 
 const list = [
@@ -11,7 +11,9 @@ const list = [
 ];
 
 function Dashboard() {
-  const logoutMasterAdmin = useMasterAdmin((state) => state.logoutMasterAdmin);
+  const  logoutMasterAdmin  = useMasterAdmin(
+    (state) => (state.logoutMasterAdmin)
+  );
   return (
     <div className="h-screen bg-[#1e1d1d] flex">
       <div className="w-[20%] h-full border-r border-[#353333] items-center py-[1%] flex flex-col justify-between">

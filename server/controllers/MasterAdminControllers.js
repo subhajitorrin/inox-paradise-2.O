@@ -91,4 +91,24 @@ async function addTheaterAdmin(req, res) {
   }
 }
 
-export { loginMasterAdmin, addTheaterAdmin };
+async function getMasterAdmin(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const { id } = req;
+    const masterAdmin = await MasterAdmin.findById(id);
+    if (!masterAdmin) {
+      return res.status(404).json({ message: "Master Admin not found" });
+    }
+    return res.status(200).json({ message: "Master Admin found", masterAdmin });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while getting master admin" });
+  }
+}
+
+export { loginMasterAdmin, addTheaterAdmin, getMasterAdmin };
