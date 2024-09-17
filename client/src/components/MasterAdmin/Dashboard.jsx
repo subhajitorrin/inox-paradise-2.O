@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { useMasterAdmin } from "../../store/MasterAdmin";
+import { toast } from "react-toastify";
 
 const list = [
   { path: "/add-theater", name: "Add Theater" },
@@ -36,7 +37,7 @@ function Dashboard() {
           <button
             onClick={async () => {
               await logoutMasterAdmin();
-              console.log("clicked logout");
+              toast.success("Logout successfull");
             }}
             className="w-[90%] text-[16px] font-[500] bg-[#ff0051] text-white rounded-[5px] py-[5px]"
           >

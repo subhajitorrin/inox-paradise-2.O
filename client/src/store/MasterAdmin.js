@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -13,6 +13,7 @@ export const useMasterAdmin = create(
       isMasterAuthenticated: false,
       isLoading: false,
 
+      // Function to login the master admin
       loginMasterAdmin: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -26,13 +27,14 @@ export const useMasterAdmin = create(
           });
           return data.masterAdmin;
         } catch (error) {
-          console.error("Login error:", error);
+          console.error("Login error:", error.response?.data || error.message);
           throw error;
         } finally {
           set({ isLoading: false });
         }
       },
 
+      // Function to logout the master admin
       logoutMasterAdmin: async () => {
         set({ isLoading: true });
         try {
@@ -43,7 +45,7 @@ export const useMasterAdmin = create(
           });
           return data;
         } catch (error) {
-          console.error("Logout error:", error);
+          console.error("Logout error:", error.response?.data || error.message);
           throw error;
         } finally {
           set({ isLoading: false });
@@ -51,12 +53,12 @@ export const useMasterAdmin = create(
       }
     }),
     {
-      name: "masteradmin",
+      name: "masteradmin", // name of the persisted storage
       partialize: (state) => ({
         masterAdmin: state.masterAdmin,
         isMasterAuthenticated: state.isMasterAuthenticated
       }),
-      getStorage: () => sessionStorage
+      storage: createJSONStorage(() => sessionStorage)
     }
   )
 );
