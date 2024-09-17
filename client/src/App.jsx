@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import MasterAdmin from "./pages/MasterAdmin";
@@ -14,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/masteradmin/*" element={<MasterAdmin />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <ToastContainer />
     </div>
