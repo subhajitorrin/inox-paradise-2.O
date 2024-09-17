@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useMasterAdmin from "../../store/MasterAdmin.js";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import { SlLocationPin } from "react-icons/sl";
 
 function TheaterCard({ item }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,10 @@ function TheaterCard({ item }) {
     <div className="bg-[#2b2a2a] rounded-[10px] p-[1rem] w-[250px] flex flex-col gap-[10px]">
       <h2 className="text-[18px] font-[500] text-center">{item.name}</h2>
       <p>{item.address}</p>
+      <div className="flex items-center gap-[5px]">
+        <SlLocationPin />
+        <p>{item.city}</p>
+      </div>
       <p>{item.email}</p>
       <div className="flex gap-[10px] justify-center">
         <button className="text-[15px] font-[500] px-[20px] py-[2px] rounded-[5px] bg-[#d18c02]">
