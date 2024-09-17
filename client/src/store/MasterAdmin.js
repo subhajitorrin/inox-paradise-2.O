@@ -128,6 +128,20 @@ const useMasterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      deleteTheater: async (id) => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.delete(
+            `${BASE_URL}/masteradmin/delete-theater/${id}`
+          );
+          return data;
+        } catch (error) {
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
       }
     }),
     {

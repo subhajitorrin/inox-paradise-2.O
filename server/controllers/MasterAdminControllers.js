@@ -172,7 +172,7 @@ async function getAllTheaters(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   console.log("elo");
-  
+
   try {
     const theaters = await TheaterAdminModel.find({});
     return res.status(200).json({ theaters });
@@ -184,10 +184,26 @@ async function getAllTheaters(req, res) {
   }
 }
 
+async function deleteTheater(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { id } = req.params;
+  try {
+    await TheaterAdminModel.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Theater deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error while deleting theater" });
+  }
+}
+
 export {
   loginMasterAdmin,
   addTheaterAdmin,
   getMasterAdmin,
   sendOTPforTheaterRegistration,
-  getAllTheaters
+  getAllTheaters,
+  deleteTheater
 };

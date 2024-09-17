@@ -5,7 +5,8 @@ import {
   getAllTheaters,
   getMasterAdmin,
   loginMasterAdmin,
-  sendOTPforTheaterRegistration
+  sendOTPforTheaterRegistration,
+  deleteTheater
 } from "../controllers/MasterAdminControllers.js";
 const MasterAdminRotuer = express.Router();
 MasterAdminRotuer.post("/masteradmin/login", loginMasterAdmin);
@@ -29,4 +30,5 @@ MasterAdminRotuer.get(
   AuthToken,
   getAllTheaters
 );
+MasterAdminRotuer.delete("/masteradmin/delete-theater/:id",AuthToken,deleteTheater)
 export default MasterAdminRotuer;
