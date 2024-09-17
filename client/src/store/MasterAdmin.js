@@ -105,6 +105,9 @@ const useMasterAdmin = create(
               otp
             }
           );
+          set((state) => ({
+            theaters: [...state.theaters, data.theater]
+          }));
           return data;
         } catch (error) {
           throw error;
