@@ -7,7 +7,8 @@ const TheaterAdminSchema = new mongoose.Schema({
     unique: true
   },
   address: {
-    type: String
+    type: String,
+    required: true
   },
   password: {
     type: String,

@@ -3,15 +3,13 @@ import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import useMasterAdmin from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 import AddTheater from "./AddTheater";
-import EditTheater from "./EditTheater";
 import AddMovie from "./AddMovie";
 import EditMovie from "./EditMovie";
 import Overview from "./Overview";
 
 const list = [
   { path: "/masteradmin", name: "Overview" },
-  { path: "/masteradmin/add-theater", name: "Add Theater" },
-  { path: "/masteradmin/edit-theater", name: "Edit Theater" },
+  { path: "/masteradmin/theater", name: "Theater" },
   { path: "/masteradmin/add-movie", name: "Add Movie" },
   { path: "/masteradmin/edit-movie", name: "Edit Movie" }
 ];
@@ -70,8 +68,7 @@ function MasterAdminHome() {
         <div className="h-[92%]">
           <Routes>
             <Route path="" element={<Overview />} />
-            <Route path="/add-theater" element={<AddTheater />} />
-            <Route path="/edit-theater" element={<EditTheater />} />
+            <Route path="/theater" element={<AddTheater />} />
             <Route path="/add-movie" element={<AddMovie />} />
             <Route path="/edit-movie" element={<EditMovie />} />
             <Route
