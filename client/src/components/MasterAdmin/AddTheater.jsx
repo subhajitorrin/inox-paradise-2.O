@@ -5,6 +5,8 @@ function AddTheater() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setaddress] = useState("");
+  const [otp, setOtp] = useState("");
+  const [toggleOtpVerify, setToggleOtpVerify] = useState(false);
 
   async function handleAddNewTheater(e) {
     e.preventDefault();
@@ -87,6 +89,30 @@ function AddTheater() {
               className="bg-[#2a2828] py-[5px] w-[200px] px-[20px] outline-none rounded-[5px] border-[#ffffff44]"
             />
           </div>
+          {toggleOtpVerify && (
+            <div className="w-full mt-[1.5rem] ">
+              <p className="text-center mb-[10px]">
+                Enter otp send to{" "}
+                <span className="text-[#ffffff9e]">{email}</span>
+              </p>
+              <div className=" flex text-[14px] gap-[10px] items-center justify-between w-full">
+                <label htmlFor="verifyotp" className="font-[500]">
+                  Verify OTP
+                </label>
+                <input
+                  onChange={(e) => {
+                    setOtp(e.target.value);
+                  }}
+                  value={otp}
+                  type="text"
+                  placeholder="Enter otp send to email"
+                  id="verifyotp"
+                  required
+                  className="bg-[#2a2828] py-[5px] w-[200px] px-[20px] outline-none rounded-[5px] border-[#ffffff44]"
+                />
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"

@@ -4,6 +4,7 @@ import TheaterAdminModel from "../models/TheaterAdmin.js";
 import MasterAdminModel from "../models/MasterAdmin.js";
 import otpModel from "../models/OTP.js";
 import mailSender from "../utils/SendMail.js";
+import generateOtp from "../utils/generateOtp.js";
 
 async function loginTheaterAdmin(req, res) {
   const { email, password } = req.body;
@@ -151,13 +152,6 @@ async function verifyOtpForTheaterAdmin(req, res) {
       .status(500)
       .json({ message: "Error while verifying otp theater admin" });
   }
-}
-
-function generateOtp(n) {
-  const firstDigit = Math.floor(Math.random() * 9) + 1;
-  const remainingDigits = Math.floor(Math.random() * Math.pow(10, n - 1));
-  const otp = firstDigit * Math.pow(10, n - 1) + remainingDigits;
-  return otp;
 }
 
 async function logout(req, res) {

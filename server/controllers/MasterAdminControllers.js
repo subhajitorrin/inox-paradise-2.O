@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import bcryptjs from "bcryptjs";
 import MasterAdmin from "../models/MasterAdmin.js";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
+import generateOtp from "../utils/generateOtp.js";
+import otpModel from "../models/OTP.js";
 
 dotenv.config();
 
@@ -50,16 +52,60 @@ async function loginMasterAdmin(req, res) {
   }
 }
 
-async function addTheaterAdmin(req, res) {
+async function sendOTPforTheaterRegistration(req, res) {
   const { role } = req;
-
   if (role !== "masteradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const { email, password, name } = req.body;
+  const { email, name } = req.body;
+  if (!email || !name) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
-  if (!email || !password || !name) {
+  try {
+    const existingTheaterAdmin = await TheaterAdminModel.findOne({ email });
+    if (existingTheaterAdmin) {
+      return res.status(404).json({ message: "Theater Admin already present" });
+    }
+
+    const otp = generateOtp(5);
+
+    const newOtp = await otpModel.create({
+      email,
+      otp
+    });
+
+    await newOtp.save();
+
+    const obj = {
+      email: existingTheaterAdmin.email,
+      title: `${name} Theater Registration`,
+      body: `Your OTP is ${otp}`
+    };
+
+    await mailSender(obj.email, obj.title, obj.body);
+
+    return res
+      .status(200)
+      .json({ message: "Otp send successfully", otpid: newOtp._id });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while registering theater admin with otp" });
+  }
+}
+
+async function addTheaterAdmin(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { email, password, name, address } = req.body;
+
+  if (!email || !password || !name || !address) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -72,7 +118,8 @@ async function addTheaterAdmin(req, res) {
     const newTheater = new TheaterAdminModel({
       email,
       password: hashedpassword,
-      name
+      name,
+      address
     });
 
     await newTheater.save();
@@ -80,7 +127,7 @@ async function addTheaterAdmin(req, res) {
     newTheater.password = undefined;
 
     return res.status(201).json({
-      message: "Theater Admin added successfully",
+      message: "Theater added successfully",
       theater: newTheater
     });
   } catch (error) {
