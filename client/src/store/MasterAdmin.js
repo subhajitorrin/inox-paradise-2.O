@@ -148,7 +148,8 @@ const useMasterAdmin = create(
       name: "masteradmin",
       partialize: (state) => ({
         masterAdmin: state.masterAdmin,
-        isMasterAuthenticated: state.isMasterAuthenticated
+        isMasterAuthenticated: state.isMasterAuthenticated,
+        theaters: state.theaters
       }),
       storage: createJSONStorage(() => sessionStorage)
     }

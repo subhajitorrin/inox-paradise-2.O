@@ -235,15 +235,9 @@ function AddTheater() {
           Update and delete theater
         </h2>
         <div className="scrollNone flex flex-wrap gap-[20px] justify-center overflow-y-auto h-[90%]">
-          {Array.from({ length: 10 })
-            .fill({
-              name: "RDB cenemas",
-              address: "Kolkata",
-              email: "RDB@cenemas"
-            })
-            .map((item, index) => {
-              return <TheaterCard key={index} item={item} />;
-            })}
+          {theaters.map((item, index) => {
+            return <TheaterCard key={index} item={item} />;
+          })}
         </div>
       </div>
     </div>
