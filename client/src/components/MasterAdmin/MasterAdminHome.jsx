@@ -59,15 +59,27 @@ function MasterAdminHome() {
           </button>
         </div>
       </div>
-      <div className="w-[80%] h-full">
-        <Routes>
-          <Route path="" element={<Overview />} />
-          <Route path="/add-theater" element={<AddTheater />} />
-          <Route path="/edit-theater" element={<EditTheater />} />
-          <Route path="/add-movie" element={<AddMovie />} />
-          <Route path="/edit-movie" element={<EditMovie />} />
-          <Route path="*" element={<Navigate to={"/masteradmin"} replace />} />
-        </Routes>
+      <div className="w-[80%] h-screen text-white">
+        <div className="h-[8%]  flex items-center justify-center border-b border-[#353333] text-[25px] font-[500] uppercase">
+          {list.map((item, index) => {
+            if (item.path === location.pathname) {
+              return <p key={index}>{item.name}</p>;
+            }
+          })}
+        </div>
+        <div className="h-[92%]">
+          <Routes>
+            <Route path="" element={<Overview />} />
+            <Route path="/add-theater" element={<AddTheater />} />
+            <Route path="/edit-theater" element={<EditTheater />} />
+            <Route path="/add-movie" element={<AddMovie />} />
+            <Route path="/edit-movie" element={<EditMovie />} />
+            <Route
+              path="*"
+              element={<Navigate to={"/masteradmin"} replace />}
+            />
+          </Routes>
+        </div>
       </div>
     </div>
   );
