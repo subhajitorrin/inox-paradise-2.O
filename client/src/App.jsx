@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <div className="text-red-600">
+    <div className="text-red-600 select-none">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/*" element={<Admin />} />
