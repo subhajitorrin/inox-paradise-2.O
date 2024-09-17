@@ -20,7 +20,7 @@ function TheaterCard({ item }) {
   }
   return (
     <div className="bg-[#2b2a2a] rounded-[10px] p-[1rem] w-[250px] flex flex-col gap-[10px]">
-      <h2>{item.name}</h2>
+      <h2 className="text-[18px] font-[500] text-center">{item.name}</h2>
       <p>{item.address}</p>
       <p>{item.email}</p>
       <div className="flex gap-[10px] justify-center">

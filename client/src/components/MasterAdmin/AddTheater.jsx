@@ -231,10 +231,7 @@ function AddTheater() {
         </form>
       </div>
       <div className="h-full w-full">
-        <h2 className="text-[20px] text-center w-full py-[10px]">
-          Update and delete theater
-        </h2>
-        <div className="scrollNone flex flex-wrap gap-[20px] justify-center overflow-y-auto h-[90%]">
+        <div className="scrollNone flex flex-wrap gap-[20px] justify-center overflow-y-auto max-h-full p-[1rem]">
           {theaters.map((item, index) => {
             return <TheaterCard key={index} item={item} />;
           })}
