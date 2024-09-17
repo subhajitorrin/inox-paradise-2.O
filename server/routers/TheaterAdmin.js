@@ -6,7 +6,6 @@ import {
   verifyOtpForTheaterAdmin
 } from "../controllers/TheaterAdminController.js";
 const TheaterRouter = express.Router();
-TheaterRouter.post("/theateradmin/login", loginTheaterAdmin);
 TheaterRouter.post("/theateradmin/send-otp", loginTheaterAdminWithOtp);
 TheaterRouter.post("/theateradmin/verify-otp", verifyOtpForTheaterAdmin);
 TheaterRouter.post("/logout", logout);

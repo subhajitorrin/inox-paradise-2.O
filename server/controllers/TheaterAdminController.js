@@ -62,8 +62,8 @@ async function loginTheaterAdmin(req, res) {
 }
 
 async function loginTheaterAdminWithOtp(req, res) {
-  const { email } = req.body;
-  if (!email) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
