@@ -2,6 +2,7 @@ import express from "express";
 import AuthToken from "../middleware/AuthToken.js";
 import {
   addTheaterAdmin,
+  getAllTheaters,
   getMasterAdmin,
   loginMasterAdmin,
   sendOTPforTheaterRegistration
@@ -22,5 +23,10 @@ MasterAdminRotuer.post(
   "/masteradmin/send-otp-for-theater-registration",
   AuthToken,
   sendOTPforTheaterRegistration
+);
+MasterAdminRotuer.get(
+  "masteradmin/get-all-theaters",
+  AuthToken,
+  getAllTheaters
 );
 export default MasterAdminRotuer;

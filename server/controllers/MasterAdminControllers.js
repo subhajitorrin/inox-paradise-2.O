@@ -166,9 +166,26 @@ async function getMasterAdmin(req, res) {
   }
 }
 
+async function getAllTheaters(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const theaters = await TheaterAdminModel.find({});
+    return res.status(200).json({ theaters });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while getting all theaters" });
+  }
+}
+
 export {
   loginMasterAdmin,
   addTheaterAdmin,
   getMasterAdmin,
-  sendOTPforTheaterRegistration
+  sendOTPforTheaterRegistration,
+  getAllTheaters
 };
