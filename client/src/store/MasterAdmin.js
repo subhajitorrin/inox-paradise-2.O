@@ -91,7 +91,7 @@ const useMasterAdmin = create(
         }
       },
 
-      addTheater: async (email, password, address, name, otpId, otp) => {
+      addTheater: async (email, password, address,city, name, otpId, otp) => {
         set({ isLoading: true });
         try {
           const { data } = await axios.post(
@@ -100,6 +100,7 @@ const useMasterAdmin = create(
               email,
               password,
               address,
+              city,
               name,
               otpId,
               otp

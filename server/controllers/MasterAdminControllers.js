@@ -102,9 +102,9 @@ async function addTheaterAdmin(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const { email, password, name, address, otpId, otp } = req.body;
+  const { email, password, name, address, city, otpId, otp } = req.body;
 
-  if (!email || !password || !name || !address) {
+  if (!email || !password || !name || !address || !city) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -127,7 +127,8 @@ async function addTheaterAdmin(req, res) {
       email,
       password: hashedpassword,
       name,
-      address
+      address,
+      city
     });
 
     await newTheater.save();
