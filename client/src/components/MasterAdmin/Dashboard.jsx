@@ -11,24 +11,27 @@ const list = [
 function Dashboard() {
   return (
     <div className="h-screen bg-[#1e1d1d] flex">
-      <div className="w-[20%] h-full border-r border-[#353333] px-[1%] py-[2%] flex flex-col justify-between">
+      <div className="w-[20%] h-full border-r border-[#353333] items-center py-[1%] flex flex-col justify-between">
         <div className="">
-          <div className="text-white text-[2rem] font-[500] text-center mb-[2rem]">
+          <div className="text-white text-[2rem] font-[700] text-center mb-[3rem] uppercase">
             <h2>Welcome</h2>
             <h2 className="mt-[-15px]">Master Admin</h2>
           </div>
-          <div className="text-white font-[500] pl-[16%] text-[16px] flex gap-[2rem] flex-col">
+          <div className="text-white  font-[500] text-[16px] flex gap-[1.5rem] flex-col">
             {list.map((item, index) => {
               return (
-                <p key={index} className="cursor-pointer">
+                <p
+                  key={index}
+                  className="cursor-pointer border border-[#ffffff4d] py-[5px] rounded-[5px] px-[1rem]"
+                >
                   {item.name}
                 </p>
               );
             })}
           </div>
         </div>
-        <div className="flex justify-center">
-          <button className="w-full text-[16px] font-[500] bg-[#ff6a00] text-white rounded-[5px] py-[5px]">
+        <div className="flex justify-center w-full">
+          <button className="w-[90%] text-[16px] font-[500] bg-[#ff0051] text-white rounded-[5px] py-[5px]">
             Logout
           </button>
         </div>
