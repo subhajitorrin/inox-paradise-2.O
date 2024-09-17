@@ -2,13 +2,16 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useTheaterAdmin from "../../store/TheaterAdmin";
+import { BeatLoader } from "react-spinners";
 
 function Login() {
   const [email, setemail] = useState(null);
   const [password, setpassword] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [otpid, setOtpid] = useState("");
-  const { sendOtpForTheaterRegistration } = useTheaterAdmin();
+  const [otp, setOtp] = useState("");
+  const [isVerifyOtp, setIsVerifyOtp] = useState(false);
+  const { sendOtpForTheaterRegistration, loginTheaterAdmin, isLoading } =
+    useTheaterAdmin();
 
   async function handleSendOtp() {
     if (!email || !password) {
@@ -16,15 +19,22 @@ function Login() {
       return;
     }
     try {
-      setIsLoading(true);
       const otpid = await sendOtpForTheaterRegistration(email, password);
       setOtpid(otpid);
+      setIsVerifyOtp(true);
+      toast.success("Otp send successfully");
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || error.message);
-    } finally {
-      setIsLoading(false);
     }
+  }
+
+  async function handleLogin() {
+    if (!otpid || !otp) {
+      toast.warn("Fill all the fields!");
+      return;
+    }
+    await loginTheaterAdmin(otpid, otp, email);
   }
 
   return (
@@ -43,6 +53,7 @@ function Login() {
                 setemail(e.target.value);
               }}
               value={email}
+              disabled={isVerifyOtp}
               placeholder="Enter admin email"
             />
           </div>
@@ -51,6 +62,7 @@ function Login() {
             <input
               className="bg-[#424242] w-full border border-[#00000057] outline-none rounded-[6px] h-[50px] px-[20px]"
               type="password"
+              disabled={isVerifyOtp}
               onChange={(e) => {
                 setpassword(e.target.value);
               }}
@@ -58,14 +70,45 @@ function Login() {
               placeholder="Enter admin password"
             />
           </div>
+
+          {isVerifyOtp && (
+            <div className="mt-[1rem]">
+              <p className="text-[15px] mb-[7px] font-[500]">Enter OTP</p>
+              <input
+                className="bg-[#424242] w-full border border-[#00000057] outline-none rounded-[6px] h-[50px] px-[20px]"
+                type="text"
+                onChange={(e) => {
+                  setOtp(e.target.value);
+                }}
+                disabled={isLoading}
+                value={otp}
+                placeholder="Enter otp"
+              />
+            </div>
+          )}
         </div>
         <div className="">
-          <button
-            onClick={handleSendOtp}
-            className="w-full bg-[#dd3c3c] py-[8px] text-white font-[500] rounded-[5px]"
-          >
-            Login
-          </button>
+          {isVerifyOtp ? (
+            <button
+              disabled={isLoading}
+              onClick={handleLogin}
+              className="w-full bg-[#dd3c3c] py-[8px] text-white font-[500] rounded-[5px]"
+            >
+              {isLoading ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Verify & Login"
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={handleSendOtp}
+              disabled={isLoading}
+              className="w-full bg-[#dd3c3c] py-[8px] text-white font-[500] rounded-[5px]"
+            >
+              {isLoading ? <BeatLoader color="#ffffff" size={5} /> : "Send OTP"}
+            </button>
+          )}
         </div>
       </div>
     </div>
