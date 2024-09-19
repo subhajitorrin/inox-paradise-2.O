@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Multiselect from "multiselect-react-dropdown";
 
 const genres = [
   "Action",
@@ -13,9 +14,25 @@ const genres = [
 
 const CBFClist = ["U", "UA", "A", "S"];
 
-const languageList = ["English", "Hindi", "Bangla", "Tamil", "Telegu"];
+const languageList = [
+  { name: "English" },
+  { name: "Hindi" },
+  { name: "Bangla" },
+  { name: "Tamil" },
+  { name: "Telegu" }
+];
 
 function AddMovie() {
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+
+  const handleLanguageSelect = (selectedList, selectedItem) => {
+    setSelectedLanguages(selectedList);
+  };
+
+  const handleLanguageRemove = (selectedList, removedItem) => {
+    setSelectedLanguages(selectedList);
+  };
+
   return (
     <div className="h-full w-full p-[1rem]">
       <div className="flex flex-col gap-[1rem]">
@@ -52,37 +69,39 @@ function AddMovie() {
 
         {/* duration */}
         <div className="flex gap-[10px] items-center">
-          <label htmlFor="genre" className="font-[500] w-[100px]">
-            Duratoin
+          <label htmlFor="duration" className="font-[500] w-[100px]">
+            Duration
           </label>
           <input
             type="number"
             placeholder="Enter duration in minutes"
+            id="duration"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
         </div>
 
         {/* release date */}
         <div className="flex gap-[10px] items-center">
-          <label htmlFor="genre" className="font-[500] w-[100px]">
-            Release date
+          <label htmlFor="releasedate" className="font-[500] w-[100px]">
+            Release Date
           </label>
           <input
             type="date"
+            id="releasedate"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
         </div>
 
-        {/* CBFCrating */}
+        {/* CBFC rating */}
         <div className="flex gap-[10px] items-center">
-          <label htmlFor="genre" className="font-[500] w-[100px]">
-            CBFCrating
+          <label htmlFor="CBFCrating" className="font-[500] w-[100px]">
+            CBFC Rating
           </label>
           <select
             id="CBFCrating"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           >
-            <option value="">Select CBFCrating</option>
+            <option value="">Select CBFC Rating</option>
             {CBFClist.map((item) => (
               <option key={item} value={item.toLowerCase()}>
                 {item}
@@ -96,17 +115,33 @@ function AddMovie() {
           <label htmlFor="language" className="font-[500] w-[100px]">
             Language
           </label>
-          <select
-            id="language"
-            multiple
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
-          >
-            {languageList.map((language) => (
-              <option key={language} value={language.toLowerCase()}>
-                {language}
-              </option>
-            ))}
-          </select>
+          <Multiselect
+            options={languageList}
+            displayValue="name"
+            selectedValues={selectedLanguages}
+            onSelect={handleLanguageSelect}
+            onRemove={handleLanguageRemove}
+            placeholder="Select languages"
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox:{
+                border:"none",
+                paddingLeft:"20px",
+                
+              },
+              multiselectContainer:{
+                width:"400px",
+                borderRadius:"5px",
+                fontSize:"14px",
+              }
+            }}
+          />
         </div>
       </div>
     </div>
