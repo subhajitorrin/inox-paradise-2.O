@@ -21,7 +21,9 @@ const movieSchema = new mongoose.Schema({
   posterUrl: String,
   trailerUrl: String,
   categories: String,
-  reviews: [{ type: reviewSchema, default: [] }]
+  reviews: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Review", default: [] }
+  ]
 });
 
 const MovieModel = mongoose.model("currentmovies", movieSchema);
