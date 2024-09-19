@@ -137,7 +137,9 @@ function AddMovie() {
               multiselectContainer: {
                 width: "400px",
                 borderRadius: "5px",
-                fontSize: "14px"
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px",
               }
             }}
           />
