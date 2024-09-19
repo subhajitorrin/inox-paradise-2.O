@@ -168,6 +168,20 @@ function AddMovie() {
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
         </div>
+
+        {/* synopsis */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="synopsis" className="font-[500] w-[100px]">
+            Synopsis
+          </label>
+          <textarea
+            id="synopsis"
+            placeholder="Enter synopsis of movie"
+            style={{ resize: 'none' }}
+            rows={4}
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+          />
+        </div>
       </div>
     </div>
   );
