@@ -57,6 +57,17 @@ function AddMovie() {
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
         </div>
+
+        {/* release date */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="genre" className="font-[500] w-[100px]">
+            Release date
+          </label>
+          <input
+            type="date"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+          />
+        </div>
       </div>
     </div>
   );
