@@ -130,17 +130,29 @@ function AddMovie() {
               optionContainer: {
                 backgroundColor: "#353333"
               },
-              searchBox:{
-                border:"none",
-                paddingLeft:"20px",
-                
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
               },
-              multiselectContainer:{
-                width:"400px",
-                borderRadius:"5px",
-                fontSize:"14px",
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px"
               }
             }}
+          />
+        </div>
+
+        {/* poster */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="poster" className="font-[500] w-[100px]">
+            Poster
+          </label>
+          <input
+            type="file"
+            id="poster"
+            accept="image/*"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
         </div>
       </div>
