@@ -18,7 +18,7 @@ const movieSchema = new mongoose.Schema({
   cast: [castSchema],
   synopsis: String,
   rating: String,
-  posterUrl: String,
+  poster: String,
   trailerUrl: String,
   categories: String,
   reviews: [
