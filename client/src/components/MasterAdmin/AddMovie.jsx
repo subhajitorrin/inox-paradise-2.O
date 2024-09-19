@@ -190,7 +190,7 @@ function AddMovie() {
         </div>
         <button
           onClick={handleAddMovie}
-          className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#03ab11]"
+          className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#03ab89]"
         >
           Add movie to database
         </button>
