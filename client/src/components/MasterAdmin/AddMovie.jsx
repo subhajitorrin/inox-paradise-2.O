@@ -36,8 +36,8 @@ function AddMovie() {
   };
 
   return (
-    <div className="h-full w-full p-[1rem] flex justify-evenly">
-      <div className="flex flex-col gap-[1rem]">
+    <div className="h-full w-full p-[1rem] flex justify-between">
+      <div className="flex flex-col gap-[1rem] w-[50%] items-center">
         {/* title */}
         <div className="flex gap-[10px] items-center">
           <label htmlFor="movietitle" className="font-[500] w-[100px]">
@@ -187,19 +187,29 @@ function AddMovie() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
+      <div className="w-[50%] items-center flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
         <p className="font-[500] text-center">Actors & Actresses </p>
         {castList.map((item, index) => {
           return <CastCard />;
         })}
-        <button
-          onClick={() => {
-            setCastList((prev) => [...prev, { name: "", photo: "" }]);
-          }}
-          className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
-        >
-          New Cast
-        </button>
+        <div className="flex justify-center gap-[1rem]">
+          <button
+            onClick={() => {
+              setCastList((prev) => [...prev, { name: "", photo: "" }]);
+            }}
+            className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
+          >
+            New Cast
+          </button>
+          <button
+            onClick={() => {
+              setCastList((prev) => prev.slice(0, -1));
+            }}
+            className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
+          >
+            Remove Cast
+          </button>
+        </div>
       </div>
     </div>
   );
