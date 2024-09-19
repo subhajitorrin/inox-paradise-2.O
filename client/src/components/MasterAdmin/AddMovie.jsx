@@ -45,7 +45,7 @@ function AddMovie() {
             type="text"
             placeholder="Enter movie title"
             id="movietitle"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
 
@@ -56,7 +56,7 @@ function AddMovie() {
           </label>
           <select
             id="genre"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           >
             <option value="">Select genre</option>
             {genres.map((genre) => (
@@ -76,7 +76,7 @@ function AddMovie() {
             type="number"
             placeholder="Enter duration in minutes"
             id="duration"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
 
@@ -88,7 +88,7 @@ function AddMovie() {
           <input
             type="date"
             id="releasedate"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
 
@@ -99,7 +99,7 @@ function AddMovie() {
           </label>
           <select
             id="CBFCrating"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           >
             <option value="">Select CBFC Rating</option>
             {CBFClist.map((item) => (
@@ -152,7 +152,7 @@ function AddMovie() {
             type="file"
             id="poster"
             accept="image/*"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
 
@@ -165,7 +165,7 @@ function AddMovie() {
             type="text"
             placeholder="Enter trailer url"
             id="movietrailerurl"
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
 
@@ -179,7 +179,7 @@ function AddMovie() {
             placeholder="Enter synopsis of movie"
             style={{ resize: 'none' }}
             rows={4}
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
       </div>
