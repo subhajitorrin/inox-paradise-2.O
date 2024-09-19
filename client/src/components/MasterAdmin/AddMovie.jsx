@@ -11,6 +11,8 @@ const genres = [
   "Documentary"
 ];
 
+const CBFClist = ["U", "UA", "A", "S"];
+
 function AddMovie() {
   return (
     <div className="h-full w-full p-[1rem]">
@@ -67,6 +69,24 @@ function AddMovie() {
             type="date"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
           />
+        </div>
+
+        {/* CBFCrating */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="genre" className="font-[500] w-[100px]">
+            CBFCrating
+          </label>
+          <select
+            id="CBFCrating"
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+          >
+            <option value="">Select CBFCrating</option>
+            {CBFClist.map((item) => (
+              <option key={item} value={item.toLowerCase()}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
