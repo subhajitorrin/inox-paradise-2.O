@@ -25,6 +25,7 @@ const languageList = [
 
 function AddMovie() {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [castList, setCastList] = useState([{ name: "", photo: "" }]);
 
   const handleLanguageSelect = (selectedList, selectedItem) => {
     setSelectedLanguages(selectedList);
@@ -187,8 +188,18 @@ function AddMovie() {
         </div>
       </div>
       <div className="flex flex-col gap-[1rem]">
-        <p className="font-[500] text-center">Add Cast</p>
-        <CastCard />
+        <p className="font-[500] text-center">Actors & Actresses </p>
+        {castList.map((item, index) => {
+          return <CastCard />;
+        })}
+        <button
+          onClick={() => {
+            setCastList((prev) => [...prev, { name: "", photo: "" }]);
+          }}
+          className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
+        >
+          New Cast
+        </button>
       </div>
     </div>
   );
