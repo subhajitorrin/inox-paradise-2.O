@@ -187,7 +187,7 @@ function AddMovie() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-[1rem]">
+      <div className="flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
         <p className="font-[500] text-center">Actors & Actresses </p>
         {castList.map((item, index) => {
           return <CastCard />;
