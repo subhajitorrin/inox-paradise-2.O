@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
+import CastCard from "./CastCard";
 
 const genres = [
   "Action",
@@ -34,7 +35,7 @@ function AddMovie() {
   };
 
   return (
-    <div className="h-full w-full p-[1rem]">
+    <div className="h-full w-full p-[1rem] flex justify-evenly">
       <div className="flex flex-col gap-[1rem]">
         {/* title */}
         <div className="flex gap-[10px] items-center">
@@ -139,7 +140,7 @@ function AddMovie() {
                 borderRadius: "5px",
                 fontSize: "14px",
                 paddingTop: "5px",
-                paddingBottom: "5px",
+                paddingBottom: "5px"
               }
             }}
           />
@@ -179,11 +180,15 @@ function AddMovie() {
           <textarea
             id="synopsis"
             placeholder="Enter synopsis of movie"
-            style={{ resize: 'none' }}
+            style={{ resize: "none" }}
             rows={4}
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
+      </div>
+      <div className="flex flex-col gap-[1rem]">
+        <p className="font-[500] text-center">Add Cast</p>
+        <CastCard />
       </div>
     </div>
   );
