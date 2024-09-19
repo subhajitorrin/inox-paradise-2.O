@@ -21,7 +21,7 @@ const movieSchema = new mongoose.Schema(
     rating: Number,
     cast: [castSchema],
     synopsis: { type: String, required: true },
-    categories: { type: String, required: true },
+    popularity: { type: Number, default: 0 },
     reviews: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Review", default: [] }
     ]
