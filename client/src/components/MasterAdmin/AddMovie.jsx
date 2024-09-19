@@ -92,7 +92,22 @@ function AddMovie() {
         </div>
 
         {/* language */}
-        <div className="flex gap-[10px] items-center"></div>
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="language" className="font-[500] w-[100px]">
+            Language
+          </label>
+          <select
+            id="language"
+            multiple
+            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[5px] w-[400px] text-[14px]"
+          >
+            {languageList.map((language) => (
+              <option key={language} value={language.toLowerCase()}>
+                {language}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );
