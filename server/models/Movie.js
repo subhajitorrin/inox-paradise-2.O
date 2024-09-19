@@ -2,29 +2,34 @@ import mongoose from "mongoose";
 
 const castSchema = new mongoose.Schema(
   {
-    name: String,
+    name: { type: String, required: true },
     image: String
   },
   { _id: false }
 );
 
-const movieSchema = new mongoose.Schema({
-  title: String,
-  genre: [String],
-  duration: Number,
-  language: [String],
-  CBFCratnig: String,
-  releaseDate: String,
-  cast: [castSchema],
-  synopsis: String,
-  rating: String,
-  poster: String,
-  trailerUrl: String,
-  categories: String,
-  reviews: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Review", default: [] }
-  ]
-});
+const movieSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    genre: { type: [String], required: true },
+    duration: { type: Number, required: true },
+    releaseDate: { type: String, required: true },
+    CBFCrating: { type: String, required: true },
+    language: { type: [String], required: true },
+    poster: { type: String, required: true },
+    trailerUrl: String,
+    rating: Number,
+    cast: [castSchema],
+    synopsis: { type: String, required: true },
+    categories: { type: String, required: true },
+    reviews: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Review", default: [] }
+    ]
+  },
+  {
+    timestamps: true
+  }
+);
 
 const MovieModel = mongoose.model("currentmovies", movieSchema);
 
