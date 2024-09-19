@@ -14,10 +14,10 @@ const genres = [
 function AddMovie() {
   return (
     <div className="h-full w-full p-[1rem]">
-      <div className="">
+      <div className="flex flex-col gap-[1rem]">
         {/* title */}
-        <div className="flex gap-[10px] items-center mb-[1rem]">
-          <label htmlFor="movietitle" className="font-[500]">
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="movietitle" className="font-[500] w-[100px]">
             Movie Title
           </label>
           <input
@@ -29,8 +29,8 @@ function AddMovie() {
         </div>
 
         {/* genre */}
-        <div className="flex gap-[10px] items-center mb-[1rem]">
-          <label htmlFor="genre" className="font-[500]">
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="genre" className="font-[500] w-[100px]">
             Genre
           </label>
           <select
