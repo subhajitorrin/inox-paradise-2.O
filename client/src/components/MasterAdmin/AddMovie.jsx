@@ -13,6 +13,8 @@ const genres = [
 
 const CBFClist = ["U", "UA", "A", "S"];
 
+const languageList = ["English", "Hindi", "Bangla", "Tamil", "Telegu"];
+
 function AddMovie() {
   return (
     <div className="h-full w-full p-[1rem]">
@@ -88,6 +90,9 @@ function AddMovie() {
             ))}
           </select>
         </div>
+
+        {/* language */}
+        <div className="flex gap-[10px] items-center"></div>
       </div>
     </div>
   );
