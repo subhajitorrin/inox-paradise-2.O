@@ -21,4 +21,19 @@ async function getUpcomingMovies(req, res) {
   }
 }
 
-export { getAllMovies, getUpcomingMovies };
+async function getNewReleaseMovies(req, res) {
+  try {
+    const today = new Date();
+    const threeMonthAgo = new Date();
+    threeMonthAgo.setMonth(today.getMonth() - 3);
+    const movies = await MovieModel.find({
+      releaseDate: { $gte: threeMonthAgo, $lte: today }
+    }).sort({ releaseDate: -1 });
+    return res.status(200).json(movies);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching upcoming movies" });
+  }
+}
+
+export { getAllMovies, getUpcomingMovies, getNewReleaseMovies };
