@@ -58,10 +58,6 @@ function AddMovie() {
   }
 
   useEffect(() => {
-    console.log(castList);
-  }, [castList]);
-
-  useEffect(() => {
     const savedData = sessionStorage.getItem("movieData");
     if (savedData) {
       const parsedData = JSON.parse(savedData);
@@ -122,16 +118,18 @@ function AddMovie() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("genre", genre);
-    formData.append("duration", duration);
-    formData.append("releaseDate", releaseDate);
-    formData.append("CBFCrating", CBFCrating);
-    formData.append("language", language);
-    formData.append("poster", poster);
-    formData.append("trailerUrl", trailerUrl);
-    formData.append("synopsis", synopsis);
+    const movieData = {
+      title,
+      genre,
+      duration,
+      releaseDate,
+      CBFCrating,
+      selectedLanguages,
+      castList,
+      poster,
+      trailerUrl,
+      synopsis
+    };
   }
 
   if (isFetching === true) return <></>;
