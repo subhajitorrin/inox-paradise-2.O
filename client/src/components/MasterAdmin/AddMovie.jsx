@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
 import CastCard from "./CastCard";
 
@@ -35,6 +35,15 @@ function AddMovie() {
   const [poster, setPoster] = useState("");
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
+
+  useEffect(() => {
+    const list = selectedLanguages.map((lang) => lang.name);
+    setLanguage(list);
+  }, [selectedLanguages]);
+
+  useEffect(() => {
+    console.log(language);
+  }, [language]);
 
   const handleLanguageSelect = (selectedList, selectedItem) => {
     setSelectedLanguages(selectedList);
