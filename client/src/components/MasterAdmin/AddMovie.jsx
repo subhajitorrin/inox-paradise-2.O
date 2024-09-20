@@ -26,6 +26,15 @@ const languageList = [
 function AddMovie() {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [castList, setCastList] = useState([]);
+  const [title, settitle] = useState("");
+  const [genre, setgenre] = useState("");
+  const [duration, setDuration] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
+  const [CBFCrating, setCBFCrating] = useState("");
+  const [language, setLanguage] = useState("");
+  const [poster, setPoster] = useState("");
+  const [trailerUrl, setTrailerUrl] = useState("");
+  const [synopsis, setSynopsis] = useState("");
 
   const handleLanguageSelect = (selectedList, selectedItem) => {
     setSelectedLanguages(selectedList);
@@ -46,6 +55,8 @@ function AddMovie() {
             Movie Title
           </label>
           <input
+            onChange={(e) => settitle(e.target.value.trim())}
+            value={title}
             type="text"
             placeholder="Enter movie title"
             id="movietitle"
@@ -59,7 +70,9 @@ function AddMovie() {
             Genre
           </label>
           <select
+            onChange={(e) => setgenre(e.target.value.trim())}
             id="genre"
+            value={genre}
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           >
             <option value="">Select genre</option>
@@ -77,6 +90,8 @@ function AddMovie() {
             Duration
           </label>
           <input
+            onChange={(e) => setDuration(e.target.value)}
+            value={duration}
             type="number"
             placeholder="Enter duration in minutes"
             id="duration"
@@ -90,6 +105,8 @@ function AddMovie() {
             Release Date
           </label>
           <input
+            onChange={(e) => setReleaseDate(e.target.value)}
+            value={releaseDate}
             type="date"
             id="releasedate"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
@@ -102,6 +119,8 @@ function AddMovie() {
             CBFC Rating
           </label>
           <select
+            onChange={(e) => setCBFCrating(e.target.value)}
+            value={CBFCrating}
             id="CBFCrating"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           >
@@ -155,6 +174,7 @@ function AddMovie() {
             Poster
           </label>
           <input
+            onChange={(e) => setPoster(e.target.files[0])}
             type="file"
             id="poster"
             accept="image/*"
@@ -168,6 +188,8 @@ function AddMovie() {
             Trailer URL
           </label>
           <input
+            onChange={(e) => setTrailerUrl(e.target.value)}
+            value={trailerUrl}
             type="text"
             placeholder="Enter trailer url"
             id="movietrailerurl"
@@ -181,6 +203,8 @@ function AddMovie() {
             Synopsis
           </label>
           <textarea
+            onChange={(e) => setSynopsis(e.target.value)}
+            value={synopsis}
             id="synopsis"
             placeholder="Enter synopsis of movie"
             style={{ resize: "none" }}
