@@ -60,12 +60,18 @@ function UpdatePage({ setIsUpdatePage }) {
 
   useEffect(() => {
     if (updateMovie !== null) {
+      console.log(updateMovie.releaseDate);
+
       setLanguage(updateMovie.language || []);
       setCastList(updateMovie.castList || []);
       settitle(updateMovie.title || "");
       setgenre(updateMovie.genre || []);
       setDuration(updateMovie.duration || "");
-      setReleaseDate(updateMovie.releaseDate || "");
+      setReleaseDate(
+        updateMovie.releaseDate
+          ? new Date(updateMovie.releaseDate).toISOString().split("T")[0]
+          : ""
+      );
       setCBFCrating(updateMovie.CBFCrating || "");
       setPoster(updateMovie.poster || "");
       setTrailerUrl(updateMovie.trailerUrl || "");
