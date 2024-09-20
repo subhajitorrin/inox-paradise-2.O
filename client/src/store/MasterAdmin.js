@@ -11,6 +11,7 @@ const useMasterAdmin = create(
   persist(
     (set, get) => ({
       masterAdmin: null,
+      updateMovie: null,
       isMasterAuthenticated: null,
       isLoading: false,
       theaters: [],
@@ -168,6 +169,10 @@ const useMasterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      setUpdateMovie: (movieData) => {
+        set({ updateMovie: movieData });
       }
     }),
     {
@@ -175,7 +180,8 @@ const useMasterAdmin = create(
       partialize: (state) => ({
         masterAdmin: state.masterAdmin,
         isMasterAuthenticated: state.isMasterAuthenticated,
-        theaters: state.theaters
+        theaters: state.theaters,
+        updateMovie: state.updateMovie
       }),
       storage: createJSONStorage(() => sessionStorage)
     }

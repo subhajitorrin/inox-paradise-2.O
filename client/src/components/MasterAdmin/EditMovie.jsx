@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useMovie from "../../store/Movie";
 import UpdatePage from "./UpdatePage";
+import useMasterAdmin from "../../store/MasterAdmin";
 
 function EditMovie() {
   const { movieList, getMovies } = useMovie();
   const [isUpdatePage, setIsUpdatePage] = useState(false);
+  const { setUpdateMovie } = useMasterAdmin();
 
   useEffect(() => {
     getMovies();
@@ -40,6 +42,7 @@ function EditMovie() {
                   onClick={() => {
                     sessionStorage.setItem("isUpdatePage", true);
                     setIsUpdatePage(true);
+                    setUpdateMovie(item);
                   }}
                   className="transition-all ease-linear duration-200 rounded-l-[5px] w-[50%] bg-[#ffb300] py-[5px] text-[14px] font-[500] hover:bg-[#d59601]"
                 >
