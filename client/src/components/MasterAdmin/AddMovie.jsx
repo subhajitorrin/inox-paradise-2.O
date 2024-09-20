@@ -164,46 +164,6 @@ function AddMovie() {
           />
         </div>
 
-        {/* genre */}
-        <div className="flex gap-[10px] items-center">
-          <label htmlFor="genre" className="font-[500] w-[100px]">
-            Genre
-          </label>
-          <Multiselect
-            options={genrelist.map((genre) => ({ name: genre }))}
-            displayValue="name"
-            selectedValues={genre.map((genre) => ({ name: genre }))}
-            onSelect={(selectedList) => {
-              const list = selectedList.map((item) => item.name);
-              setgenre(list);
-            }}
-            onRemove={(selectedList) => {
-              const list = selectedList.map((item) => item.name);
-              setgenre(list);
-            }}
-            className="w-[400px] bg-[#353333]"
-            style={{
-              option: {
-                color: "white"
-              },
-              optionContainer: {
-                backgroundColor: "#353333"
-              },
-              searchBox: {
-                border: "none",
-                paddingLeft: "20px"
-              },
-              multiselectContainer: {
-                width: "400px",
-                borderRadius: "5px",
-                fontSize: "14px",
-                paddingTop: "5px",
-                paddingBottom: "5px"
-              }
-            }}
-          />
-        </div>
-
         {/* duration */}
         <div className="flex gap-[10px] items-center">
           <label htmlFor="duration" className="font-[500] w-[100px]">
@@ -251,46 +211,6 @@ function AddMovie() {
               </option>
             ))}
           </select>
-        </div>
-
-        {/* language */}
-        <div className="flex gap-[10px] items-center">
-          <label htmlFor="language" className="font-[500] w-[100px]">
-            Language
-          </label>
-          <Multiselect
-            options={languageList.map((item) => ({ name: item }))}
-            displayValue="name"
-            selectedValues={language.map((item) => ({ name: item }))}
-            onSelect={(selectedList) => {
-              const list = selectedList.map((item) => item.name);
-              setLanguage(list);
-            }}
-            onRemove={(selectedList) => {
-              const list = selectedList.map((item) => item.name);
-              setLanguage(list);
-            }}
-            className="w-[400px] bg-[#353333]"
-            style={{
-              option: {
-                color: "white"
-              },
-              optionContainer: {
-                backgroundColor: "#353333"
-              },
-              searchBox: {
-                border: "none",
-                paddingLeft: "20px"
-              },
-              multiselectContainer: {
-                width: "400px",
-                borderRadius: "5px",
-                fontSize: "14px",
-                paddingTop: "5px",
-                paddingBottom: "5px"
-              }
-            }}
-          />
         </div>
 
         {/* poster */}
@@ -351,7 +271,87 @@ function AddMovie() {
         </button>
       </div>
       <div className="w-[50%] items-center flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
-        <p className="font-[500] text-center">Actors & Actresses </p>
+        {/* genre */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="genre" className="font-[500] w-[100px]">
+            Genre
+          </label>
+          <Multiselect
+            options={genrelist.map((genre) => ({ name: genre }))}
+            displayValue="name"
+            selectedValues={genre.map((genre) => ({ name: genre }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setgenre(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setgenre(list);
+            }}
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
+              },
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px"
+              }
+            }}
+          />
+        </div>
+
+        {/* language */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="language" className="font-[500] w-[100px]">
+            Language
+          </label>
+          <Multiselect
+            options={languageList.map((item) => ({ name: item }))}
+            displayValue="name"
+            selectedValues={language.map((item) => ({ name: item }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setLanguage(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setLanguage(list);
+            }}
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
+              },
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px"
+              }
+            }}
+          />
+        </div>
+
+        <p className="font-[500] text-center ">Actors & Actresses </p>
         {castList.map((item, index) => {
           return (
             <CastCard
