@@ -121,6 +121,7 @@ function UpdatePage({ setIsUpdatePage }) {
     }
 
     const movieData = {
+      _id: updateMovie._id,
       title,
       genre,
       duration,
