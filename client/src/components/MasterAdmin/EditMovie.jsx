@@ -19,7 +19,7 @@ function EditMovie() {
   return (
     <div className="h-full w-full p-[1rem] flex flex-wrap justify-center gap-[2rem]">
       {isUpdatePage ? (
-        <UpdatePage />
+        <UpdatePage setIsUpdatePage={setIsUpdatePage} />
       ) : (
         movieList.map((item, index) => {
           return (
