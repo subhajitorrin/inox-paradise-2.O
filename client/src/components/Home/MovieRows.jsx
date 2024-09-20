@@ -19,7 +19,7 @@ function MovieRowCard({ movie }) {
     <div className="cursor-pointer">
       <img
         src={imageList}
-        className="border border-black w-[230px] h-[350px] rounded-[10px]"
+        className="w-[230px] h-[350px] rounded-[10px]"
       />
       <p className="w-[230px] text-[17px] font-[500]">{title}</p>
       <p className="font-[500] flex items-center gap-[5px]">
