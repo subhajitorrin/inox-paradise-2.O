@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
 import CastCard from "./CastCard";
+import {toast} from "react-toastify";
 
 const genres = [
   "Action",
@@ -24,6 +25,7 @@ const languageList = [
 ];
 
 function AddMovie() {
+  const [isFetching, setIsFetching] = useState(true);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [castList, setCastList] = useState([]);
   const [title, settitle] = useState("");
@@ -41,10 +43,6 @@ function AddMovie() {
     setLanguage(list);
   }, [selectedLanguages]);
 
-  useEffect(() => {
-    console.log(language);
-  }, [language]);
-
   const handleLanguageSelect = (selectedList, selectedItem) => {
     setSelectedLanguages(selectedList);
   };
@@ -53,7 +51,70 @@ function AddMovie() {
     setSelectedLanguages(selectedList);
   };
 
-  async function handleAddMovie() {}
+  useEffect(() => {
+    const savedData = sessionStorage.getItem("movieData");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      setSelectedLanguages(parsedData.selectedLanguages || []);
+      setCastList(parsedData.castList || []);
+      settitle(parsedData.title || "");
+      setgenre(parsedData.genre || "");
+      setDuration(parsedData.duration || "");
+      setReleaseDate(parsedData.releaseDate || "");
+      setCBFCrating(parsedData.CBFCrating || "");
+      setPoster(parsedData.poster || "");
+      setTrailerUrl(parsedData.trailerUrl || "");
+      setSynopsis(parsedData.synopsis || "");
+    }
+    setIsFetching(false);
+  }, []);
+
+  useEffect(() => {
+    const movieData = {
+      selectedLanguages,
+      castList,
+      title,
+      genre,
+      duration,
+      releaseDate,
+      CBFCrating,
+      poster,
+      trailerUrl,
+      synopsis
+    };
+    sessionStorage.setItem("movieData", JSON.stringify(movieData));
+  }, [
+    selectedLanguages,
+    castList,
+    title,
+    genre,
+    duration,
+    releaseDate,
+    CBFCrating,
+    poster,
+    trailerUrl,
+    synopsis
+  ]);
+
+  async function handleAddMovie() {
+    if (
+      !title ||
+      !genre ||
+      !duration ||
+      !releaseDate ||
+      !CBFCrating ||
+      !language ||
+      !poster ||
+      !trailerUrl ||
+      !synopsis
+    ) {
+      toast.warn("Fill all the fields");
+
+      return;
+    }
+  }
+
+  if (isFetching === true) return <></>;
 
   return (
     <div className="h-full w-full p-[1rem] flex justify-between">
