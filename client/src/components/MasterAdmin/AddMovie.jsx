@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import useMasterAdmin from "../../store/MasterAdmin";
 import { BeatLoader } from "react-spinners";
 
-const genres = [
+const genrelist = [
   "Action",
   "Comedy",
   "Drama",
@@ -19,16 +19,27 @@ const genres = [
 const CBFClist = ["U", "UA", "A", "S"];
 
 const languageList = [
-  { name: "English" },
-  { name: "Hindi" },
-  { name: "Bangla" },
-  { name: "Tamil" },
-  { name: "Telegu" }
+  "Hindi",
+  "Bengali",
+  "Telugu",
+  "Tamil",
+  "Kannada",
+  "Malayalam",
+  "Marathi",
+  "Punjabi",
+  "Urdu",
+  "Assamese",
+  "Gujarati",
+  "Odia",
+  "Bhojpuri",
+  "Rajasthani",
+  "Maithili"
 ];
 
 function AddMovie() {
   const [isFetching, setIsFetching] = useState(true);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState([]);
   const [castList, setCastList] = useState([]);
   const [title, settitle] = useState("");
   const [genre, setgenre] = useState("");
@@ -46,14 +57,6 @@ function AddMovie() {
     const list = selectedLanguages.map((lang) => lang.name);
     setLanguage(list);
   }, [selectedLanguages]);
-
-  const handleLanguageSelect = (selectedList, selectedItem) => {
-    setSelectedLanguages(selectedList);
-  };
-
-  const handleLanguageRemove = (selectedList, removedItem) => {
-    setSelectedLanguages(selectedList);
-  };
 
   function handleCastList(data, index) {
     const newCastList = [...castList];
@@ -135,17 +138,17 @@ function AddMovie() {
       synopsis
     };
     await addMovie(movieData);
-    settitle("");
-    setgenre("");
-    setDuration("");
-    setReleaseDate("");
-    setCBFCrating("");
-    setLanguage("");
-    setPoster("");
-    setTrailerUrl("");
-    setSynopsis("");
-    setCastList([]);
-    setSelectedLanguages([]);
+    // settitle("");
+    // setgenre("");
+    // setDuration("");
+    // setReleaseDate("");
+    // setCBFCrating("");
+    // setLanguage("");
+    // setPoster("");
+    // setTrailerUrl("");
+    // setSynopsis("");
+    // setCastList([]);
+    // setSelectedLanguages([]);
   }
 
   if (isFetching === true) return <></>;
@@ -173,19 +176,37 @@ function AddMovie() {
           <label htmlFor="genre" className="font-[500] w-[100px]">
             Genre
           </label>
-          <select
-            onChange={(e) => setgenre(e.target.value.trim())}
-            id="genre"
-            value={genre}
-            className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
-          >
-            <option value="">Select genre</option>
-            {genres.map((genre) => (
-              <option key={genre} value={genre.toLowerCase()}>
-                {genre}
-              </option>
-            ))}
-          </select>
+          <Multiselect
+            options={genrelist.map((genre) => ({ name: genre }))}
+            displayValue="name"
+            selectedValues={selectedGenre}
+            onSelect={(selectedList, selectedItem) =>
+              setSelectedGenre(selectedList)
+            }
+            onRemove={(selectedList, removedItem) =>
+              setSelectedGenre(selectedList)
+            }
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
+              },
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px"
+              }
+            }}
+          />
         </div>
 
         {/* duration */}
@@ -243,12 +264,15 @@ function AddMovie() {
             Language
           </label>
           <Multiselect
-            options={languageList}
+            options={languageList.map((item) => ({ name: item }))}
             displayValue="name"
             selectedValues={selectedLanguages}
-            onSelect={handleLanguageSelect}
-            onRemove={handleLanguageRemove}
-            placeholder="Select languages"
+            onSelect={(selectedList, selectedItem) =>
+              setSelectedLanguages(selectedList)
+            }
+            onRemove={(selectedList, removedItem) =>
+              setSelectedLanguages(selectedList)
+            }
             className="w-[400px] bg-[#353333]"
             style={{
               option: {
@@ -313,7 +337,7 @@ function AddMovie() {
             id="synopsis"
             placeholder="Enter synopsis of movie"
             style={{ resize: "none" }}
-            rows={4}
+            rows={3}
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
