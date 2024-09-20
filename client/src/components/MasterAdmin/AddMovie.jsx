@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
 import CastCard from "./CastCard";
 import { toast } from "react-toastify";
+import useMasterAdmin from "../../store/MasterAdmin";
 
 const genres = [
   "Action",
@@ -37,6 +38,8 @@ function AddMovie() {
   const [poster, setPoster] = useState("");
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
+
+  const { addMovie, isLoading } = useMasterAdmin();
 
   useEffect(() => {
     const list = selectedLanguages.map((lang) => lang.name);
@@ -124,12 +127,13 @@ function AddMovie() {
       duration,
       releaseDate,
       CBFCrating,
-      selectedLanguages,
+      language,
       castList,
       poster,
       trailerUrl,
       synopsis
     };
+    await addMovie(movieData);
   }
 
   if (isFetching === true) return <></>;

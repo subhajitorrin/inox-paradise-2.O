@@ -205,7 +205,8 @@ async function addMovie(req, res) {
   if (role !== "masteradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  console.log(req.body.movieData);
+  const { movieData } = req.body;
+  console.log(movieData);
 }
 
 export {
