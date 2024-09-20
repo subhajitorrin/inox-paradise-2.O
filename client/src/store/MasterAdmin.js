@@ -164,6 +164,7 @@ const useMasterAdmin = create(
           return data;
         } catch (error) {
           toast.error(error.response?.data?.message || error.message);
+          throw error;
         } finally {
           set({ isLoading: false });
         }

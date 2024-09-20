@@ -130,18 +130,21 @@ function AddMovie() {
       trailerUrl,
       synopsis
     };
-    await addMovie(movieData);
-    // settitle("");
-    // setgenre("");
-    // setDuration("");
-    // setReleaseDate("");
-    // setCBFCrating("");
-    // setLanguage("");
-    // setPoster("");
-    // setTrailerUrl("");
-    // setSynopsis("");
-    // setCastList([]);
-    // setSelectedLanguages([]);
+    try {
+      await addMovie(movieData);
+      settitle("");
+      setgenre([]);
+      setDuration("");
+      setReleaseDate("");
+      setCBFCrating("");
+      setLanguage([]);
+      setPoster("");
+      setTrailerUrl("");
+      setSynopsis("");
+      setCastList([]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   if (isFetching === true) return <></>;
