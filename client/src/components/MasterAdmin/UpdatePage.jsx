@@ -128,6 +128,7 @@ function UpdatePage({ setIsUpdatePage }) {
       synopsis
     };
     try {
+      console.log(movieData);
     } catch (error) {
       console.log(error);
     }
