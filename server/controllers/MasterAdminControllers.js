@@ -223,11 +223,17 @@ async function updateMovie(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const { movieData } = req.body;
+  const { movieid } = req.params;
   try {
-    console.log(movieData);
+    const updateMovie = await MovieModel.findByIdAndUpdate(movieid, movieData, {
+      new: true
+    });
+    if (!updateMovie) {
+      return res.status(404).json({ message: "Movie not found!" });
+    }
     return res
       .status(200)
-      .json({ message: "Movie updated successfully", movie: movieData });
+      .json({ message: "Movie updated successfully", movie: updateMovie });
   } catch (error) {
     console.log(error);
     return res

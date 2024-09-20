@@ -38,5 +38,5 @@ MasterAdminRotuer.delete(
   deleteTheater
 );
 MasterAdminRotuer.post("/masteradmin/add-movie", AuthToken, addMovie);
-MasterAdminRotuer.put("/masteradmin/update-movie", AuthToken, updateMovie);
+MasterAdminRotuer.put("/masteradmin/update-movie/:movieid", AuthToken, updateMovie);
 export default MasterAdminRotuer;

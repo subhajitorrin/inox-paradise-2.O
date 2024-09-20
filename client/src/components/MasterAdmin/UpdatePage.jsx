@@ -121,7 +121,6 @@ function UpdatePage({ setIsUpdatePage }) {
     }
 
     const movieData = {
-      _id: updateMovie._id,
       title,
       genre,
       duration,
@@ -134,7 +133,8 @@ function UpdatePage({ setIsUpdatePage }) {
       synopsis
     };
     try {
-      await updateMovieToBackend(movieData);
+      await updateMovieToBackend(movieData, updateMovie._id);
+      sessionStorage.removeItem("isUpdatePage");
       setIsUpdatePage(false);
     } catch (error) {
       console.log(error);

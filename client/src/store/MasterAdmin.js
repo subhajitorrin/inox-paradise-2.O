@@ -175,11 +175,11 @@ const useMasterAdmin = create(
         set({ updateMovie: movieData });
       },
 
-      updateMovieToBackend: async (movieData) => {
+      updateMovieToBackend: async (movieData,movieid) => {
         set({ isLoading: true });
         try {
           const { data } = await axios.put(
-            `${BASE_URL}/masteradmin/update-movie`,
+            `${BASE_URL}/masteradmin/update-movie/${movieid}`,
             { movieData },
             { headers: { "Content-Type": "application/json" } }
           );
