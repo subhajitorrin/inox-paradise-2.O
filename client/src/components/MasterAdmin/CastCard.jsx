@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 function CastCard({ index, item, handleCastList }) {
   const [name, setName] = useState("");
   const [profile, setProfile] = useState("");
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     handleCastList({ name, profile }, index);
@@ -11,6 +12,7 @@ function CastCard({ index, item, handleCastList }) {
   useEffect(() => {
     setName(item.name);
     setProfile(item.profile);
+    setIsFetching(false);
   }, []);
 
   return (
@@ -23,7 +25,7 @@ function CastCard({ index, item, handleCastList }) {
           type="text"
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Enter cast name"
+          placeholder={isFetching ? "" : "Enter cast name"}
           id="movietitle"
           className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
         />
@@ -36,7 +38,7 @@ function CastCard({ index, item, handleCastList }) {
           onChange={(e) => setProfile(e.target.value)}
           value={profile}
           type="text"
-          placeholder="Paste caste photo url"
+          placeholder={isFetching ? "" : "Paste photo url"}
           id="movietitle"
           className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
         />
