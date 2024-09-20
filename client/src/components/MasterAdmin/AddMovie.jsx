@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
 import CastCard from "./CastCard";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const genres = [
   "Action",
@@ -109,9 +109,19 @@ function AddMovie() {
       !synopsis
     ) {
       toast.warn("Fill all the fields");
-
       return;
     }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("genre", genre);
+    formData.append("duration", duration);
+    formData.append("releaseDate", releaseDate);
+    formData.append("CBFCrating", CBFCrating);
+    formData.append("language", language);
+    formData.append("poster", poster);
+    formData.append("trailerUrl", trailerUrl);
+    formData.append("synopsis", synopsis);
   }
 
   if (isFetching === true) return <></>;
@@ -244,10 +254,11 @@ function AddMovie() {
             Poster
           </label>
           <input
-            onChange={(e) => setPoster(e.target.files[0])}
-            type="file"
+            onChange={(e) => setPoster(e.target.value)}
+            type="text"
             id="poster"
-            accept="image/*"
+            value={poster}
+            placeholder="Enter poster url"
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
