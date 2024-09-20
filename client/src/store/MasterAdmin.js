@@ -173,6 +173,24 @@ const useMasterAdmin = create(
 
       setUpdateMovie: (movieData) => {
         set({ updateMovie: movieData });
+      },
+
+      updateMovie: async (movieData) => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/masteradmin/update-movie`,
+            { movieData },
+            { headers: { "Content-Type": "application/json" } }
+          );
+          toast.success("Movie updated successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
       }
     }),
     {
