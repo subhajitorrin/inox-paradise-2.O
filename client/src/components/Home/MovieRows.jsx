@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { IoIosStar } from "react-icons/io";
+import { FaChevronLeft } from "react-icons/fa6";
 
 function MovieRowCard() {
   const [rating, setrating] = useState(0.0);
@@ -31,10 +32,34 @@ function MovieRowCard() {
 }
 
 function MovieRows(MovieList) {
+  const containerRef = useRef(null);
+  const handleSlideRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: 500, behavior: "smooth" });
+    }
+  };
+  const handleSlideLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: -500, behavior: "smooth" });
+    }
+  };
   return (
     <div className="w-[100%] my-[1.5rem] px-[10%]">
-      <h2 className="text-[18px] font-[500] mb-[10px]">Recommended Movies</h2>
-      <div className="flex gap-[1.0rem] scrollNone overflow-x-auto w-full">
+      <div className="flex justify-between items-center">
+        <h2 className="text-[18px] font-[500] mb-[10px]">Recommended Movies</h2>
+        <div className="flex gap-[10px] mr-[10px]">
+          <FaChevronLeft className="cursor-pointer" onClick={handleSlideLeft} />
+          <FaChevronLeft
+            className="rotate-180 cursor-pointer"
+            onClick={handleSlideRight}
+          />
+        </div>
+      </div>
+
+      <div
+        ref={containerRef}
+        className="flex gap-[1.0rem] scrollNone overflow-x-auto w-full"
+      >
         <MovieRowCard />
         <MovieRowCard />
         <MovieRowCard />
