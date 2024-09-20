@@ -3,6 +3,7 @@ import Multiselect from "multiselect-react-dropdown";
 import CastCard from "./CastCard";
 import { toast } from "react-toastify";
 import useMasterAdmin from "../../store/MasterAdmin";
+import { BeatLoader } from "react-spinners";
 
 const genres = [
   "Action",
@@ -317,10 +318,15 @@ function AddMovie() {
           />
         </div>
         <button
+          disabled={isLoading}
           onClick={handleAddMovie}
           className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#03ab89]"
         >
-          Add movie to database
+          {isLoading ? (
+            <BeatLoader color="#ffffff" size={5} />
+          ) : (
+            "Add movie to database"
+          )}
         </button>
       </div>
       <div className="w-[50%] items-center flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
