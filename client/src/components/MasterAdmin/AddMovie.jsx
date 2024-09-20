@@ -51,6 +51,16 @@ function AddMovie() {
     setSelectedLanguages(selectedList);
   };
 
+  function handleCastList(data, index) {
+    const newCastList = [...castList];
+    newCastList[index] = data;
+    setCastList(newCastList);
+  }
+
+  useEffect(() => {
+    console.log(castList);
+  }, [castList]);
+
   useEffect(() => {
     const savedData = sessionStorage.getItem("movieData");
     if (savedData) {
@@ -303,7 +313,14 @@ function AddMovie() {
       <div className="w-[50%] items-center flex flex-col gap-[1rem] h-full overflow-y-auto scrollNone">
         <p className="font-[500] text-center">Actors & Actresses </p>
         {castList.map((item, index) => {
-          return <CastCard />;
+          return (
+            <CastCard
+              key={index}
+              index={index}
+              item={item}
+              handleCastList={handleCastList}
+            />
+          );
         })}
         <div className="flex justify-center gap-[1rem]">
           <button
