@@ -38,10 +38,9 @@ const languageList = [
 
 function AddMovie() {
   const [isFetching, setIsFetching] = useState(true);
-  const [selectedGenre, setSelectedGenre] = useState([]);
   const [castList, setCastList] = useState([]);
   const [title, settitle] = useState("");
-  const [genre, setgenre] = useState("");
+  const [genre, setgenre] = useState([]);
   const [duration, setDuration] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [CBFCrating, setCBFCrating] = useState("");
@@ -65,7 +64,7 @@ function AddMovie() {
       setLanguage(parsedData.language || []);
       setCastList(parsedData.castList || []);
       settitle(parsedData.title || "");
-      setgenre(parsedData.genre || "");
+      setgenre(parsedData.genre || []);
       setDuration(parsedData.duration || "");
       setReleaseDate(parsedData.releaseDate || "");
       setCBFCrating(parsedData.CBFCrating || "");
@@ -173,13 +172,15 @@ function AddMovie() {
           <Multiselect
             options={genrelist.map((genre) => ({ name: genre }))}
             displayValue="name"
-            selectedValues={selectedGenre}
-            onSelect={(selectedList, selectedItem) =>
-              setSelectedGenre(selectedList)
-            }
-            onRemove={(selectedList, removedItem) =>
-              setSelectedGenre(selectedList)
-            }
+            selectedValues={genre.map((genre) => ({ name: genre }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setgenre(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setgenre(list);
+            }}
             className="w-[400px] bg-[#353333]"
             style={{
               option: {
