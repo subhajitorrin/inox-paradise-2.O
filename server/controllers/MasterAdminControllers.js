@@ -208,7 +208,6 @@ async function addMovie(req, res) {
   }
   const { movieData } = req.body;
   try {
-    console.log(movieData);
     const newMovie = new MovieModel(movieData);
     await newMovie.save();
     return res.json({ message: "Movie added successfully" });
@@ -220,6 +219,13 @@ async function addMovie(req, res) {
   }
 }
 
+async function updateMovie(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+}
+
 export {
   loginMasterAdmin,
   addTheaterAdmin,
@@ -227,5 +233,6 @@ export {
   sendOTPforTheaterRegistration,
   getAllTheaters,
   deleteTheater,
-  addMovie
+  addMovie,
+  updateMovie
 };

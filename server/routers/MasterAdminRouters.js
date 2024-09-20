@@ -7,7 +7,8 @@ import {
   loginMasterAdmin,
   sendOTPforTheaterRegistration,
   deleteTheater,
-  addMovie
+  addMovie,
+  updateMovie
 } from "../controllers/MasterAdminControllers.js";
 const MasterAdminRotuer = express.Router();
 MasterAdminRotuer.post("/masteradmin/login", loginMasterAdmin);
@@ -37,4 +38,5 @@ MasterAdminRotuer.delete(
   deleteTheater
 );
 MasterAdminRotuer.post("/masteradmin/add-movie", AuthToken, addMovie);
+MasterAdminRotuer.put("/masteradmin/update-movie", AuthToken, updateMovie);
 export default MasterAdminRotuer;
