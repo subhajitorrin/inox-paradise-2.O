@@ -254,7 +254,7 @@ function AddMovie() {
             id="synopsis"
             placeholder="Enter synopsis of movie"
             style={{ resize: "none" }}
-            rows={3}
+            rows={5}
             className="bg-[#353333] outline-none rounded-[5px] px-[20px] py-[10px] w-[400px] text-[14px]"
           />
         </div>
