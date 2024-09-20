@@ -200,11 +200,20 @@ async function deleteTheater(req, res) {
   }
 }
 
+async function addMovie(req, res) {
+  const { role } = req;
+  if (role !== "masteradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  console.log(req.body.movieData);
+}
+
 export {
   loginMasterAdmin,
   addTheaterAdmin,
   getMasterAdmin,
   sendOTPforTheaterRegistration,
   getAllTheaters,
-  deleteTheater
+  deleteTheater,
+  addMovie
 };
