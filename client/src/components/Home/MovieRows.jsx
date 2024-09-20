@@ -49,12 +49,12 @@ function MovieRows({ title, list }) {
 
   const handleSlideRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 500, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: 700, behavior: "smooth" });
     }
   };
   const handleSlideLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -500, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: -700, behavior: "smooth" });
     }
   };
   return (
