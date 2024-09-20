@@ -1,12 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaChevronLeft } from "react-icons/fa6";
 
-function MovieRowCard() {
+function MovieRowCard({ movie }) {
   const [rating, setrating] = useState(0.0);
   const [genre, setgenre] = useState(["Action", "Horror"]);
   const [title, settitle] = useState("Kaha shuru kaha khatam Kaha shuru");
   const [imageList, setImageList] = useState("");
+
+  useEffect(() => {
+    settitle(movie.title);
+    setgenre(movie.genre);
+    setrating(movie.rating);
+    setImageList(movie.poster);
+  }, [movie]);
+
   return (
     <div className="cursor-pointer">
       <img
@@ -31,7 +39,7 @@ function MovieRowCard() {
   );
 }
 
-function MovieRows(MovieList) {
+function MovieRows({ title, list }) {
   const containerRef = useRef(null);
   const handleSlideRight = () => {
     if (containerRef.current) {
@@ -46,7 +54,7 @@ function MovieRows(MovieList) {
   return (
     <div className="w-[100%] my-[1.5rem] px-[10%]">
       <div className="flex justify-between items-center">
-        <h2 className="text-[18px] font-[500] mb-[10px]">Recommended Movies</h2>
+        <h2 className="text-[18px] font-[500] mb-[10px]">{title}</h2>
         <div className="flex gap-[10px] mr-[10px]">
           <FaChevronLeft className="cursor-pointer" onClick={handleSlideLeft} />
           <FaChevronLeft
@@ -60,19 +68,9 @@ function MovieRows(MovieList) {
         ref={containerRef}
         className="flex gap-[1.0rem] scrollNone overflow-x-auto w-full"
       >
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
-        <MovieRowCard />
+        {list.map((movie, index) => {
+          return <MovieRowCard key={index} movie={movie} />;
+        })}
       </div>
     </div>
   );
