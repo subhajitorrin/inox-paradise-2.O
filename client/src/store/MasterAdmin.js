@@ -157,7 +157,8 @@ const useMasterAdmin = create(
         try {
           const { data } = await axios.post(
             `${BASE_URL}/masteradmin/add-movie`,
-            movieData
+            { movieData },
+            { headers: { "Content-Type": "application/json" } }
           );
           toast.success("Movie added successfully");
           return data;
