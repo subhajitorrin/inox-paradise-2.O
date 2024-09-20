@@ -105,11 +105,11 @@ function AddMovie() {
   async function handleAddMovie() {
     if (
       !title ||
-      !genre ||
+      !genre.length > 0 ||
       !duration ||
       !releaseDate ||
       !CBFCrating ||
-      !language ||
+      !language.length > 0 ||
       !poster ||
       !trailerUrl ||
       !synopsis

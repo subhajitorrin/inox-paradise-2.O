@@ -1,13 +1,4 @@
 import mongoose from "mongoose";
-
-const castSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    profile: String
-  },
-  { _id: false }
-);
-
 const movieSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -19,7 +10,15 @@ const movieSchema = new mongoose.Schema(
     poster: { type: String, required: true },
     trailerUrl: String,
     rating: { type: Number, default: 0.0 },
-    cast: [castSchema],
+    castList: [
+      {
+        type: {
+          name: { type: String, required: true },
+          profile: { type: String, required: true }
+        },
+        default: []
+      }
+    ],
     synopsis: { type: String, required: true },
     popularity: { type: Number, default: 0 },
     reviews: [

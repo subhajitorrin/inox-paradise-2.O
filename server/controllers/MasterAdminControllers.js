@@ -210,6 +210,7 @@ async function addMovie(req, res) {
   const { movieData } = req.body;
 
   try {
+    console.log(movieData);
     const newMovie = new MovieModel(movieData);
     await newMovie.save();
     return res.json({ message: "Movie added successfully" });
