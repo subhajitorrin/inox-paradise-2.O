@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -91,7 +92,7 @@ const useMasterAdmin = create(
         }
       },
 
-      addTheater: async (email, password, address,city, name, otpId, otp) => {
+      addTheater: async (email, password, address, city, name, otpId, otp) => {
         set({ isLoading: true });
         try {
           const { data } = await axios.post(
@@ -146,6 +147,22 @@ const useMasterAdmin = create(
           return data;
         } catch (error) {
           throw error;
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      addMovie: async (movieData) => {
+        set({ isLoading: true });
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/masteradmin/add-movie`,
+            movieData
+          );
+          toast.success("Movie added successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
         } finally {
           set({ isLoading: false });
         }
