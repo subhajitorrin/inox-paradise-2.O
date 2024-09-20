@@ -265,12 +265,12 @@ function UpdatePage({ setIsUpdatePage }) {
         <button
           disabled={isLoading}
           onClick={handleAddMovie}
-          className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#03ab89]"
+          className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#3eab03]"
         >
           {isLoading ? (
             <BeatLoader color="#ffffff" size={5} />
           ) : (
-            "Add movie to database"
+            "Update Movie & Save to Database"
           )}
         </button>
       </div>
