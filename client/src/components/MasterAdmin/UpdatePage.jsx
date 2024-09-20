@@ -50,7 +50,7 @@ function UpdatePage({ setIsUpdatePage }) {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
 
-  const { addMovie, isLoading } = useMasterAdmin();
+  const { setUpdateMovie, updateMovie, isLoading } = useMasterAdmin();
 
   function handleCastList(data, index) {
     const newCastList = [...castList];
@@ -59,37 +59,33 @@ function UpdatePage({ setIsUpdatePage }) {
   }
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem("UpdateMovieData");
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setLanguage(parsedData.language || []);
-      setCastList(parsedData.castList || []);
-      settitle(parsedData.title || "");
-      setgenre(parsedData.genre || []);
-      setDuration(parsedData.duration || "");
-      setReleaseDate(parsedData.releaseDate || "");
-      setCBFCrating(parsedData.CBFCrating || "");
-      setPoster(parsedData.poster || "");
-      setTrailerUrl(parsedData.trailerUrl || "");
-      setSynopsis(parsedData.synopsis || "");
+    if (updateMovie !== null) {
+      setLanguage(updateMovie.language || []);
+      setCastList(updateMovie.castList || []);
+      settitle(updateMovie.title || "");
+      setgenre(updateMovie.genre || []);
+      setDuration(updateMovie.duration || "");
+      setReleaseDate(updateMovie.releaseDate || "");
+      setCBFCrating(updateMovie.CBFCrating || "");
+      setPoster(updateMovie.poster || "");
+      setTrailerUrl(updateMovie.trailerUrl || "");
+      setSynopsis(updateMovie.synopsis || "");
     }
     setIsFetching(false);
-  }, []);
+  }, [updateMovie]);
 
   useEffect(() => {
-    const movieData = {
-      language,
-      castList,
-      title,
-      genre,
-      duration,
-      releaseDate,
-      CBFCrating,
-      poster,
-      trailerUrl,
-      synopsis
-    };
-    sessionStorage.setItem("UpdateMovieData", JSON.stringify(movieData));
+    updateMovie.castList = castList;
+    updateMovie.title = title;
+    updateMovie.genre = genre;
+    updateMovie.duration = duration;
+    updateMovie.releaseDate = releaseDate;
+    updateMovie.CBFCrating = CBFCrating;
+    updateMovie.poster = poster;
+    updateMovie.trailerUrl = trailerUrl;
+    updateMovie.synopsis = synopsis;
+    updateMovie.language = language;
+    setUpdateMovie(updateMovie);
   }, [
     castList,
     title,
