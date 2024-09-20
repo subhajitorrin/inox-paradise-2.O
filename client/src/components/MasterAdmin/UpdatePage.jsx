@@ -50,7 +50,8 @@ function UpdatePage({ setIsUpdatePage }) {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
 
-  const { setUpdateMovie, updateMovie, isLoading } = useMasterAdmin();
+  const { setUpdateMovie, updateMovieToBackend, updateMovie, isLoading } =
+    useMasterAdmin();
 
   function handleCastList(data, index) {
     const newCastList = [...castList];
@@ -60,8 +61,6 @@ function UpdatePage({ setIsUpdatePage }) {
 
   useEffect(() => {
     if (updateMovie !== null) {
-      console.log(updateMovie.releaseDate);
-
       setLanguage(updateMovie.language || []);
       setCastList(updateMovie.castList || []);
       settitle(updateMovie.title || "");
@@ -105,7 +104,7 @@ function UpdatePage({ setIsUpdatePage }) {
     language
   ]);
 
-  async function handleAddMovie() {
+  async function handleUpdateMovie() {
     if (
       !title ||
       !genre.length > 0 ||
@@ -134,7 +133,8 @@ function UpdatePage({ setIsUpdatePage }) {
       synopsis
     };
     try {
-      console.log(movieData);
+      await updateMovieToBackend(movieData);
+      setIsUpdatePage(false);
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +159,7 @@ function UpdatePage({ setIsUpdatePage }) {
             Movie Title
           </label>
           <input
-            onChange={(e) => settitle(e.target.value.trim())}
+            onChange={(e) => settitle(e.target.value)}
             value={title}
             type="text"
             placeholder="Enter movie title"
@@ -264,7 +264,7 @@ function UpdatePage({ setIsUpdatePage }) {
         </div>
         <button
           disabled={isLoading}
-          onClick={handleAddMovie}
+          onClick={handleUpdateMovie}
           className="text-[15px] font-[500] w-[85%] mx-[1rem] py-[5px] rounded-[5px] bg-[#3eab03]"
         >
           {isLoading ? (

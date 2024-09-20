@@ -222,6 +222,18 @@ async function updateMovie(req, res) {
   if (role !== "masteradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  const { movieData } = req.body;
+  try {
+    console.log(movieData);
+    return res
+      .status(200)
+      .json({ message: "Movie updated successfully", movie: movieData });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while updating movie", error });
+  }
 }
 
 export {
