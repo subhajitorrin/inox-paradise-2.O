@@ -14,8 +14,8 @@ const useMovie = create(
       isLoading: false,
       getMovies: async () => {
         try {
-          const movies = await axios.get(`${BASE_URL}/get-all-movies`);
-          set({ movieList: movies });
+          const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
+          set({ movieList: data });
         } catch (error) {
           console.log(error);
         }
@@ -23,7 +23,7 @@ const useMovie = create(
     }),
     {
       name: "Movie-Store",
-      partialize: (state) => ({ movieList: state.movieList }),
+      partialize: (state) => ({}),
       storage: createJSONStorage(() => sessionStorage)
     }
   )
