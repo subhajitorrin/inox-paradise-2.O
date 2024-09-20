@@ -149,6 +149,7 @@ function AddMovie() {
   return (
     <div className="h-full w-full p-[1rem] flex justify-between overflow-y-auto">
       <div className="flex flex-col gap-[1rem] w-[50%] items-center">
+        <p className="font-[500]">*Provide Movie Details and Add to Database</p>
         {/* title */}
         <div className="flex gap-[10px] items-center">
           <label htmlFor="movietitle" className="font-[500] w-[100px]">
