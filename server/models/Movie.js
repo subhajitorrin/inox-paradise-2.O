@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const castSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    image: String
+    profile: String
   },
   { _id: false }
 );
@@ -18,7 +18,7 @@ const movieSchema = new mongoose.Schema(
     language: { type: [String], required: true },
     poster: { type: String, required: true },
     trailerUrl: String,
-    rating: Number,
+    rating: { type: Number, default: 0.0 },
     cast: [castSchema],
     synopsis: { type: String, required: true },
     popularity: { type: Number, default: 0 },
@@ -31,6 +31,6 @@ const movieSchema = new mongoose.Schema(
   }
 );
 
-const MovieModel = mongoose.model("currentmovies", movieSchema);
+const MovieModel = mongoose.model("Movie", movieSchema);
 
 export default MovieModel;

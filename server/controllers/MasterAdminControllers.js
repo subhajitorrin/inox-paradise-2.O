@@ -6,6 +6,7 @@ import TheaterAdminModel from "../models/TheaterAdmin.js";
 import generateOtp from "../utils/generateOtp.js";
 import otpModel from "../models/OTP.js";
 import mailSender from "../utils/SendMail.js";
+import MovieModel from "../models/Movie.js";
 
 dotenv.config();
 
@@ -205,9 +206,19 @@ async function addMovie(req, res) {
   if (role !== "masteradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   const { movieData } = req.body;
-  console.log(movieData);
-  return res.json({ message: "Movie addedd successfully" });
+
+  try {
+    const newMovie = new MovieModel(movieData);
+    await newMovie.save();
+    return res.json({ message: "Movie added successfully" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error adding movie", error: error.message });
+  }
 }
 
 export {
