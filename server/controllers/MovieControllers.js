@@ -1,10 +1,13 @@
+import MovieModel from "../models/Movie.js";
+
 async function getAllMovies(req, res) {
-  const { id, email, role, name } = req;
-  return res.status(200).json({ id, email, role, name });
+  try {
+    const movies = await MovieModel.find({});
+    return res.status(200).json(movies);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching movies" });
+  }
 }
 
-async function addMovie(req,res){
-
-}
-
-export { getAllMovies, addMovie };
+export { getAllMovies };
