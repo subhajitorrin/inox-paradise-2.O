@@ -40,7 +40,13 @@ function MovieRowCard({ movie }) {
 }
 
 function MovieRows({ title, list }) {
+  const [movieList, setMovieList] = useState([]);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    setMovieList(list);
+  }, [list]);
+
   const handleSlideRight = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({ left: 500, behavior: "smooth" });
@@ -68,7 +74,7 @@ function MovieRows({ title, list }) {
         ref={containerRef}
         className="flex gap-[1.0rem] scrollNone overflow-x-auto w-full"
       >
-        {list.map((movie, index) => {
+        {movieList.map((movie, index) => {
           return <MovieRowCard key={index} movie={movie} />;
         })}
       </div>
