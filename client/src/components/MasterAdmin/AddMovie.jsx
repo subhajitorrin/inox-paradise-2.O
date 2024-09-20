@@ -38,7 +38,6 @@ const languageList = [
 
 function AddMovie() {
   const [isFetching, setIsFetching] = useState(true);
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState([]);
   const [castList, setCastList] = useState([]);
   const [title, settitle] = useState("");
@@ -46,17 +45,12 @@ function AddMovie() {
   const [duration, setDuration] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [CBFCrating, setCBFCrating] = useState("");
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState([]);
   const [poster, setPoster] = useState("");
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
 
   const { addMovie, isLoading } = useMasterAdmin();
-
-  useEffect(() => {
-    const list = selectedLanguages.map((lang) => lang.name);
-    setLanguage(list);
-  }, [selectedLanguages]);
 
   function handleCastList(data, index) {
     const newCastList = [...castList];
@@ -68,7 +62,7 @@ function AddMovie() {
     const savedData = sessionStorage.getItem("movieData");
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      setSelectedLanguages(parsedData.selectedLanguages || []);
+      setLanguage(parsedData.language || []);
       setCastList(parsedData.castList || []);
       settitle(parsedData.title || "");
       setgenre(parsedData.genre || "");
@@ -84,7 +78,7 @@ function AddMovie() {
 
   useEffect(() => {
     const movieData = {
-      selectedLanguages,
+      language,
       castList,
       title,
       genre,
@@ -97,7 +91,6 @@ function AddMovie() {
     };
     sessionStorage.setItem("movieData", JSON.stringify(movieData));
   }, [
-    selectedLanguages,
     castList,
     title,
     genre,
@@ -106,7 +99,8 @@ function AddMovie() {
     CBFCrating,
     poster,
     trailerUrl,
-    synopsis
+    synopsis,
+    language
   ]);
 
   async function handleAddMovie() {
@@ -154,7 +148,7 @@ function AddMovie() {
   if (isFetching === true) return <></>;
 
   return (
-    <div className="h-full w-full p-[1rem] flex justify-between">
+    <div className="h-full w-full p-[1rem] flex justify-between overflow-y-auto">
       <div className="flex flex-col gap-[1rem] w-[50%] items-center">
         {/* title */}
         <div className="flex gap-[10px] items-center">
@@ -266,13 +260,15 @@ function AddMovie() {
           <Multiselect
             options={languageList.map((item) => ({ name: item }))}
             displayValue="name"
-            selectedValues={selectedLanguages}
-            onSelect={(selectedList, selectedItem) =>
-              setSelectedLanguages(selectedList)
-            }
-            onRemove={(selectedList, removedItem) =>
-              setSelectedLanguages(selectedList)
-            }
+            selectedValues={language.map((item) => ({ name: item }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setLanguage(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setLanguage(list);
+            }}
             className="w-[400px] bg-[#353333]"
             style={{
               option: {
