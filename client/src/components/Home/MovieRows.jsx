@@ -7,7 +7,7 @@ function MovieRowCard() {
   const [title, settitle] = useState("Kaha shuru kaha khatam Kaha shuru");
   const [imageList, setImageList] = useState("");
   return (
-    <div className="">
+    <div className="cursor-pointer">
       <img
         src={imageList}
         className="border border-black w-[230px] h-[350px] rounded-[10px]"
@@ -30,9 +30,9 @@ function MovieRowCard() {
   );
 }
 
-function MovieRows() {
+function MovieRows(MovieList) {
   return (
-    <div className="w-[100%] my-[1rem] px-[10%]">
+    <div className="w-[100%] my-[1.5rem] px-[10%]">
       <h2 className="text-[18px] font-[500] mb-[10px]">Recommended Movies</h2>
       <div className="flex gap-[1.0rem] scrollNone overflow-x-auto w-full">
         <MovieRowCard />

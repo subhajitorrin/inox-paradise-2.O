@@ -9,6 +9,8 @@ function Home() {
       <Navbar />
       <Carousol />
       <MovieRows />
+      <MovieRows />
+      <MovieRows />
     </div>
   );
 }
