@@ -12,6 +12,7 @@ const useMovie = create(
     (set, get) => ({
       movieList: [],
       upcomingMoviesList: [],
+      newReleaseMovieList: [],
       isLoading: false,
       getMovies: async () => {
         try {
@@ -25,6 +26,14 @@ const useMovie = create(
         try {
           const { data } = await axios.get(`${BASE_URL}/get-upcoming-movies`);
           set({ upcomingMoviesList: data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getNewReleaseMovies: async () => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/get-newrelease-movies`);
+          set({ newReleaseMovieList: data });
         } catch (error) {
           console.log(error);
         }
