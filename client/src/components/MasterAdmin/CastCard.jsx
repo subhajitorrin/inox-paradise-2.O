@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 function CastCard({ index, item, handleCastList }) {
-
   const [name, setName] = useState("");
   const [profile, setProfile] = useState("");
 
   useEffect(() => {
     handleCastList({ name, profile }, index);
   }, [name, profile]);
+
+  useEffect(() => {
+    setName(item.name);
+    setProfile(item.profile);
+  }, [item]);
 
   return (
     <div className="flex gap-[1rem] flex-col border-y py-[20px] border-[#353333]">

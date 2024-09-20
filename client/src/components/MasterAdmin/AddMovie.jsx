@@ -134,6 +134,17 @@ function AddMovie() {
       synopsis
     };
     await addMovie(movieData);
+    // settitle("");
+    // setgenre("");
+    // setDuration("");
+    // setReleaseDate("");
+    // setCBFCrating("");
+    // setLanguage("");
+    // setPoster("");
+    // setTrailerUrl("");
+    // setSynopsis("");
+    // setCastList([]);
+    // setSelectedLanguages([]);
   }
 
   if (isFetching === true) return <></>;
@@ -324,26 +335,28 @@ function AddMovie() {
             />
           );
         })}
-        <div className="flex justify-center gap-[1rem]">
-          <button
-            onClick={() => {
-              setCastList((prev) => [...prev, { name: "", photo: "" }]);
-            }}
-            className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
-          >
-            New Cast
-          </button>
-          {castList.length > 0 && (
+        {!isLoading && (
+          <div className="flex justify-center gap-[1rem]">
             <button
               onClick={() => {
-                setCastList((prev) => prev.slice(0, -1));
+                setCastList((prev) => [...prev, { name: "", photo: "" }]);
               }}
-              className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d13d02]"
+              className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d18c02]"
             >
-              Remove Cast
+              New Cast
             </button>
-          )}
-        </div>
+            {castList.length > 0 && (
+              <button
+                onClick={() => {
+                  setCastList((prev) => prev.slice(0, -1));
+                }}
+                className="text-[15px] font-[500] px-[20px] py-[5px] rounded-[5px] bg-[#d13d02]"
+              >
+                Remove Cast
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

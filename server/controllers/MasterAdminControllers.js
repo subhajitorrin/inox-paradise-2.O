@@ -207,6 +207,7 @@ async function addMovie(req, res) {
   }
   const { movieData } = req.body;
   console.log(movieData);
+  return res.json({ message: "Movie addedd successfully" });
 }
 
 export {
