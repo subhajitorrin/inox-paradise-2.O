@@ -9,7 +9,7 @@ import MovieRows from "../components/Home/MovieRows";
 import { useMobile } from "../store/ScreenWidth";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { IoShareSocial } from "react-icons/io5";
-import { IoTicketOutline } from "react-icons/io5";
+import { FaChevronRight } from "react-icons/fa6";
 
 function movie() {
   const { id } = useParams();
@@ -63,16 +63,90 @@ function movie() {
     return (
       movie && (
         <div className="relative w-full">
-          <div className="px-[3%] fixed top-0 w-full bg-white py-[15px] font-[500] text-[90%] flex justify-between items-center">
+          <div className="h-[60px] px-[3%] fixed top-0 w-full bg-white font-[500] text-[90%] flex justify-between items-center">
             <div className="flex items-center gap-[20px]">
-              <IoChevronBackSharp className="text-[22px]" />
+              <IoChevronBackSharp
+                onClick={() => {
+                  navigate(-1);
+                }}
+                className="text-[22px]"
+              />
               <p className="text-[1.3rem] font-[600]">{movie.title}</p>
             </div>
             <IoShareSocial className="text-[22px]" />
           </div>
 
-          <div className="fixed w-full bottom-0">
-            <div className="px-[3%]">
+          <div className="py-[15%]  px-[3%]">
+            {/* trailer youtube */}
+            <div className="rounded-[10px] overflow-hidden h-[30vh]">
+              {isLoading && <div className="h-[420px]"></div>}
+              <YouTube
+                videoId={getYouTubeId(movie.trailerUrl)}
+                opts={{
+                  height: "100%",
+                  width: "100%",
+                  playerVars: {
+                    autoplay: 0
+                  }
+                }}
+                onReady={() => setIsLoading(false)}
+                style={{
+                  height: "100%",
+                  bordeRadius: "10px"
+                }}
+                className={isLoading ? "hidden" : "block"}
+              />
+            </div>
+
+            {/* rating */}
+            <div className="bg-[#f1f4f9] mt-[1rem] py-[15px] px-[10px] w-full rounded-[10px] flex items-center justify-between">
+              <div className="flex items-center gap-[5px] font-[500] 1.2rem">
+                <MdOutlineStarPurple500 className="text-[23px] text-[#F84464]" />
+                <p className="flex gap-[5px] items-center">
+                  {movie.rating}/10{" "}
+                  <span className="font-[400] text-[84%] flex items-center gap-[5px]">
+                    (120 ratings) <FaChevronRight className="text-[80%]" />
+                  </span>
+                </p>
+              </div>
+              <div className="border border-[#F84464] rounded-[5px] py-[2px] px-[5px]">
+                <p className="text-[#F84464] text-[82%] font-[500]">Rate now</p>
+              </div>
+            </div>
+
+            {/* detail */}
+            <div className="mt-[.5rem]">
+              {/* languages */}
+              <div className="flex items-center gap-[10px]">
+                {movie.language.map((item, index) => {
+                  return (
+                    <p
+                      key={index}
+                      className="text-[80%] bg-[#e2e2e2] font-[500] px-[7px] py-[2px] rounded-[3px]"
+                    >
+                      {item}
+                    </p>
+                  );
+                })}
+              </div>
+              {/* time genre cbfc releasedate */}
+              <div className="flex items-center gap-[5px] text-[82%] mt-[.5rem]">
+                <p className="">{formatMinutesToHours(movie.duration)}</p>•
+                <p>
+                  {movie.genre.map((item, index) => {
+                    if (index === movie.genre.length - 1)
+                      return <span key={index}>{item}</span>;
+                    else return <span key={index}>{item}, </span>;
+                  })}
+                </p>
+                •<p className="uppercase ">{movie.CBFCrating}</p>•
+                <p className="">{movie.releaseDate.slice(0, 10)}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="fixed w-full py-[20px] bottom-[0] h-[80px] flex items-center border border-black">
+            <div className="px-[3%] w-full">
               <button className="w-full bg-[#F84464] text-[1.2rem] text-white py-[10px] rounded-[7px] font-[600]">
                 Book Tickets
               </button>
