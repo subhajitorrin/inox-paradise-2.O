@@ -34,7 +34,7 @@ function movie() {
   }, [id]);
 
   const opts = {
-    height: "420",
+    height: "100%",
     width: "100%",
     playerVars: {
       autoplay: 0
@@ -64,7 +64,7 @@ function movie() {
             <div className=" h-full flex flex-col  gap-[5px] w-[320px]">
               <img
                 src={movie.poster}
-                className="h-[500px] w-[320px] object-cover rounded-[10px]"
+                className="h-[66vh] w-[21vw] object-cover rounded-[10px]"
               />
               <p className="text-[18px] font-bold">{movie.title}</p>
               <div className="items-center font-[500] flex gap-[5px] text-[85%]">
@@ -100,12 +100,15 @@ function movie() {
 
             {/* right */}
             <div className=" flex-1 h-full ">
-              <div className="rounded-[10px] overflow-hidden">
+              <div className="rounded-[10px] overflow-hidden h-[55vh]">
                 {isLoading && <div className="h-[420px]"></div>}
                 <YouTube
                   videoId={getYouTubeId(movie.trailerUrl)}
                   opts={opts}
                   onReady={() => setIsLoading(false)}
+                  style={{
+                    height: "100%"
+                  }}
                   className={isLoading ? "hidden" : "block"}
                 />
               </div>
