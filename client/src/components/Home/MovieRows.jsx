@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaChevronLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 function MovieRowCard({ movie }) {
+  const navigate = useNavigate();
   const [rating, setrating] = useState(0.0);
   const [genre, setgenre] = useState(["Action", "Horror"]);
   const [title, settitle] = useState("Kaha shuru kaha khatam Kaha shuru");
@@ -16,11 +18,13 @@ function MovieRowCard({ movie }) {
   }, [movie]);
 
   return (
-    <div className="cursor-pointer">
-      <img
-        src={imageList}
-        className="w-[230px] h-[350px] rounded-[10px]"
-      />
+    <div
+      className="cursor-pointer"
+      onClick={() => {
+        navigate(`/movie/${movie._id}`);
+      }}
+    >
+      <img src={imageList} className="w-[230px] h-[350px] rounded-[10px]" />
       <p className="w-[230px] text-[17px] font-[500]">{title}</p>
       <p className="font-[500] flex items-center gap-[5px]">
         <IoIosStar className="text-[#F84464]" />

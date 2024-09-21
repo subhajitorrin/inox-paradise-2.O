@@ -37,6 +37,14 @@ const useMovie = create(
         } catch (error) {
           console.log(error);
         }
+      },
+      getMovieById: async (id) => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/movie-by-id/${id}`);
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
       }
     }),
     {

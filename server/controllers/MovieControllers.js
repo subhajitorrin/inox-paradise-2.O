@@ -36,4 +36,17 @@ async function getNewReleaseMovies(req, res) {
   }
 }
 
-export { getAllMovies, getUpcomingMovies, getNewReleaseMovies };
+async function getMovieById(req, res) {
+  const { id } = req.params;
+  try {
+    const movie = await MovieModel.findById(id);
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+    return res.status(200).json(movie);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching movie" });
+  }
+}
+export { getAllMovies, getUpcomingMovies, getNewReleaseMovies, getMovieById };
