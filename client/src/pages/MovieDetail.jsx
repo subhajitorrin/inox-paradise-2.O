@@ -158,12 +158,40 @@ function movie() {
                   323 tickets booked in last 1 hour
                 </p>
               </div>
+              {/* review section */}
+              <div className=""></div>
+              {/* Cast section */}
+              <div className="">
+                <div className="flex gap-[20px] items-center mt-[1rem]">
+                  {movie.castList.map((item, index) => {
+                    return (
+                      <div className="flex flex-col gap-[5px]" key={index}>
+                        <div className="h-[100px] w-[100px] rounded-[50%] overflow-hidden">
+                          <img
+                            src={item.profile}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        <p className="font-[500] text-[85%] text-center">
+                          {item.name}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="fixed w-full py-[20px] bottom-[0] h-[80px] flex items-center border border-black">
+          <div className="fixed w-full py-[20px] bottom-[0] h-[80px] flex items-center ">
             <div className="px-[3%] w-full">
-              <button className="w-full bg-[#F84464] text-[1.2rem] text-white py-[10px] rounded-[7px] font-[600]">
+              <button
+                onClick={() => {
+                  navigate(`/schedule/${id}`);
+                }}
+                className="w-full bg-[#F84464] text-[1.2rem] text-white py-[10px] rounded-[7px] font-[600]"
+              >
                 Book Tickets
               </button>
             </div>
@@ -235,7 +263,7 @@ function movie() {
                 <button
                   className="bg-[#da4b63] text-[86%] text-white hover:bg-[#b94155] transition-all duration-200 ease-linear  font-[500] w-[60%] cursor-pointer py-[7px] rounded-[5px]"
                   onClick={() => {
-                    navigate(`/timings/${id}`);
+                    navigate(`/schedule/${id}`);
                   }}
                 >
                   Book Ticket
