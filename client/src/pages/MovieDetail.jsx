@@ -110,6 +110,25 @@ function movie() {
               </p>
             </div>
             <div className="border-t border-[#0000002a]"></div>
+            <div className="px-[5%] my-[10px]">
+              <h2 className="font-[600] text-[110%] mb-[10px]">Starring</h2>
+              <div className="flex gap-[20px] items-center">
+                {movie.castList.map((item, index) => {
+                  return (
+                    <div className="flex flex-col gap-[5px]" key={index}>
+                      <div className="h-[100px] w-[100px] rounded-[50%] overflow-hidden">
+                        <img
+                          src={item.profile}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <p className="font-[500] text-[85%] text-center">{item.name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       )}
