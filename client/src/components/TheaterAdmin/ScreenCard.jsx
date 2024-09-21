@@ -20,50 +20,62 @@ function ScreenCard({ screen }) {
       </div>
       <div className="flex gap-[1rem]">
         {/* left */}
-        <div className="border border-white h-[300px] w-[600px] rounded-[10px]"></div>
+        <div className="border border-white h-[300px] w-[50%] rounded-[10px]"></div>
         {/* right */}
-        <div>
-          <div className="flex gap-[10px] flex-col">
-            <label className="text-sm font-bold mb-1">Select Category:</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
-            >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+        <div className="items-center w-[50%] flex-col flex justify-center">
+          <div className="flex gap-[10px] flex-col ">
+            <div className="flex gap-[20px]">
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">
+                  Select Category:
+                </label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category,index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">Price:</label>
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Enter Price"
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                />
+              </div>
+            </div>
 
-            <label className="text-sm font-bold mb-1">Price:</label>
-            <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="Enter Price"
-              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
-            />
-
-            <label className="text-sm font-bold mb-1">Seats per Row:</label>
-            <input
-              type="number"
-              value={seatsPerRow}
-              onChange={(e) => setSeatsPerRow(e.target.value)}
-              placeholder="Enter Seats per Row"
-              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
-            />
-
-            <label className="text-sm font-bold mb-1">Gaps:</label>
-            <input
-              type="number"
-              value={gaps}
-              onChange={(e) => setGaps(e.target.value)}
-              placeholder="Enter Gaps"
-              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
-            />
+            <div className="flex gap-[20px]">
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">Seats per Row:</label>
+                <input
+                  type="number"
+                  value={seatsPerRow}
+                  onChange={(e) => setSeatsPerRow(e.target.value)}
+                  placeholder="Enter Seats per Row"
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">Gaps:</label>
+                <input
+                  type="number"
+                  value={gaps}
+                  onChange={(e) => setGaps(e.target.value)}
+                  placeholder="Enter Gaps"
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                />
+              </div>
+            </div>
 
             <button
               onClick={handleUpdate}

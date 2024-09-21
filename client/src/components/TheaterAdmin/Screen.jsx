@@ -8,7 +8,10 @@ function Screen() {
   const [refetch, setRefetch] = useState(false);
   const [screenName, setscreenName] = useState("");
   const [screenType, setscreenType] = useState("");
-  const { addScreen, screens, getScreens } = useTheaterAdmin();
+  const [categoryName, setCategoryName] = useState("");
+  const [selectedScreenForCategory, setSelectedScreenForCategory] =
+    useState("");
+  const { addScreen, screens, getScreens,addCategory } = useTheaterAdmin();
 
   useEffect(() => {
     getScreens();
@@ -27,9 +30,24 @@ function Screen() {
       console.log(error);
     }
   }
+  async function handleAddCategory() {
+    if (selectedScreenForCategory === "" || categoryName === "") {
+      toast.warn("Fill all the fields");
+      return;
+    }
+    try {
+      console.log(selectedScreenForCategory, categoryName);
+      await addCategory(selectedScreenForCategory, categoryName)
+      // setSelectedScreenForCategory("");
+      // setscreenType("");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="p-[10px] h-full">
       <div className="text-white flex justify-between items-center space-x-4 p-4 border border-[#ffffff2d] rounded-lg bg-transparent">
+        {/* lfet side add screen  */}
         <div className="flex gap-[20px] items-center">
           <div className="flex flex-col">
             <label htmlFor="screenName" className="text-sm font-bold mb-1">
@@ -91,9 +109,9 @@ function Screen() {
               id="selectScreen"
               name="selectScreen"
               onChange={(e) => {
-                setscreenType(e.target.value);
+                setSelectedScreenForCategory(e.target.value);
               }}
-              value={screenType}
+              value={selectedScreenForCategory}
               className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
             >
               <option value="">Select type</option>
@@ -113,9 +131,9 @@ function Screen() {
             </label>
             <input
               onChange={(e) => {
-                setscreenName(e.target.value);
+                setCategoryName(e.target.value);
               }}
-              value={screenName}
+              value={categoryName}
               type="text"
               id="screenName"
               name="screenName"
@@ -129,7 +147,7 @@ function Screen() {
               &nbsp;
             </label>
             <button
-              onClick={handleAddScreen}
+              onClick={handleAddCategory}
               className="bg-[#FF0051] text-white px-[20px] py-2 rounded-lg hover:bg-[#cf0142]"
             >
               Add Category
@@ -141,7 +159,6 @@ function Screen() {
       {/* display screens */}
       <div className="mt-[1rem] flex flex-col gap-[10px] h-[80%] overflow-y-auto scrollNone">
         {screens.map((item, index) => {
-          console.log(item);
           return <ScreenCard key={index} screen={item} />;
         })}
       </div>

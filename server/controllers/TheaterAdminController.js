@@ -7,7 +7,7 @@ import SeatModel from "../models/Seat.js";
 import SeatCategoryModel from "../models/SeatCategory.js";
 import mailSender from "../utils/SendMail.js";
 import generateOtp from "../utils/generateOtp.js";
-import ScreenModel from "../models/Screen.js"
+import ScreenModel from "../models/Screen.js";
 
 async function loginTheaterAdminWithOtp(req, res) {
   const { email, password } = req.body;
@@ -208,11 +208,56 @@ async function getScreens(req, res) {
   }
 }
 
+async function addCategory(req, res) {
+  const { role } = req;
+
+  // Check if the user is authorized to add a category
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { screenid } = req.params;
+
+  // Check if screenid is provided and is valid
+  if (!screenid) {
+    return res.status(400).json({ message: "Screen ID is required" });
+  }
+
+  try {
+    console.log(screenid);
+    
+    const screen = await ScreenModel.findById(screenid);
+
+    // Check if the screen exists in the database
+    if (!screen) {
+      return res.status(404).json({ message: "Screen not found" });
+    }
+
+    // Proceed to add the category (you can expand this part with your logic)
+    console.log(screen);
+
+    // Add the logic for category creation or update here (placeholder)
+    // Example: screen.categories.push({ name: "Category Name", price: 100, ... });
+
+    return res
+      .status(200)
+      .json({ message: "Category added successfully", screen });
+  } catch (error) {
+    console.error("Error fetching screen:", error);
+
+    // Handle database connection or query errors
+    return res
+      .status(500)
+      .json({ message: "Server error, please try again later" });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
   logout,
   getTheaterAdmin,
   addScreen,
-  getScreens
+  getScreens,
+  addCategory
 };

@@ -112,13 +112,29 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data || error.message);
           throw error;
         }
+      },
+      addCategory: async (screenId, categoryName) => {
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/screen/add-category/${screenId}`,
+            {
+              categoryName
+            }
+          );
+          toast.success("Category added successfully");
+          return data.category;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {
       name: "TheaterAdmin",
       partialize: (state) => ({
         isAdminAuthenticated: state.isAdminAuthenticated,
-        admin: state.admin
+        admin: state.admin,
+        screens: state.screens
       }),
       storage: createJSONStorage(() => sessionStorage)
     }
