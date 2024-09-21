@@ -13,6 +13,7 @@ const useMovie = create(
       movieList: [],
       upcomingMoviesList: [],
       newReleaseMovieList: [],
+      selectedDateIndexOnScheule: 0,
       isLoading: false,
       getMovies: async () => {
         try {
@@ -45,11 +46,16 @@ const useMovie = create(
         } catch (error) {
           console.log(error);
         }
+      },
+      setSelectedDate: (index) => {
+        set({ selectedDateIndexOnScheule: index });
       }
     }),
     {
       name: "Movie-Store",
-      partialize: (state) => ({}),
+      partialize: (state) => ({
+        selectedDateIndexOnScheule: state.selectedDateIndexOnScheule
+      }),
       storage: createJSONStorage(() => sessionStorage)
     }
   )

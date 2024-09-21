@@ -8,10 +8,10 @@ function MovieSchedule() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isMobile } = useMobile();
-  const { getMovieById } = useMovie();
+  const { getMovieById, selectedDateIndexOnScheule, setSelectedDate } =
+    useMovie();
   const [movie, setmovieDetail] = useState(null);
   const [dates, setDates] = useState([]);
-  const [selectedDate, setselectedDate] = useState(0);
 
   useEffect(() => {
     async function handleGetMovieById() {
@@ -80,10 +80,12 @@ function MovieSchedule() {
               return (
                 <div
                   onClick={() => {
-                    setselectedDate(index);
+                    setSelectedDate(index);
                   }}
                   className={`${
-                    selectedDate === index ? "bg-[#F84464] text-white" : ""
+                    selectedDateIndexOnScheule === index
+                      ? "bg-[#F84464] text-white"
+                      : ""
                   } flex flex-col items-center flex-[7] py-[10px] text-black text-[82%]`}
                   key={index}
                 >
