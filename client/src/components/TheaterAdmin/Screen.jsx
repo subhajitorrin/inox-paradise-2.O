@@ -11,7 +11,7 @@ function Screen() {
   const [categoryName, setCategoryName] = useState("");
   const [selectedScreenForCategory, setSelectedScreenForCategory] =
     useState("");
-  const { addScreen, screens, getScreens,addCategory } = useTheaterAdmin();
+  const { addScreen, screens, getScreens, addCategory } = useTheaterAdmin();
 
   useEffect(() => {
     getScreens();
@@ -37,9 +37,10 @@ function Screen() {
     }
     try {
       console.log(selectedScreenForCategory, categoryName);
-      await addCategory(selectedScreenForCategory, categoryName)
-      // setSelectedScreenForCategory("");
-      // setscreenType("");
+      await addCategory(selectedScreenForCategory, categoryName);
+      setRefetch(!refetch);
+      setSelectedScreenForCategory("");
+      setCategoryName("");
     } catch (error) {
       console.log(error);
     }

@@ -216,32 +216,31 @@ async function addCategory(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const { screenid } = req.params;
-
-  // Check if screenid is provided and is valid
-  if (!screenid) {
-    return res.status(400).json({ message: "Screen ID is required" });
+  const { categoryName } = req.body;
+  if (!categoryName) {
+    return res.status(400).json({ message: "Category name is required" });
   }
 
   try {
-    console.log(screenid);
-    
+    const { screenid } = req.params;
     const screen = await ScreenModel.findById(screenid);
-
-    // Check if the screen exists in the database
     if (!screen) {
       return res.status(404).json({ message: "Screen not found" });
     }
 
-    // Proceed to add the category (you can expand this part with your logic)
-    console.log(screen);
+    const newCategory = new SeatCategoryModel({
+      name: categoryName,
+      screen: screenid,
+      price: 0,
+      gaps: [],
+      layout: []
+    });
 
-    // Add the logic for category creation or update here (placeholder)
-    // Example: screen.categories.push({ name: "Category Name", price: 100, ... });
+    await newCategory.save();
 
     return res
       .status(200)
-      .json({ message: "Category added successfully", screen });
+      .json({ message: "Category added successfully", category: newCategory });
   } catch (error) {
     console.error("Error fetching screen:", error);
 

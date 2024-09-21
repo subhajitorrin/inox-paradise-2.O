@@ -7,7 +7,7 @@ const seatCategorySchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true
+    default: 0
   },
   screen: {
     type: mongoose.Schema.Types.ObjectId,
@@ -17,8 +17,7 @@ const seatCategorySchema = new mongoose.Schema({
   layout: [
     {
       row: {
-        type: String,
-        required: true
+        type: String
       },
       seats: [
         {
