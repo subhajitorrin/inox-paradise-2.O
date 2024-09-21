@@ -62,7 +62,7 @@ function Carousol() {
           })}
         </div>
       </div>
-      <div className="left-[-71.8%] h-[350px] my-[1rem] flex relative">
+      <div className="left-[-71.5%] h-[350px] my-[1rem] flex relative">
         {carousolList.map((item, index) => {
           return (
             <div
