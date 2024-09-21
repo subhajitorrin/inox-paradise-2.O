@@ -10,6 +10,7 @@ function movie() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [movie, setmovieDetail] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { getMovieById } = useMovie();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ function movie() {
   }, []);
 
   const opts = {
-    height: "450",
+    height: "420",
     width: "100%",
     playerVars: {
       autoplay: 0
@@ -48,10 +49,10 @@ function movie() {
       {movie && (
         <div className="px-[10%] w-full flex gap-[20px]">
           {/* left */}
-          <div className="border h-full flex flex-col  gap-[5px]">
+          <div className=" h-full flex flex-col  gap-[5px]">
             <img
               src={movie.poster}
-              className="h-[480px] w-[320px] object-cover rounded-[10px]"
+              className="h-[500px] w-[320px] object-cover rounded-[10px]"
             />
             <p className="text-[18px] font-bold">{movie.title}</p>
             <div className="items-center font-[500] flex gap-[5px] text-[85%]">
@@ -86,7 +87,30 @@ function movie() {
           </div>
 
           {/* right */}
-          <div className="border flex-1 h-full"></div>
+          <div className=" flex-1 h-full ">
+            <div className="rounded-[10px] overflow-hidden">
+              <YouTube
+                videoId={getYouTubeId(movie.trailerUrl)}
+                opts={opts}
+                onReady={() => setIsLoading(false)}
+                className={isLoading ? "hidden" : "block"}
+              />
+            </div>
+            <div className="my-[8px] flex justify-center w-full flex-col items-center gap-[5px]">
+              <button
+                className="bg-[#da4b63] text-[86%] text-white hover:bg-[#b94155] transition-all duration-200 ease-linear  font-[500] w-[60%] cursor-pointer py-[7px] rounded-[5px]"
+                onClick={() => {
+                  navigate(`/timings/${id}`);
+                }}
+              >
+                Book Ticket
+              </button>
+              <p className="font-[600] text-[85%]">
+                *Get ready to secure your spot! Check timings now.
+              </p>
+            </div>
+            <div className="border-t border-[#0000002a]"></div>
+          </div>
         </div>
       )}
     </>
