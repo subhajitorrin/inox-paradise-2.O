@@ -139,9 +139,27 @@ async function getTheaterAdmin(req, res) {
   }
 }
 
+async function addScreen(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { screenName, screenType } = req.body;
+  if (!screenName || !screenType) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+  try {
+    console.log(screenName, screenType);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error adding screen" });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
   logout,
-  getTheaterAdmin
+  getTheaterAdmin,
+  addScreen
 };

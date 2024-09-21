@@ -83,6 +83,22 @@ const useTheaterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+      addScreen: async (screenName, screenType) => {
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/screen/add-screen`,
+            {
+              screenName,
+              screenType
+            }
+          );
+          toast.success("Screen added successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {

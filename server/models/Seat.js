@@ -5,17 +5,9 @@ const seatSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  isAvailable: {
-    type: Boolean,
-    default: true
-  },
-  price: {
-    type: Number,
-    required: true
-  },
   category: {
-    type: String,
-    enum: ["Regular", "Premium", "VIP"],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SeatCategory",
     required: true
   },
   screen: {

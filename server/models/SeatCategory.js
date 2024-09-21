@@ -13,6 +13,7 @@ const seatCategorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Screen"
   },
+  gaps: [Number],
   layout: [
     {
       row: {
