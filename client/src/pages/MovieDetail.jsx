@@ -10,6 +10,7 @@ import { useMobile } from "../store/ScreenWidth";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { IoShareSocial } from "react-icons/io5";
 import { FaChevronRight } from "react-icons/fa6";
+import { IoMdTrendingUp } from "react-icons/io";
 
 function movie() {
   const { id } = useParams();
@@ -130,7 +131,7 @@ function movie() {
                 })}
               </div>
               {/* time genre cbfc releasedate */}
-              <div className="flex items-center gap-[5px] text-[82%] mt-[.5rem]">
+              <div className="font-[400] flex items-center gap-[5px] text-[82%] mt-[.5rem]">
                 <p className="">{formatMinutesToHours(movie.duration)}</p>•
                 <p>
                   {movie.genre.map((item, index) => {
@@ -141,6 +142,21 @@ function movie() {
                 </p>
                 •<p className="uppercase ">{movie.CBFCrating}</p>•
                 <p className="">{movie.releaseDate.slice(0, 10)}</p>
+              </div>
+              {/* synpsis */}
+              <div className="w-[320px] mt-[10px]">
+                <p className="font-[500] text-[87%]">About the movie</p>
+                <p className=" text-[85%]">{movie.synopsis}</p>
+              </div>
+              {/* isTrending */}
+              <div className="flex gap-[10px] items-center shadow-lg border border-[#00000022] px-[10px] py-[7px] rounded-[5px] mt-[10px]">
+                <div className="text-[white] px-[10px] py-[3px] rounded-[5px] font-[500] text-[84%] flex items-center gap-[5px] bg-[#0076e8]">
+                  <IoMdTrendingUp className="" />
+                  <p>Trending</p>
+                </div>
+                <p className="text-[84%] font-[500]">
+                  323 tickets booked in last 1 hour
+                </p>
               </div>
             </div>
           </div>
