@@ -3,12 +3,19 @@ import { IoMdSearch } from "react-icons/io";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoTicketOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <div className="w-full py-[20px] bg-[white] flex justify-between items-center px-[10%]">
       <div className="flex gap-[2rem] items-center">
-        <h2 className="text-black font-bold text-[22px] flex items-center gap-[2px]">
+        <h2
+          onClick={() => {
+            navigate("/");
+          }}
+          className="text-black cursor-pointer font-bold text-[22px] flex items-center gap-[2px]"
+        >
           <span>INOX</span>
           <IoTicketOutline className="text-[30px]" />
           <span>PARADISE</span>

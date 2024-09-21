@@ -46,12 +46,12 @@ function movie() {
     <>
       <Navbar />
       {movie && (
-        <div className="px-[10%] w-full h-screen flex gap-[20px]">
+        <div className="px-[10%] w-full flex gap-[20px]">
           {/* left */}
           <div className="border h-full flex flex-col  gap-[5px]">
             <img
               src={movie.poster}
-              className="h-[450px] w-[300px] object-cover rounded-[10px]"
+              className="h-[480px] w-[320px] object-cover rounded-[10px]"
             />
             <p className="text-[18px] font-bold">{movie.title}</p>
             <div className="items-center font-[500] flex gap-[5px] text-[85%]">
@@ -61,6 +61,27 @@ function movie() {
                 <MdOutlineStarPurple500 className="text-[20px] text-[#F84464]" />
                 <p className="">{movie.rating}/10</p>
               </div>
+            </div>
+            <div className="text-[85%] font-[500] flex gap-[10px]">
+              {movie.language.map((item, index) => {
+                return <p key={index}>{item}</p>;
+              })}
+            </div>
+            <div className="text-[85%] font-[500] flex gap-[10px]">
+              {movie.genre.map((item, index) => {
+                return (
+                  <p
+                    key={index}
+                    className="bg-[#dddddd] py-[2px] px-[7px] rounded-[5px] text-[85%]"
+                  >
+                    {item}
+                  </p>
+                );
+              })}
+            </div>
+            <div className="w-[320px] mt-[10px]">
+              <p className="font-[500] text-[87%]">About the movie</p>
+              <p className=" text-[85%]">{movie.synopsis}</p>
             </div>
           </div>
 
