@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MovieDetail from "./pages/MovieDetail";
 import { useMobile } from "./store/ScreenWidth";
+import MovieSchedule from "./pages/MovieSchedule";
 
 function App() {
   const { setMobile } = useMobile();
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route path="/schedule/:id" element={<MovieSchedule />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/masteradmin/*" element={<MasterAdmin />} />
         <Route path="*" element={<Navigate to="/" />} />
