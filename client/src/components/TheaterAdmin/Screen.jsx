@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useTheaterAdmin from "../../store/TheaterAdmin";
 import { set } from "mongoose";
+import ScreenCard from "./ScreenCard";
 
 function Screen() {
   const [refetch, setRefetch] = useState(false);
@@ -27,7 +28,7 @@ function Screen() {
     }
   }
   return (
-    <div className="p-[10px]">
+    <div className="p-[10px] h-full">
       <div className="text-white flex justify-between items-center space-x-4 p-4 border border-[#ffffff2d] rounded-lg bg-transparent">
         <div className="flex gap-[20px] items-center">
           <div className="flex flex-col">
@@ -67,21 +68,81 @@ function Screen() {
               <option value="4DX">4DX</option>
             </select>
           </div>
+          <div className="flex flex-col">
+            <label htmlFor="screenName" className="text-sm font-bold mb-1">
+              &nbsp;
+            </label>
+            <button
+              onClick={handleAddScreen}
+              className="bg-[#FF0051] text-white px-[20px] py-2 rounded-lg hover:bg-[#cf0142]"
+            >
+              Add Screen
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={handleAddScreen}
-          className="bg-[#FF0051] text-white px-[20px] py-[5px] rounded-lg hover:bg-[#cf0142]"
-        >
-          Add
-        </button>
+        {/* right side add category for a screen */}
+        <div className="flex gap-[20px] items-center">
+          <div className="flex flex-col">
+            <label htmlFor="selectScreen" className="text-sm font-bold mb-1">
+              Select screen:
+            </label>
+            <select
+              id="selectScreen"
+              name="selectScreen"
+              onChange={(e) => {
+                setscreenType(e.target.value);
+              }}
+              value={screenType}
+              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
+            >
+              <option value="">Select type</option>
+              {screens.map((item, index) => {
+                return (
+                  <option key={index} value={item._id}>
+                    {item.screenName}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="screenName" className="text-sm font-bold mb-1">
+              Category Name:
+            </label>
+            <input
+              onChange={(e) => {
+                setscreenName(e.target.value);
+              }}
+              value={screenName}
+              type="text"
+              id="screenName"
+              name="screenName"
+              placeholder="Enter Category Name"
+              className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="screenName" className="text-sm font-bold mb-1">
+              &nbsp;
+            </label>
+            <button
+              onClick={handleAddScreen}
+              className="bg-[#FF0051] text-white px-[20px] py-2 rounded-lg hover:bg-[#cf0142]"
+            >
+              Add Category
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* display screens */}
-      <div className="">
+      <div className="mt-[1rem] flex flex-col gap-[10px] h-[80%] overflow-y-auto scrollNone">
         {screens.map((item, index) => {
           console.log(item);
-          return <div className="" key={index}></div>;
+          return <ScreenCard key={index} screen={item} />;
         })}
       </div>
     </div>
