@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaChevronLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useMobile } from "../../store/ScreenWidth";
 
 function MovieRowCard({ movie }) {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ function MovieRowCard({ movie }) {
 function MovieRows({ title, list }) {
   const [movieList, setMovieList] = useState([]);
   const containerRef = useRef(null);
+  const { isMobile } = useMobile();
 
   useEffect(() => {
     setMovieList(list);
@@ -62,7 +64,9 @@ function MovieRows({ title, list }) {
     }
   };
   return (
-    <div className="w-[100%] my-[1.5rem] px-[10%]">
+    <div
+      className={`w-[100%] my-[1.5rem]  ${isMobile ? "px-[5%]" : "px-[10%]"}`}
+    >
       <div className="flex justify-between items-center">
         <h2 className="text-[18px] font-[500] mb-[10px]">{title}</h2>
         <div className="flex gap-[10px] mr-[10px]">

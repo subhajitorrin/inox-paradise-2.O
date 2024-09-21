@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useMobile } from "../../store/ScreenWidth";
 
 function Carousol() {
   const sliderRefs = useRef([]);
@@ -13,6 +14,7 @@ function Carousol() {
     "https://res.cloudinary.com/orrin/image/upload/v1723224616/5_ivc7si.jpg",
     "https://res.cloudinary.com/orrin/image/upload/v1723224616/1_na4rzn.jpg"
   ]);
+  const { isMobile } = useMobile();
 
   useEffect(() => {
     sliderRefs.current.forEach((item, index) => {
@@ -62,12 +64,18 @@ function Carousol() {
           })}
         </div>
       </div>
-      <div className="left-[-71.5%] h-[350px] my-[1rem] flex relative">
+      <div
+        className={`${
+          isMobile ? "left-[-91%] h-[200px]" : "left-[-71.5%] h-[350px]"
+        }  my-[1rem] flex relative`}
+      >
         {carousolList.map((item, index) => {
           return (
             <div
               ref={(el) => (sliderRefs.current[index] = el)}
-              className="min-w-[81%] px-[10px] transition-all ease-linear duration-300  rounded-[5px] overflow-hidden"
+              className={`${
+                isMobile ? "min-w-[94%]" : "min-w-[81%]"
+              }  px-[10px] transition-all ease-linear duration-300  rounded-[5px] overflow-hidden`}
               key={index}
             >
               <div
