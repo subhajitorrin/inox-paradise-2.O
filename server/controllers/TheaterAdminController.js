@@ -197,7 +197,7 @@ async function getScreens(req, res) {
   }
   const { id } = req;
   try {
-    const screens = await ScreenModel.find({ theater: id });
+    const screens = await ScreenModel.find({ theater: id }).populate("SeatCategory");
     if (!screens) {
       return res.status(404).json({ message: "Screens not found" });
     }
@@ -237,6 +237,8 @@ async function addCategory(req, res) {
     });
 
     await newCategory.save();
+    screen.category.push(newCategory._id);
+    await screen.save();
 
     return res
       .status(200)

@@ -1,17 +1,24 @@
-import React, { useState } from "react";
-
-const categories = ["Diamond", "Silver", "Gold"];
+import React, { useEffect, useState } from "react";
+import useTheaterAdmin from "../../store/TheaterAdmin";
 
 function ScreenCard({ screen }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [price, setPrice] = useState("");
   const [seatsPerRow, setSeatsPerRow] = useState("");
   const [gaps, setGaps] = useState("");
+  const [categories, setcategories] = useState([]);
 
   const handleUpdate = () => {
     // Logic to update the category details
     console.log({ selectedCategory, price, seatsPerRow, gaps });
   };
+
+  const { screens } = useTheaterAdmin();
+
+  useEffect(() => {
+    const filteredCategories = screens.find((item) => item._id === screen._id);
+    setcategories(filteredCategories.category);
+  }, [screens]);
 
   return (
     <div className="px-[20px] border-y border-[#ffffff24] py-[10px]">
@@ -35,9 +42,9 @@ function ScreenCard({ screen }) {
                   className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
                 >
                   <option value="">Select a category</option>
-                  {categories.map((category,index) => (
-                    <option key={index} value={category}>
-                      {category}
+                  {categories.map((category, index) => (
+                    <option key={index} value={category._id}>
+                      {category.name}
                     </option>
                   ))}
                 </select>
