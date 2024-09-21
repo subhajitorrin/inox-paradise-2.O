@@ -79,7 +79,7 @@ function movie() {
 
           <div className="py-[15%]  px-[3%]">
             {/* trailer youtube */}
-            <div className="rounded-[10px] overflow-hidden h-[30vh]">
+            <div className="rounded-[10px] z-[10] overflow-hidden relative h-[30vh]">
               {isLoading && <div className="h-[420px]"></div>}
               <YouTube
                 videoId={getYouTubeId(movie.trailerUrl)}
