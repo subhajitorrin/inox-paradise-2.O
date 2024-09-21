@@ -61,6 +61,7 @@ function MovieSchedule() {
     return (
       movie && (
         <div className="">
+          {/* top section */}
           <div className="py-[20px] border px-[3%] w-full bg-white font-[500] text-[90%] flex justify-between items-center">
             <div className="flex items-center gap-[20px]">
               <IoChevronBackSharp
@@ -74,7 +75,7 @@ function MovieSchedule() {
             <IoIosOptions className="text-[22px]" />
           </div>
 
-          {/* movide detail */}
+          {/* dates section */}
           <div className="flex border-y border-[#00000015]">
             {dates.map((item, index) => {
               return (
@@ -96,6 +97,9 @@ function MovieSchedule() {
               );
             })}
           </div>
+
+          {/* schedule section */}
+          <div className=""></div>
         </div>
       )
     );
