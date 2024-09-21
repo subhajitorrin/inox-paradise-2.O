@@ -4,11 +4,12 @@ import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
 import useMovie from "../store/Movie";
 import Navbar from "../components/Navbar/Navbar";
+import { MdOutlineStarPurple500 } from "react-icons/md";
 
-function MovieDetail() {
+function movie() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [movieDetail, setmovieDetail] = useState(null);
+  const [movie, setmovieDetail] = useState(null);
   const { getMovieById } = useMovie();
 
   useEffect(() => {
@@ -35,17 +36,32 @@ function MovieDetail() {
     return match ? match[1] : null;
   }
 
+  function formatMinutesToHours(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}hr ${mins}m`;
+  }
+
   return (
     <>
       <Navbar />
-      {movieDetail && (
+      {movie && (
         <div className="px-[10%] w-full h-screen flex gap-[20px]">
           {/* left */}
-          <div className="border h-full">
+          <div className="border h-full flex flex-col  gap-[5px]">
             <img
-              src={movieDetail.poster}
+              src={movie.poster}
               className="h-[450px] w-[300px] object-cover rounded-[10px]"
             />
+            <p className="text-[18px] font-bold">{movie.title}</p>
+            <div className="items-center font-[500] flex gap-[5px] text-[85%]">
+              <p className="">{formatMinutesToHours(movie.duration)}</p>•
+              <p className="">{movie.releaseDate.slice(0, 10)}</p>•
+              <div className="flex items-center gap-[2px]">
+                <MdOutlineStarPurple500 className="text-[20px] text-[#F84464]" />
+                <p className="">{movie.rating}/10</p>
+              </div>
+            </div>
           </div>
 
           {/* right */}
@@ -56,4 +72,4 @@ function MovieDetail() {
   );
 }
 
-export default MovieDetail;
+export default movie;
