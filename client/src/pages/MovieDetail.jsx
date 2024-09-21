@@ -6,6 +6,10 @@ import useMovie from "../store/Movie";
 import Navbar from "../components/Navbar/Navbar";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import MovieRows from "../components/Home/MovieRows";
+import { useMobile } from "../store/ScreenWidth";
+import { IoChevronBackSharp } from "react-icons/io5";
+import { IoShareSocial } from "react-icons/io5";
+import { IoTicketOutline } from "react-icons/io5";
 
 function movie() {
   const { id } = useParams();
@@ -13,6 +17,7 @@ function movie() {
   const [movie, setmovieDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { getMovieById } = useMovie();
+  const { isMobile } = useMobile();
 
   const { newReleaseMovieList, getNewReleaseMovies } = useMovie();
   useEffect(() => {
@@ -52,6 +57,30 @@ function movie() {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}hr ${mins}m`;
+  }
+
+  if (isMobile) {
+    return (
+      movie && (
+        <div className="relative w-full">
+          <div className="px-[3%] fixed top-0 w-full bg-white py-[15px] font-[500] text-[90%] flex justify-between items-center">
+            <div className="flex items-center gap-[20px]">
+              <IoChevronBackSharp className="text-[22px]" />
+              <p className="text-[1.3rem] font-[600]">{movie.title}</p>
+            </div>
+            <IoShareSocial className="text-[22px]" />
+          </div>
+
+          <div className="fixed w-full bottom-0">
+            <div className="px-[3%]">
+              <button className="w-full bg-[#F84464] text-[1.2rem] text-white py-[10px] rounded-[7px] font-[600]">
+                Book Tickets
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    );
   }
 
   return (
