@@ -149,6 +149,11 @@ async function addScreen(req, res) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
+    const { id } = req;
+    const theaterAdmin = TheaterAdminModel.findById(id);
+    if (!theaterAdmin) {
+      return res.status(404).json({ message: "Admin not found!" });
+    }
     console.log(screenName, screenType);
   } catch (error) {
     console.log(error);
