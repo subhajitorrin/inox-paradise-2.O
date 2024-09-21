@@ -89,6 +89,7 @@ function movie() {
           {/* right */}
           <div className=" flex-1 h-full ">
             <div className="rounded-[10px] overflow-hidden">
+              {isLoading && <div className="h-[420px]"></div>}
               <YouTube
                 videoId={getYouTubeId(movie.trailerUrl)}
                 opts={opts}
@@ -96,7 +97,7 @@ function movie() {
                 className={isLoading ? "hidden" : "block"}
               />
             </div>
-            <div className="my-[8px] flex justify-center w-full flex-col items-center gap-[5px]">
+            <div className="my-[10px] flex justify-center w-full flex-col items-center gap-[5px]">
               <button
                 className="bg-[#da4b63] text-[86%] text-white hover:bg-[#b94155] transition-all duration-200 ease-linear  font-[500] w-[60%] cursor-pointer py-[7px] rounded-[5px]"
                 onClick={() => {
@@ -123,7 +124,9 @@ function movie() {
                           className="h-full w-full object-cover"
                         />
                       </div>
-                      <p className="font-[500] text-[85%] text-center">{item.name}</p>
+                      <p className="font-[500] text-[85%] text-center">
+                        {item.name}
+                      </p>
                     </div>
                   );
                 })}
