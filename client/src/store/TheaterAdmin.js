@@ -13,6 +13,7 @@ const useTheaterAdmin = create(
       admin: null,
       isAdminAuthenticated: false,
       isLoading: false,
+      screens: [],
       sendOtpForTheaterRegistration: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -94,7 +95,19 @@ const useTheaterAdmin = create(
             }
           );
           toast.success("Screen added successfully");
-          return data;
+          return data.screen;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
+      },
+      getScreens: async () => {
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/theateradmin/screen/get-screens`
+          );
+          set({ screens: data.screens });
+          return data.screens;
         } catch (error) {
           toast.error(error.response?.data || error.message);
           throw error;

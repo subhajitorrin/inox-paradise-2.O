@@ -3,8 +3,11 @@ import jwt from "jsonwebtoken";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
 import MasterAdminModel from "../models/MasterAdmin.js";
 import otpModel from "../models/OTP.js";
+import SeatModel from "../models/Seat.js";
+import SeatCategoryModel from "../models/SeatCategory.js";
 import mailSender from "../utils/SendMail.js";
 import generateOtp from "../utils/generateOtp.js";
+import ScreenModel from "../models/Screen.js"
 
 async function loginTheaterAdminWithOtp(req, res) {
   const { email, password } = req.body;
@@ -139,6 +142,20 @@ async function getTheaterAdmin(req, res) {
   }
 }
 
+async function generateSeats(category, screen, n) {
+  const list = [];
+  for (let i = 0; i < n; i++) {
+    const seat = new SeatModel({
+      seatNumber: i + 1,
+      category,
+      screen
+    });
+    await seat.save();
+    list.push(seat);
+  }
+  return list;
+}
+
 async function addScreen(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -154,10 +171,40 @@ async function addScreen(req, res) {
     if (!theaterAdmin) {
       return res.status(404).json({ message: "Admin not found!" });
     }
-    console.log(screenName, screenType);
+
+    const newScreen = new ScreenModel({
+      screenName,
+      screenType,
+      theater: id
+    });
+
+    await newScreen.save();
+
+    return res.status(200).json({
+      message: "Screen added successfully",
+      screen: newScreen
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Error adding screen" });
+  }
+}
+
+async function getScreens(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { id } = req;
+  try {
+    const screens = await ScreenModel.find({ theater: id });
+    if (!screens) {
+      return res.status(404).json({ message: "Screens not found" });
+    }
+    return res.status(200).json({ message: "Screens found", screens });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetchinig screens" });
   }
 }
 
@@ -166,5 +213,6 @@ export {
   verifyOtpForTheaterAdmin,
   logout,
   getTheaterAdmin,
-  addScreen
+  addScreen,
+  getScreens
 };

@@ -6,13 +6,13 @@ const ScreenSchema = new mongoose.Schema({
     ref: "Theater",
     required: true
   },
-  name: {
+  screenName: {
     type: String,
     required: true
   },
   capacity: {
     type: Number,
-    required: true
+    default: 0
   },
   screenType: {
     type: String,

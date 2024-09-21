@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useTheaterAdmin from "../../store/TheaterAdmin";
+import { set } from "mongoose";
 
 function Screen() {
+  const [refetch, setRefetch] = useState(false);
   const [screenName, setscreenName] = useState("");
   const [screenType, setscreenType] = useState("");
-  const { addScreen } = useTheaterAdmin();
+  const { addScreen, screens, getScreens } = useTheaterAdmin();
+
+  useEffect(() => {
+    getScreens();
+  }, [refetch]);
   async function handleAddScreen() {
     if (screenName === "" || screenType === "") {
       toast.warn("Fill all the fields");
@@ -13,6 +19,9 @@ function Screen() {
     }
     try {
       await addScreen(screenName, screenType);
+      setRefetch(!refetch);
+      setscreenName("");
+      setscreenType("");
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +75,14 @@ function Screen() {
         >
           Add
         </button>
+      </div>
+
+      {/* display screens */}
+      <div className="">
+        {screens.map((item, index) => {
+          console.log(item);
+          return <div className="" key={index}></div>;
+        })}
       </div>
     </div>
   );
