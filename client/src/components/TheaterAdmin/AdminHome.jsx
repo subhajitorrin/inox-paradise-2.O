@@ -2,12 +2,14 @@ import React from "react";
 import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useTheaterAdmin from "../../store/TheaterAdmin";
+import Schedule from "./Schedule";
+import Screen from "./Screen";
 
 const list = [
   { path: "/admin", name: "Overview" },
-  { path: "/admin/schedule", name: "Schedule" },
-  { path: "/admin/screen", name: "Screen" },
   { path: "/admin/food", name: "Food" },
+  { path: "/admin/screen", name: "Screen" },
+  { path: "/admin/schedule", name: "Schedule" },
   { path: "/admin/detail", name: "Theater Detail" }
 ];
 
@@ -72,6 +74,8 @@ function AdminHome() {
               path="*"
               element={<Navigate to={"/masteradmin"} replace />}
             /> */}
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/screen" element={<Screen />} />
           </Routes>
         </div>
       </div>

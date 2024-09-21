@@ -6,28 +6,10 @@ const ScreenSchema = new mongoose.Schema({
     ref: "Theater",
     required: true
   },
-  screenNumber: {
-    type: Number,
-    required: true
-  },
   name: {
     type: String,
     required: true
   },
-  layout: [
-    {
-      row: {
-        type: String,
-        required: true
-      },
-      seats: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Seat"
-        }
-      ]
-    }
-  ],
   capacity: {
     type: Number,
     required: true
@@ -45,8 +27,8 @@ const ScreenSchema = new mongoose.Schema({
   ],
   category: [
     {
-      type: String,
-      required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SeatCategory"
     }
   ]
 });
