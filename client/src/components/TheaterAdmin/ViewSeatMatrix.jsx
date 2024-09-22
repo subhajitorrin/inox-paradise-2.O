@@ -6,7 +6,7 @@ function ViewSeatMatrix({ screen, isLoading }) {
   return (
     // Use parentheses instead of curly braces
     <>
-      {!isLoading ? (
+      {isLoading ? (
         <SeatLoader />
       ) : (
         <div className="relative w-full h-full pb-[3rem]">
