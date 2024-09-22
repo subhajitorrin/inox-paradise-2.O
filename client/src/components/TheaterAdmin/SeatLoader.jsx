@@ -14,7 +14,7 @@ function SeatLoader() {
         <IoMdHammer className="hammer absolute text-[30px] rotate-[0] top-[-15px] left-[100px]" />
       </div>
       <BarLoader  color="#ffffff" height={1}/>
-      <div className="font-[500] mt-[-5px] flex items-center gap-[5px]">
+      <div className="font-[500] text-[.9rem] flex items-center gap-[5px]">
         <p>*Building SeatMatrix</p>
       </div>
     </div>
