@@ -142,20 +142,6 @@ async function getTheaterAdmin(req, res) {
   }
 }
 
-async function generateSeats(category, screen, n) {
-  const list = [];
-  for (let i = 0; i < n; i++) {
-    const seat = new SeatModel({
-      seatNumber: i + 1,
-      category,
-      screen
-    });
-    await seat.save();
-    list.push(seat);
-  }
-  return list;
-}
-
 async function addScreen(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -314,6 +300,33 @@ async function deleteScreen(req, res) {
   }
 }
 
+async function generateSeats(category, screen, n) {
+  const list = [];
+  for (let i = 0; i < n; i++) {
+    const seat = new SeatModel({
+      seatNumber: i + 1,
+      category,
+      screen
+    });
+    await seat.save();
+    list.push(seat._id);
+  }
+  return list;
+}
+
+async function generateLayout(category, screen, row, seatsPerRow) {
+  const list = [];
+  for (let i = 0; i < row; i++) {
+    const seats = await generateSeats(category, screen, seatsPerRow);
+    const obj = {
+      row: String.fromCharCode(65 + i),
+      seats
+    };
+    list.push(obj);
+  }
+  return list;
+}
+
 async function updateCategory(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -330,7 +343,21 @@ async function updateCategory(req, res) {
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
-    console.log(category, rows, price, seatsPerRow, gaps);
+
+    category.price = price;
+    if (gaps) category.gaps = gaps.split(",");
+    const layout = await generateLayout(
+      categoryid,
+      category.screen,
+      rows,
+      seatsPerRow
+    );
+    category.layout = layout;
+    await category.save();
+
+    return res
+      .status(200)
+      .json({ message: "Category updated successfully", category });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Error updating category" });
