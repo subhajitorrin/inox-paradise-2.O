@@ -153,11 +153,11 @@ function ScreenCard({ screen, setRefetch }) {
       </div>
       <div className="flex gap-[1rem] min-h-[88%]">
         {/* left */}
-        <div className="border border-white min-h-full w-[50%] rounded-[10px]">
+        <div className="border border-white min-h-full w-[65%] rounded-[10px]">
           <ViewSeatMatrix screen={screen} />
         </div>
         {/* right */}
-        <div className="items-center w-[50%] flex-col flex justify-center">
+        <div className="items-end w-[35%] flex-col flex ">
           <div className="flex gap-[10px] flex-col">
             <div className="flex gap-[20px]">
               <div className="flex flex-col">

@@ -18,11 +18,11 @@ function AdminHome() {
   const logoutAdmin = useTheaterAdmin((state) => state.logoutAdmin);
   return (
     <div className="h-screen bg-[#1e1d1d] flex">
-      <div className="w-[20%] h-full border-r border-[#353333] items-center py-[1%] flex flex-col justify-between">
+      <div className="w-[15%] h-full border-r border-[#353333] items-center py-[1%] flex flex-col justify-between">
         <div className="">
           <div className="text-white text-[2rem] font-[700] text-center mb-[3rem] uppercase">
             <h2>Welcome</h2>
-            <h2 className="mt-[-15px]">Theater Admin</h2>
+            <h2 className="mt-[-15px]">Admin</h2>
           </div>
           <div className="text-white  font-[500] text-[16px] flex gap-[1.5rem] flex-col">
             {list.map((item, index) => {
@@ -56,7 +56,7 @@ function AdminHome() {
           </button>
         </div>
       </div>
-      <div className="w-[80%] h-screen text-white">
+      <div className="w-[85%] h-screen text-white">
         <div className="h-[8%]  flex items-center justify-center border-b border-[#353333] text-[25px] font-[500] uppercase">
           {list.map((item, index) => {
             if (item.path === location.pathname) {

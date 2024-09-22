@@ -161,7 +161,9 @@ function Screen() {
       {/* display screens */}
       <div className="mt-[1rem] flex flex-col gap-[10px] h-[80%] overflow-y-auto scrollNone">
         {screens.map((item, index) => {
-          return <ScreenCard key={index} screen={item} setRefetch={setRefetch}/>;
+          return (
+            <ScreenCard key={index} screen={item} setRefetch={setRefetch} />
+          );
         })}
       </div>
     </div>
