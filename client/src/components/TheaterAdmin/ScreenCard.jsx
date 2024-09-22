@@ -179,7 +179,7 @@ function ScreenCard({ screen, setRefetch }) {
       <div className="flex gap-[1rem] min-h-[88%]">
         {/* left */}
         <div className="border border-[#ffffff4b] min-h-full w-[65%] rounded-[10px]">
-          <ViewSeatMatrix screen={screen} />
+          <ViewSeatMatrix screen={screen} isLoading={isLoading1} />
         </div>
         {/* right */}
         <div className="items-end w-[35%] flex-col flex ">
@@ -296,6 +296,7 @@ function ScreenCard({ screen, setRefetch }) {
                 setIsLoading2(true);
                 await deleteCategory(selectedCategory);
                 setRefetch((prev) => !prev);
+                setSelectedCategory("");
                 setIsLoading2(false);
               }}
               className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300"
