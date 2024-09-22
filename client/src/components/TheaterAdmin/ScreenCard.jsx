@@ -22,7 +22,7 @@ function ScreenCard({ screen, setRefetch }) {
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
-    if (filteredCategories.length > 0) {
+    if (filteredCategories.category.length > 0) {
       setCategories(filteredCategories.category);
     } else {
       setCategories([]);
