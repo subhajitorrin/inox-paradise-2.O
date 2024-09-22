@@ -152,6 +152,18 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data || error.message);
           throw error;
         }
+      },
+      updateCategory: async (categoryid, rows, price, seatsPerRow, gaps) => {
+        try {
+          const { data } = await axios.put(
+            `${BASE_URL}/theateradmin/screen/update-category/${categoryid}`,
+            { rows, price, seatsPerRow, gaps }
+          );
+          toast.success("Category updated");
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {

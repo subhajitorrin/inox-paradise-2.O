@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 function ScreenCard({ screen, setRefetch }) {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [noOfRows, setNoOfRows] = useState("");
   const [price, setPrice] = useState("");
   const [seatsPerRow, setSeatsPerRow] = useState("");
   const [gaps, setGaps] = useState("");
@@ -16,7 +17,8 @@ function ScreenCard({ screen, setRefetch }) {
   const editbtnRef = useRef(null);
   const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
 
-  const { screens, updateScreen, deleteScreen } = useTheaterAdmin();
+  const { screens, updateScreen, deleteScreen, updateCategory } =
+    useTheaterAdmin();
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
@@ -40,8 +42,33 @@ function ScreenCard({ screen, setRefetch }) {
     }
   }
 
+  useEffect(() => {}, [selectedCategory]);
+
+  async function handleUpdateCategory() {
+    if (selectedCategory === "") {
+      toast.warn("Please select a category");
+      return;
+    }
+    if (noOfRows == "" || price == "" || seatsPerRow == "") {
+      toast.warn("Fields can't be empty");
+      return;
+    }
+
+    try {
+      await updateCategory(
+        selectedCategory,
+        noOfRows,
+        price,
+        seatsPerRow,
+        gaps
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className=" px-[20px] border-y border-[#ffffff24] py-[10px]">
+    <div className="pb-[1rem] px-[20px] border-y border-[#ffffff24] py-[10px]">
       <div className="items-center flex text-[16px] font-[500] mb-[5px] gap-[10px]">
         <span ref={editbtnRef}>
           <CiEdit
@@ -106,7 +133,7 @@ function ScreenCard({ screen, setRefetch }) {
         {/* right */}
         <div className="items-center w-[50%] flex-col flex justify-center">
           <div className="flex gap-[10px] flex-col">
-            <div className="flex gap-[20px]">
+            <div className="justify-center flex">
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">
                   Select Category:
@@ -123,6 +150,20 @@ function ScreenCard({ screen, setRefetch }) {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            <div className="flex gap-[20px]">
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">
+                  Number of rows:
+                </label>
+                <input
+                  type="number"
+                  value={noOfRows}
+                  onChange={(e) => setNoOfRows(e.target.value)}
+                  placeholder="Enter number of rows"
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                />
               </div>
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Price:</label>
@@ -159,7 +200,10 @@ function ScreenCard({ screen, setRefetch }) {
               </div>
             </div>
 
-            <button className="py-[5px] px-[20px] bg-[#1d4ed8] text-white rounded-[7px] hover:bg-[#2563eb] transition-colors duration-300">
+            <button
+              onClick={handleUpdateCategory}
+              className="py-[5px] px-[20px] bg-[#1d4ed8] text-white rounded-[7px] hover:bg-[#2563eb] transition-colors duration-300"
+            >
               Update Category
             </button>
             <button className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300">

@@ -314,6 +314,28 @@ async function deleteScreen(req, res) {
   }
 }
 
+async function updateCategory(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { name, rows, price, seatsPerRow, gaps } = req.body;
+  if (!name && !rows && !price && !seatsPerRow && !gaps) {
+    return res.status(400).json({ message: "Fields are required" });
+  }
+
+  const { categoryid } = req.params;
+  try {
+    const category = await SeatCategoryModel.findById(categoryid);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    console.log(category, rows, price, seatsPerRow, gaps);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error updating category" });
+  }
+}
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -323,5 +345,6 @@ export {
   getScreens,
   addCategory,
   updateScreen,
-  deleteScreen
+  deleteScreen,
+  updateCategory
 };
