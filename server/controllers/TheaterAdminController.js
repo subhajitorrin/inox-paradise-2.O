@@ -300,10 +300,11 @@ async function deleteScreen(req, res) {
   }
 }
 
-async function generateSeats(category, screen, n) {
+async function generateSeats(category, screen, n, rowName) {
   const list = [];
   for (let i = 0; i < n; i++) {
     const seat = new SeatModel({
+      row: rowName,
       seatNumber: i + 1,
       category,
       screen
@@ -317,9 +318,10 @@ async function generateSeats(category, screen, n) {
 async function generateLayout(category, screen, row, seatsPerRow) {
   const list = [];
   for (let i = 0; i < row; i++) {
-    const seats = await generateSeats(category, screen, seatsPerRow);
+    const rowName = String.fromCharCode(65 + i);
+    const seats = await generateSeats(category, screen, seatsPerRow, rowName);
     const obj = {
-      row: String.fromCharCode(65 + i),
+      row: rowName,
       seats
     };
     list.push(obj);
@@ -345,6 +347,8 @@ async function updateCategory(req, res) {
     }
 
     category.price = price;
+    category.rows = rows;
+    category.seatsPerRow = seatsPerRow;
     if (gaps) category.gaps = gaps.split(",");
     const layout = await generateLayout(
       categoryid,

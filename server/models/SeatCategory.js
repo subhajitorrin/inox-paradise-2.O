@@ -14,6 +14,14 @@ const seatCategorySchema = new mongoose.Schema({
     ref: "Screen"
   },
   gaps: [Number],
+  rows: {
+    type: Number,
+    default: 0
+  },
+  seatsPerRow: {
+    type: Number,
+    default: 0
+  },
   layout: [
     {
       row: {

@@ -22,7 +22,11 @@ function ScreenCard({ screen, setRefetch }) {
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
-    setCategories(filteredCategories.category);
+    if (filteredCategories.length > 0) {
+      setCategories(filteredCategories.category);
+    } else {
+      setCategories([]);
+    }
   }, [screens, screen._id]);
 
   async function handleScreenUpdate(e) {
@@ -42,7 +46,17 @@ function ScreenCard({ screen, setRefetch }) {
     }
   }
 
-  useEffect(() => {}, [selectedCategory]);
+  useEffect(() => {
+    const filteredCategories = categories.find(
+      (item) => item._id === selectedCategory
+    );
+    if (filteredCategories) {
+      console.log(filteredCategories);
+      setNoOfRows(filteredCategories.rows);
+      setPrice(filteredCategories.price);
+      setSeatsPerRow(filteredCategories.seatsPerRow);
+    }
+  }, [selectedCategory]);
 
   async function handleUpdateCategory() {
     if (selectedCategory === "") {
@@ -62,6 +76,7 @@ function ScreenCard({ screen, setRefetch }) {
         seatsPerRow,
         gaps
       );
+      setRefetch((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
