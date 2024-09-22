@@ -3,6 +3,7 @@ import useTheaterAdmin from "../../store/TheaterAdmin";
 import { CiEdit } from "react-icons/ci";
 import { toast } from "react-toastify";
 import ViewSeatMatrix from "./ViewSeatMatrix";
+import { BeatLoader } from "react-spinners";
 
 function ScreenCard({ screen, setRefetch }) {
   const [categoryState, setCategoryState] = useState(null);
@@ -116,7 +117,10 @@ function ScreenCard({ screen, setRefetch }) {
   return (
     <div className="pb-[1rem] px-[20px] border-y border-[#ffffff24] py-[10px]">
       <div className="items-center flex text-[16px] font-[500] mb-[5px] gap-[10px]">
-        <span ref={editbtnRef}>
+        <span
+          ref={editbtnRef}
+          disabled={isLoading1 || isLoading2 || isLoading3}
+        >
           <CiEdit
             className="text-[25px] cursor-pointer"
             onClick={(e) => {
@@ -135,12 +139,12 @@ function ScreenCard({ screen, setRefetch }) {
           className="text-white w-[150px] select-none border border-transparent rounded-[5px] bg-transparent px-[20px] py-[5px] outline-none"
           value={editedScreenName}
           onChange={(e) => setEditedScreenName(e.target.value)}
-          disabled={!isEditing}
+          disabled={!isEditing || isLoading1 || isLoading2 || isLoading3}
           ref={inputRef}
         />
         <div className="" ref={selectRef}>
           <select
-            disabled={!isEditing}
+            disabled={!isEditing || isLoading1 || isLoading2 || isLoading3}
             id="screenType"
             name="screenType"
             onChange={(e) => {
@@ -166,6 +170,7 @@ function ScreenCard({ screen, setRefetch }) {
 
         {isEditing && (
           <button
+            disabled={isLoading1 || isLoading2 || isLoading3}
             onClick={handleScreenUpdate}
             className="bg-[#ff0090] text-[.9rem] text-white px-[10px] py-2 rounded-lg hover:bg-[#cf0142]"
           >
@@ -199,6 +204,7 @@ function ScreenCard({ screen, setRefetch }) {
                   *Select Category:
                 </label>
                 <select
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="px-3 py-2 bg-[#484747] w-[200px] rounded-lg outline-none"
@@ -214,6 +220,7 @@ function ScreenCard({ screen, setRefetch }) {
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Category name:</label>
                 <input
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   type="text"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
@@ -228,6 +235,7 @@ function ScreenCard({ screen, setRefetch }) {
                   Number of rows:
                 </label>
                 <input
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   type="number"
                   value={noOfRows}
                   onChange={(e) => setNoOfRows(e.target.value)}
@@ -238,6 +246,7 @@ function ScreenCard({ screen, setRefetch }) {
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Price:</label>
                 <input
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   type="number"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
@@ -251,6 +260,7 @@ function ScreenCard({ screen, setRefetch }) {
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Seats per Row:</label>
                 <input
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   type="number"
                   value={seatsPerRow}
                   onChange={(e) => setSeatsPerRow(e.target.value)}
@@ -261,6 +271,7 @@ function ScreenCard({ screen, setRefetch }) {
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Gaps:</label>
                 <input
+                  disabled={isLoading1 || isLoading2 || isLoading3}
                   type="text"
                   value={gaps}
                   onChange={(e) => setGaps(e.target.value)}
@@ -271,15 +282,18 @@ function ScreenCard({ screen, setRefetch }) {
             </div>
 
             <button
+              disabled={isLoading1 || isLoading2 || isLoading3}
               onClick={handleUpdateCategory}
               className="py-[5px] px-[20px] bg-[#1d4ed8] text-white rounded-[7px] hover:bg-[#2563eb] transition-colors duration-300"
             >
-            {
-              // isLoading1 ? 
-            }
-              Update Category
+              {isLoading1 ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Update Category"
+              )}
             </button>
             <button
+              disabled={isLoading1 || isLoading2 || isLoading3}
               onClick={async () => {
                 await deleteCategory(selectedCategory);
                 setRefetch((prev) => !prev);
@@ -308,6 +322,7 @@ function ScreenCard({ screen, setRefetch }) {
                 await deleteScreen(screen._id);
                 setRefetch((prev) => !prev);
               }}
+              disabled={isLoading1 || isLoading2 || isLoading3}
               className="py-[5px] mt-[1rem] px-[20px] bg-[#6b7280] text-white rounded-[7px] hover:bg-[#4b5563] transition-colors duration-300"
             >
               Delete Screen

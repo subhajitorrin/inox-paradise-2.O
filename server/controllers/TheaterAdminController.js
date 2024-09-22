@@ -438,6 +438,9 @@ async function updateCategory(req, res) {
       if (seatsPerRow < 0) {
         return res.status(400).json({ message: "Seats cannot be negative!" });
       }
+      if (seatsPerRow >30) {
+        return res.status(400).json({ message: "Maximum 30 seats!" });
+      }
       category.seatsPerRow = seatsPerRow;
       isUpdated = true;
     }
