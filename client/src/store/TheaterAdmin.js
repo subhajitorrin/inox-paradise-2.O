@@ -127,6 +127,19 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data || error.message);
           throw error;
         }
+      },
+      updateScreenName: async (screenId, screenName) => {
+        try {
+          const { data } = await axios.put(
+            `${BASE_URL}/theateradmin/screen/update-screen/${screenId}`,
+            { screenName }
+          );
+          toast.success("Screen updated");
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {

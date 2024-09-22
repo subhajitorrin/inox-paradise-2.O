@@ -1,36 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useTheaterAdmin from "../../store/TheaterAdmin";
+import { CiEdit } from "react-icons/ci";
+import { toast } from "react-toastify";
 
 function ScreenCard({ screen }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [price, setPrice] = useState("");
   const [seatsPerRow, setSeatsPerRow] = useState("");
   const [gaps, setGaps] = useState("");
-  const [categories, setcategories] = useState([]);
-
-  const handleUpdate = () => {
-    // Logic to update the category details
-    console.log({ selectedCategory, price, seatsPerRow, gaps });
-  };
+  const [categories, setCategories] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedScreenName, setEditedScreenName] = useState(screen.screenName);
+  const inputRef = useRef(null);
 
   const { screens } = useTheaterAdmin();
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
-    setcategories(filteredCategories.category);
-  }, [screens]);
+    setCategories(filteredCategories.category);
+  }, [screens, screen._id]);
+
+  async function handleOnBlurScreenUpdate() {
+    if (editedScreenName === "") {
+      toast.warn("Screen name cannot be empty");
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 0);
+      return;
+    }
+    setIsEditing(false);
+  }
 
   return (
-    <div className="px-[20px] border-y border-[#ffffff24] py-[10px]">
-      <div className="text-[16px] font-[500] mb-[5px]">
-        <p>{screen.screenName}</p>
+    <div className=" px-[20px] border-y border-[#ffffff24] py-[10px]">
+      <div className="items-center flex text-[16px] font-[500] mb-[5px] gap-[10px]">
+        <CiEdit
+          className="text-[25px] cursor-pointer"
+          onClick={() => {
+            setIsEditing(true);
+            setTimeout(() => {
+              inputRef.current.focus();
+            }, 0);
+          }}
+        />
+        <input
+          type="text"
+          style={{ border: isEditing ? "1px solid #ffffff4d" : "" }}
+          className="text-white w-[150px] select-none border border-transparent rounded-[5px] bg-transparent px-[20px] py-[5px] outline-none"
+          value={editedScreenName}
+          onChange={(e) => setEditedScreenName(e.target.value)}
+          disabled={!isEditing}
+          onBlur={handleOnBlurScreenUpdate}
+          ref={inputRef}
+        />
       </div>
       <div className="flex gap-[1rem]">
         {/* left */}
         <div className="border border-white h-[300px] w-[50%] rounded-[10px]"></div>
         {/* right */}
         <div className="items-center w-[50%] flex-col flex justify-center">
-          <div className="flex gap-[10px] flex-col ">
+          <div className="flex gap-[10px] flex-col">
             <div className="flex gap-[20px]">
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">
