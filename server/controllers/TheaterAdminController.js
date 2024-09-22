@@ -255,6 +255,36 @@ async function addCategory(req, res) {
   }
 }
 
+async function updateScreen(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { screenName, screenType } = req.body;
+  if (!screenName && !screenType) {
+    return res.status(400).json({ message: "Fields are required" });
+  }
+  try {
+    const { screenid } = req.params;
+    const screen = await ScreenModel.findById(screenid);
+    if (!screen) {
+      return res.status(404).json({ message: "Screen not found" });
+    }
+
+    if (screenName) screen.screenName = screenName;
+    if (screenType) screen.screenType = screenType;
+
+    await screen.save();
+
+    return res
+      .status(200)
+      .json({ message: "Screen updated successfully", screen });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error updating screen" });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -262,5 +292,6 @@ export {
   getTheaterAdmin,
   addScreen,
   getScreens,
-  addCategory
+  addCategory,
+  updateScreen
 };

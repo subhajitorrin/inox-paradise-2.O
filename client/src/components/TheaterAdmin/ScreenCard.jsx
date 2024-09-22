@@ -12,6 +12,9 @@ function ScreenCard({ screen }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedScreenName, setEditedScreenName] = useState(screen.screenName);
   const inputRef = useRef(null);
+  const selectRef = useRef(null);
+  const editbtnRef = useRef(null);
+  const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
 
   const { screens } = useTheaterAdmin();
 
@@ -20,7 +23,14 @@ function ScreenCard({ screen }) {
     setCategories(filteredCategories.category);
   }, [screens, screen._id]);
 
-  async function handleOnBlurScreenUpdate() {
+  async function handleOnBlurScreenUpdate(e) {
+    if (
+      e.target === inputRef.current ||
+      e.target === selectRef.current ||
+      e.target === editbtnRef.current
+    ) {
+      return;
+    }
     if (editedScreenName === "") {
       toast.warn("Screen name cannot be empty");
       setTimeout(() => {
@@ -31,18 +41,29 @@ function ScreenCard({ screen }) {
     setIsEditing(false);
   }
 
+  useEffect(() => {
+    window.addEventListener("click", handleOnBlurScreenUpdate);
+    return () => {
+      window.removeEventListener("click", handleOnBlurScreenUpdate);
+    };
+  }, []);
+
   return (
     <div className=" px-[20px] border-y border-[#ffffff24] py-[10px]">
       <div className="items-center flex text-[16px] font-[500] mb-[5px] gap-[10px]">
-        <CiEdit
-          className="text-[25px] cursor-pointer"
-          onClick={() => {
-            setIsEditing(true);
-            setTimeout(() => {
-              inputRef.current.focus();
-            }, 0);
-          }}
-        />
+        <span ref={editbtnRef}>
+          <CiEdit
+            className="text-[25px] cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditing(true);
+              setTimeout(() => {
+                inputRef.current.focus();
+              }, 0);
+            }}
+          />
+        </span>
+
         <input
           type="text"
           style={{ border: isEditing ? "1px solid #ffffff4d" : "" }}
@@ -50,9 +71,31 @@ function ScreenCard({ screen }) {
           value={editedScreenName}
           onChange={(e) => setEditedScreenName(e.target.value)}
           disabled={!isEditing}
-          onBlur={handleOnBlurScreenUpdate}
           ref={inputRef}
         />
+        <select
+          ref={selectRef}
+          disabled={!isEditing}
+          id="screenType"
+          name="screenType"
+          onChange={(e) => {
+            setEditedScreenType(e.target.value);
+          }}
+          value={editedScreenType}
+          className={`px-3 py-2 ${
+            isEditing ? "bg-[#302f2f]" : "bg-transparent"
+          } rounded-lg outline-none `}
+        >
+          <option value="2D">2D</option>
+          <option value="3D">3D</option>
+          <option value="IMAX">IMAX</option>
+          <option value="4DX">4DX</option>
+        </select>
+        <div
+          className={`bg-[#1E1D1D] pointer-events-none h-[20px] w-[20px] relative ${
+            !isEditing ? "left-[-2.5%]" : "left-0"
+          }`}
+        ></div>
       </div>
       <div className="flex gap-[1rem]">
         {/* left */}
@@ -113,10 +156,7 @@ function ScreenCard({ screen }) {
               </div>
             </div>
 
-            <button
-              onClick={handleUpdate}
-              className="py-[5px] px-[20px] bg-[#ea3402] rounded-[7px]"
-            >
+            <button className="py-[5px] px-[20px] bg-[#ea3402] rounded-[7px]">
               Update Category
             </button>
           </div>

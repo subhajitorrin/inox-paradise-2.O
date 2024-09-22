@@ -48,7 +48,7 @@ function Screen() {
   return (
     <div className="p-[10px] h-full">
       <div className="text-white flex justify-between items-center space-x-4 p-4 border border-[#ffffff2d] rounded-lg bg-transparent">
-        {/* lfet side add screen  */}
+        {/* left side add screen  */}
         <div className="flex gap-[20px] items-center">
           <div className="flex flex-col">
             <label htmlFor="screenName" className="text-sm font-bold mb-1">
