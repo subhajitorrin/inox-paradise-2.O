@@ -285,9 +285,9 @@ async function deleteScreen(req, res) {
 
     // check if any schedule running
 
-    screen.category.forEach(async (item) => {
-      await SeatCategoryModel.findByIdAndDelete(item);
-    });
+    await SeatModel.deleteMany({ screen: screenid });
+
+    await SeatCategoryModel.deleteMany({ screen: screenid });
 
     await ScreenModel.findByIdAndDelete(screenid);
 
