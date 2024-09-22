@@ -153,9 +153,19 @@ async function addScreen(req, res) {
   }
   try {
     const { id } = req;
-    const theaterAdmin = TheaterAdminModel.findById(id);
+    const theaterAdmin = await TheaterAdminModel.findById(id).populate(
+      "screens"
+    );
     if (!theaterAdmin) {
       return res.status(404).json({ message: "Admin not found!" });
+    }
+
+    const isExist = theaterAdmin.screens.find(
+      (item) => item.screenName === screenName
+    );
+
+    if (isExist) {
+      return res.status(400).json({ message: "Screen already exist" });
     }
 
     const newScreen = new ScreenModel({
@@ -163,8 +173,10 @@ async function addScreen(req, res) {
       screenType,
       theater: id
     });
+    theaterAdmin.screens.push(newScreen._id);
 
     await newScreen.save();
+    await theaterAdmin.save();
 
     return res.status(200).json({
       message: "Screen added successfully",
@@ -306,6 +318,10 @@ async function deleteScreen(req, res) {
     await SeatCategoryModel.deleteMany({ screen: screenid });
 
     await ScreenModel.findByIdAndDelete(screenid);
+
+    await TheaterAdminModel.findByIdAndUpdate(screen.theater, {
+      $pull: { screens: screenid }
+    });
 
     return res
       .status(200)
