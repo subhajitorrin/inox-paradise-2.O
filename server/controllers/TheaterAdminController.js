@@ -377,6 +377,7 @@ async function updateCategory(req, res) {
   }
 
   const { categoryid } = req.params;
+
   try {
     const category = await SeatCategoryModel.findById(categoryid);
     if (!category) {
@@ -389,25 +390,41 @@ async function updateCategory(req, res) {
       isUpdated = true;
     }
     if (price && price !== category.price) {
+      if (price < 0) {
+        return res.status(400).json({ message: "Price cannot be negative!" });
+      }
+      if (price > 5000) {
+        return res.status(400).json({ message: "Maximum price ₹5000!" });
+      }
       category.price = price;
       isUpdated = true;
     }
     if (rows && rows !== category.rows) {
+      if (rows < 0) {
+        return res.status(400).json({ message: "Rows cannot be negative!" });
+      }
+      if (rows > 10) {
+        return res.status(400).json({ message: "Maximum 10 rows!" });
+      }
       category.rows = rows;
       isUpdated = true;
     }
-    if (seatsPerRow && seatsPerRow !== category.seatsPerRow) {
-      category.seatsPerRow = seatsPerRow;
+
+    let gapList = gaps
+      ? gaps.split(",").filter((gap) => gap.trim() !== "")
+      : [];
+    if (gapList.length === 0 && category.gaps.length === 0) {
+      isUpdated = false;
+    } else if (!arraysHaveSameElements(gapList, category.gaps)) {
+      category.gaps = gapList;
       isUpdated = true;
     }
 
-    const gapList = gaps.split(",");
-    if (!arraysHaveSameElements(gapList, category.gaps)) {
-      if (gapList[0] === "") {
-        category.gaps = [];
-      } else {
-        category.gaps = gaps.split(",");
+    if (seatsPerRow && seatsPerRow !== category.seatsPerRow) {
+      if (seatsPerRow < 0) {
+        return res.status(400).json({ message: "Seats cannot be negative!" });
       }
+      category.seatsPerRow = seatsPerRow;
       isUpdated = true;
     }
 
