@@ -7,6 +7,7 @@ function ScreenCard({ screen, setRefetch }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [noOfRows, setNoOfRows] = useState("");
   const [price, setPrice] = useState("");
+  const [categoryName, setCategoryName] = useState("");
   const [seatsPerRow, setSeatsPerRow] = useState("");
   const [gaps, setGaps] = useState("");
   const [categories, setCategories] = useState([]);
@@ -55,6 +56,7 @@ function ScreenCard({ screen, setRefetch }) {
       setNoOfRows(filteredCategories.rows);
       setPrice(filteredCategories.price);
       setSeatsPerRow(filteredCategories.seatsPerRow);
+      setCategoryName(filteredCategories.name);
     }
   }, [selectedCategory]);
 
@@ -63,7 +65,12 @@ function ScreenCard({ screen, setRefetch }) {
       toast.warn("Please select a category");
       return;
     }
-    if (noOfRows == "" || price == "" || seatsPerRow == "") {
+    if (
+      categoryName == "" ||
+      noOfRows == "" ||
+      price == "" ||
+      seatsPerRow == ""
+    ) {
       toast.warn("Fields can't be empty");
       return;
     }
@@ -71,6 +78,7 @@ function ScreenCard({ screen, setRefetch }) {
     try {
       await updateCategory(
         selectedCategory,
+        categoryName,
         noOfRows,
         price,
         seatsPerRow,
@@ -170,8 +178,8 @@ function ScreenCard({ screen, setRefetch }) {
                 <label className="text-sm font-bold mb-1">Category name:</label>
                 <input
                   type="text"
-                  value={noOfRows}
-                  onChange={(e) => setNoOfRows(e.target.value)}
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value)}
                   placeholder="Update name"
                   className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
                 />

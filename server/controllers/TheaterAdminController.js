@@ -347,6 +347,7 @@ async function updateCategory(req, res) {
     }
 
     category.price = price;
+    category.name = name;
     category.rows = rows;
     category.seatsPerRow = seatsPerRow;
     if (gaps) category.gaps = gaps.split(",");
