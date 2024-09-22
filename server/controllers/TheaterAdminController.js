@@ -369,7 +369,7 @@ function arraysHaveSameElements(arr1, arr2) {
 function validGaps(gaps) {
   let valid = true;
   for (let i = 0; i < gaps.length; i++) {
-    if (!(gaps[i] >= 0 && gaps[i] <= 10)) {
+    if (!(gaps[i] >= 0 && gaps[i] <= 30)) {
       valid = false;
       break;
     }
