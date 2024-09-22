@@ -140,6 +140,18 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data || error.message);
           throw error;
         }
+      },
+      deleteScreen: async (screenId) => {
+        try {
+          const { data } = await axios.delete(
+            `${BASE_URL}/theateradmin/screen/delete-screen/${screenId}`
+          );
+          toast.success("Screen deleted successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {

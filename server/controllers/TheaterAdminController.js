@@ -285,6 +285,35 @@ async function updateScreen(req, res) {
   }
 }
 
+async function deleteScreen(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { screenid } = req.params;
+  try {
+    const screen = await ScreenModel.findByIdAndDelete(screenid);
+    if (!screen) {
+      return res.status(404).json({ message: "Screen not found" });
+    }
+
+    // check if any schedule running
+
+    screen.category.forEach(async (item) => {
+      await SeatCategoryModel.findByIdAndDelete(item);
+    });
+
+    await ScreenModel.findByIdAndDelete(screenid);
+
+    return res
+      .status(200)
+      .json({ message: "Screen deleted successfully", screen });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error deleting screen" });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -293,5 +322,6 @@ export {
   addScreen,
   getScreens,
   addCategory,
-  updateScreen
+  updateScreen,
+  deleteScreen
 };

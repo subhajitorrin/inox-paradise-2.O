@@ -16,7 +16,7 @@ function ScreenCard({ screen, setRefetch }) {
   const editbtnRef = useRef(null);
   const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
 
-  const { screens, updateScreen } = useTheaterAdmin();
+  const { screens, updateScreen, deleteScreen } = useTheaterAdmin();
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
@@ -94,7 +94,7 @@ function ScreenCard({ screen, setRefetch }) {
         {isEditing && (
           <button
             onClick={handleScreenUpdate}
-            className="bg-[#ff0090] text-[.8rem] text-white px-[10px] py-[5px] rounded-lg hover:bg-[#cf0142]"
+            className="bg-[#ff0090] text-[.9rem] text-white px-[10px] py-2 rounded-lg hover:bg-[#cf0142]"
           >
             Update screen
           </button>
@@ -159,8 +159,20 @@ function ScreenCard({ screen, setRefetch }) {
               </div>
             </div>
 
-            <button className="py-[5px] px-[20px] bg-[#ea3402] rounded-[7px]">
+            <button className="py-[5px] px-[20px] bg-[#1d4ed8] text-white rounded-[7px] hover:bg-[#2563eb] transition-colors duration-300">
               Update Category
+            </button>
+            <button className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300">
+              Delete Category
+            </button>
+            <button
+              onClick={async () => {
+                await deleteScreen(screen._id);
+                setRefetch((prev) => !prev);
+              }}
+              className="py-[5px] px-[20px] bg-[#6b7280] text-white rounded-[7px] hover:bg-[#4b5563] transition-colors duration-300"
+            >
+              Delete Screen
             </button>
           </div>
         </div>
