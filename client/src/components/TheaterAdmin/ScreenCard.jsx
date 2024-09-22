@@ -85,8 +85,6 @@ function ScreenCard({ screen, setRefetch }) {
       toast.warn("Please select a category");
       return;
     }
-    console.log(categoryName, noOfRows, price, seatsPerRow, gaps);
-
     if (
       categoryName === "" ||
       noOfRows === "" ||
@@ -180,7 +178,7 @@ function ScreenCard({ screen, setRefetch }) {
       </div>
       <div className="flex gap-[1rem] min-h-[88%]">
         {/* left */}
-        <div className="border border-white min-h-full w-[65%] rounded-[10px]">
+        <div className="border border-[#ffffff4b] min-h-full w-[65%] rounded-[10px]">
           <ViewSeatMatrix screen={screen} />
         </div>
         {/* right */}
@@ -295,12 +293,18 @@ function ScreenCard({ screen, setRefetch }) {
             <button
               disabled={isLoading1 || isLoading2 || isLoading3}
               onClick={async () => {
+                setIsLoading2(true);
                 await deleteCategory(selectedCategory);
                 setRefetch((prev) => !prev);
+                setIsLoading2(false);
               }}
               className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300"
             >
-              Delete Category
+              {isLoading2 ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Delete Category"
+              )}
             </button>
           </div>
 
@@ -319,13 +323,19 @@ function ScreenCard({ screen, setRefetch }) {
           <div className="flex gap-[10px] flex-col w-[97.5%]">
             <button
               onClick={async () => {
+                setIsLoading3(true);
                 await deleteScreen(screen._id);
                 setRefetch((prev) => !prev);
+                setIsLoading3(false);
               }}
               disabled={isLoading1 || isLoading2 || isLoading3}
               className="py-[5px] mt-[1rem] px-[20px] bg-[#6b7280] text-white rounded-[7px] hover:bg-[#4b5563] transition-colors duration-300"
             >
-              Delete Screen
+              {isLoading3 ? (
+                <BeatLoader color="#ffffff" size={5} />
+              ) : (
+                "Delete Screen"
+              )}
             </button>
           </div>
         </div>
