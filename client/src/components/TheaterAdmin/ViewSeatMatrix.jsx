@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import CategoryCard from "./CategoryCard";
 
 function ViewSeatMatrix({ screen }) {
-  useEffect(() => {
-    console.log(screen);
-  }, [screen]);
-
-  return <div className="h-full w-full"></div>;
+  return (
+    <div className="h-full w-full">
+      {screen.category.map((item, index) => {
+        return <CategoryCard category={item} key={index} />;
+      })}
+    </div>
+  );
 }
 
 export default ViewSeatMatrix;
