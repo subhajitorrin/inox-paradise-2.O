@@ -10,7 +10,8 @@ import {
   addCategory,
   updateScreen,
   deleteScreen,
-  updateCategory
+  updateCategory,
+  deleteCategory
 } from "../controllers/TheaterAdminController.js";
 const TheaterRouter = express.Router();
 TheaterRouter.post("/theateradmin/send-otp", loginTheaterAdminWithOtp);
@@ -22,5 +23,6 @@ TheaterRouter.get(`/theateradmin/screen/get-screens`, AuthToken, getScreens);
 TheaterRouter.post(`/theateradmin/screen/add-category/:screenid`, AuthToken, addCategory);
 TheaterRouter.put(`/theateradmin/screen/update-screen/:screenid`, AuthToken, updateScreen);
 TheaterRouter.delete(`/theateradmin/screen/delete-screen/:screenid`, AuthToken, deleteScreen);
+TheaterRouter.delete(`/theateradmin/screen/delete-category/:categoryid`, AuthToken, deleteCategory);
 TheaterRouter.put(`/theateradmin/screen/update-category/:categoryid`, AuthToken, updateCategory);
 export default TheaterRouter;

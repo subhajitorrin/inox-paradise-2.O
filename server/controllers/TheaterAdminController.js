@@ -417,6 +417,31 @@ async function updateCategory(req, res) {
     return res.status(500).json({ message: "Error updating category" });
   }
 }
+
+async function deleteCategory(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { categoryid } = req.params;
+  try {
+    const category = await SeatCategoryModel.findById(categoryid);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    await SeatModel.deleteMany({ category: categoryid });
+    await ScreenModel.findByIdAndUpdate(category.screen, {
+      $pull: { category: categoryid }
+    });
+    await SeatCategoryModel.findByIdAndDelete(categoryid);
+    return res
+      .status(200)
+      .json({ message: "Category deleted successfully", category });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error deleting category" });
+  }
+}
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -427,5 +452,6 @@ export {
   addCategory,
   updateScreen,
   deleteScreen,
-  updateCategory
+  updateCategory,
+  deleteCategory
 };

@@ -20,8 +20,13 @@ function ScreenCard({ screen, setRefetch }) {
   const editbtnRef = useRef(null);
   const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
 
-  const { screens, updateScreen, deleteScreen, updateCategory } =
-    useTheaterAdmin();
+  const {
+    screens,
+    updateScreen,
+    deleteScreen,
+    updateCategory,
+    deleteCategory
+  } = useTheaterAdmin();
 
   useEffect(() => {
     setCategoryState(screen.category.length > 0);
@@ -266,7 +271,13 @@ function ScreenCard({ screen, setRefetch }) {
             >
               Update Category
             </button>
-            <button className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300">
+            <button
+              onClick={async () => {
+                await deleteCategory(selectedCategory);
+                setRefetch((prev) => !prev);
+              }}
+              className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300"
+            >
               Delete Category
             </button>
           </div>

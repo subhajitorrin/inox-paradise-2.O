@@ -171,6 +171,18 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data?.message || error.message);
           throw error;
         }
+      },
+      deleteCategory: async (categoryid) => {
+        try {
+          const { data } = await axios.delete(
+            `${BASE_URL}/theateradmin/screen/delete-category/${categoryid}`
+          );
+          toast.success("Category deleted");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
     }),
     {
