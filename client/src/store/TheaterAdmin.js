@@ -168,7 +168,7 @@ const useTheaterAdmin = create(
           );
           toast.success("Category updated");
         } catch (error) {
-          toast.error(error.response?.data || error.message);
+          toast.error(error.response?.data?.message || error.message);
           throw error;
         }
       }

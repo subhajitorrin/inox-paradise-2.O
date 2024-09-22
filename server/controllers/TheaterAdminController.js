@@ -362,18 +362,50 @@ async function updateCategory(req, res) {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    category.price = price;
-    category.name = name;
-    category.rows = rows;
-    category.seatsPerRow = seatsPerRow;
-    if (gaps) category.gaps = gaps.split(",");
-    const layout = await generateLayout(
-      categoryid,
-      category.screen,
-      rows,
-      seatsPerRow
-    );
-    category.layout = layout;
+    let isUpdated = false;
+    if (name && name !== category.name) {
+      category.name = name;
+      isUpdated = true;
+    }
+    if (price && price !== category.price) {
+      category.price = price;
+      isUpdated = true;
+    }
+    if (rows && rows !== category.rows) {
+      category.rows = rows;
+      isUpdated = true;
+    }
+    if (seatsPerRow && seatsPerRow !== category.seatsPerRow) {
+      category.seatsPerRow = seatsPerRow;
+      isUpdated = true;
+    }
+    if (gaps && gaps !== category.gaps.join(",")) {
+      category.gaps = gaps.split(",");
+      isUpdated = true;
+    }
+
+    if (!isUpdated) {
+      return res.status(400).json({ message: "No changes detected" });
+    }
+
+    let shouldUpdateLayout = false;
+    if (
+      (rows && rows !== category.rows) ||
+      (seatsPerRow && seatsPerRow !== category.seatsPerRow)
+    ) {
+      shouldUpdateLayout = true;
+    }
+
+    if (shouldUpdateLayout) {
+      const layout = await generateLayout(
+        categoryid,
+        category.screen,
+        rows,
+        seatsPerRow
+      );
+      category.layout = layout;
+    }
+
     await category.save();
 
     return res

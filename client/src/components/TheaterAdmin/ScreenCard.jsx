@@ -76,11 +76,13 @@ function ScreenCard({ screen, setRefetch }) {
       toast.warn("Please select a category");
       return;
     }
+    console.log(categoryName, noOfRows, price, seatsPerRow, gaps);
+
     if (
-      categoryName == "" ||
-      noOfRows == "" ||
-      price == "" ||
-      seatsPerRow == ""
+      categoryName === "" ||
+      noOfRows === "" ||
+      price === "" ||
+      seatsPerRow === ""
     ) {
       toast.warn("Fields can't be empty");
       return;
