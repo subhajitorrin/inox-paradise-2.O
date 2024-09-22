@@ -19,6 +19,9 @@ function ScreenCard({ screen, setRefetch }) {
   const selectRef = useRef(null);
   const editbtnRef = useRef(null);
   const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
+  const [isLoading1, setIsLoading1] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [isLoading3, setIsLoading3] = useState(false);
 
   const {
     screens,
@@ -92,7 +95,7 @@ function ScreenCard({ screen, setRefetch }) {
       toast.warn("Fields can't be empty");
       return;
     }
-
+    setIsLoading1(true);
     try {
       await updateCategory(
         selectedCategory,
@@ -105,6 +108,8 @@ function ScreenCard({ screen, setRefetch }) {
       setRefetch((prev) => !prev);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading1(false);
     }
   }
 
@@ -256,7 +261,7 @@ function ScreenCard({ screen, setRefetch }) {
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">Gaps:</label>
                 <input
-                  type="number"
+                  type="text"
                   value={gaps}
                   onChange={(e) => setGaps(e.target.value)}
                   placeholder="Enter Gaps"
@@ -269,6 +274,9 @@ function ScreenCard({ screen, setRefetch }) {
               onClick={handleUpdateCategory}
               className="py-[5px] px-[20px] bg-[#1d4ed8] text-white rounded-[7px] hover:bg-[#2563eb] transition-colors duration-300"
             >
+            {
+              // isLoading1 ? 
+            }
               Update Category
             </button>
             <button

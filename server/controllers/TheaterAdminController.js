@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import TheaterAdminModel from "../models/TheaterAdmin.js";
-import MasterAdminModel from "../models/MasterAdmin.js";
 import otpModel from "../models/OTP.js";
 import SeatModel from "../models/Seat.js";
 import SeatCategoryModel from "../models/SeatCategory.js";
@@ -362,6 +361,11 @@ async function generateLayout(category, screen, row, seatsPerRow) {
   return list;
 }
 
+function arraysHaveSameElements(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  return arr1.sort().toString() === arr2.sort().toString();
+}
+
 async function updateCategory(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -396,8 +400,14 @@ async function updateCategory(req, res) {
       category.seatsPerRow = seatsPerRow;
       isUpdated = true;
     }
-    if (gaps && gaps !== category.gaps.join(",")) {
-      category.gaps = gaps.split(",");
+
+    const gapList = gaps.split(",");
+    if (!arraysHaveSameElements(gapList, category.gaps)) {
+      if (gapList[0] === "") {
+        category.gaps = [];
+      } else {
+        category.gaps = gaps.split(",");
+      }
       isUpdated = true;
     }
 
