@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Seat from "./Seat";
 
-function Row({ row }) {
+function Row({ row, gaps }) {
   return (
     <div className="flex items-center">
       <p className="uppercase w-[20px] font-[500] text-[12px] absolute left-[10px]">
@@ -9,6 +9,25 @@ function Row({ row }) {
       </p>
       <div className="flex gap-[5px]">
         {row.seats.map((item, index) => {
+          const gapCount = gaps.filter((gapIndex) => gapIndex === index).length;
+          if (gapCount > 0) {
+            const gapElements = Array.from(
+              { length: gapCount },
+              (_, gapIndex) => (
+                <div
+                  className="h-[20px] w-[20px] bg-transparent"
+                  key={`gap-${index}-${gapIndex}`}
+                ></div>
+              )
+            );
+
+            return (
+              <React.Fragment key={index}>
+                {gapElements}
+                <Seat seat={item} />
+              </React.Fragment>
+            );
+          }
           return <Seat key={index} seat={item} />;
         })}
       </div>
@@ -24,8 +43,7 @@ function CategoryCard({ category }) {
           {category.name} ₹{category.price}
         </p>
         {category.layout.map((item, index) => {
-          console.log(item);
-          return <Row key={index} row={item} />;
+          return <Row key={index} row={item} gaps={category.gaps} />;
         })}
       </div>
     </div>
