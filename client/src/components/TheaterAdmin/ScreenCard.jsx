@@ -142,21 +142,21 @@ function ScreenCard({ screen, setRefetch }) {
           </button>
         )}
       </div>
-      <div className="flex gap-[1rem]">
+      <div className="flex gap-[1rem] h-[88%]">
         {/* left */}
-        <div className="border border-white h-[300px] w-[50%] rounded-[10px]"></div>
+        <div className="border border-white h-full w-[50%] rounded-[10px]"></div>
         {/* right */}
         <div className="items-center w-[50%] flex-col flex justify-center">
           <div className="flex gap-[10px] flex-col">
-            <div className="justify-center flex">
+            <div className="flex gap-[20px]">
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">
-                  Select Category:
+                  *Select Category:
                 </label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                  className="px-3 py-2 bg-[#484747] w-[200px] rounded-lg outline-none"
                 >
                   <option value="">Select a category</option>
                   {categories.map((category, index) => (
@@ -165,6 +165,16 @@ function ScreenCard({ screen, setRefetch }) {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-1">Category name:</label>
+                <input
+                  type="text"
+                  value={noOfRows}
+                  onChange={(e) => setNoOfRows(e.target.value)}
+                  placeholder="Update name"
+                  className="px-3 py-2 bg-[#302f2f] w-[200px] rounded-lg outline-none"
+                />
               </div>
             </div>
             <div className="flex gap-[20px]">
