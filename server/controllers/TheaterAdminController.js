@@ -366,6 +366,17 @@ function arraysHaveSameElements(arr1, arr2) {
   return arr1.sort().toString() === arr2.sort().toString();
 }
 
+function validGaps(gaps) {
+  let valid = true;
+  for (let i = 0; i < gaps.length; i++) {
+    if (!(gaps[i] >= 0 && gaps[i] <= 10)) {
+      valid = false;
+      break;
+    }
+  }
+  return valid;
+}
+
 async function updateCategory(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -413,6 +424,9 @@ async function updateCategory(req, res) {
     let gapList = gaps
       ? gaps.split(",").filter((gap) => gap.trim() !== "")
       : [];
+    if (!validGaps(gapList)) {
+      return res.status(400).json({ message: "Invalid Gaps!" });
+    }
     if (gapList.length === 0 && category.gaps.length === 0) {
       isUpdated = false;
     } else if (!arraysHaveSameElements(gapList, category.gaps)) {
