@@ -271,8 +271,8 @@ async function updateScreen(req, res) {
       return res.status(404).json({ message: "Screen not found" });
     }
 
-    if (screenName) screen.screenName = screenName;
-    if (screenType) screen.screenType = screenType;
+    screen.screenName = screenName;
+    screen.screenType = screenType;
 
     await screen.save();
 

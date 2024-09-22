@@ -128,11 +128,11 @@ const useTheaterAdmin = create(
           throw error;
         }
       },
-      updateScreenName: async (screenId, screenName) => {
+      updateScreen: async (screenId, screenName, screenType) => {
         try {
           const { data } = await axios.put(
             `${BASE_URL}/theateradmin/screen/update-screen/${screenId}`,
-            { screenName }
+            { screenName, screenType }
           );
           toast.success("Screen updated");
         } catch (error) {

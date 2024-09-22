@@ -3,7 +3,7 @@ import useTheaterAdmin from "../../store/TheaterAdmin";
 import { CiEdit } from "react-icons/ci";
 import { toast } from "react-toastify";
 
-function ScreenCard({ screen }) {
+function ScreenCard({ screen, setRefetch }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [price, setPrice] = useState("");
   const [seatsPerRow, setSeatsPerRow] = useState("");
@@ -16,21 +16,14 @@ function ScreenCard({ screen }) {
   const editbtnRef = useRef(null);
   const [editedScreenType, setEditedScreenType] = useState(screen.screenType);
 
-  const { screens } = useTheaterAdmin();
+  const { screens, updateScreen } = useTheaterAdmin();
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
     setCategories(filteredCategories.category);
   }, [screens, screen._id]);
 
-  async function handleOnBlurScreenUpdate(e) {
-    if (
-      e.target === inputRef.current ||
-      e.target === selectRef.current ||
-      e.target === editbtnRef.current
-    ) {
-      return;
-    }
+  async function handleScreenUpdate(e) {
     if (editedScreenName === "") {
       toast.warn("Screen name cannot be empty");
       setTimeout(() => {
@@ -38,15 +31,14 @@ function ScreenCard({ screen }) {
       }, 0);
       return;
     }
-    setIsEditing(false);
+    try {
+      await updateScreen(screen._id, editedScreenName, editedScreenType);
+      setRefetch((prev) => !prev);
+      setIsEditing(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  useEffect(() => {
-    window.addEventListener("click", handleOnBlurScreenUpdate);
-    return () => {
-      window.removeEventListener("click", handleOnBlurScreenUpdate);
-    };
-  }, []);
 
   return (
     <div className=" px-[20px] border-y border-[#ffffff24] py-[10px]">
@@ -73,29 +65,40 @@ function ScreenCard({ screen }) {
           disabled={!isEditing}
           ref={inputRef}
         />
-        <select
-          ref={selectRef}
-          disabled={!isEditing}
-          id="screenType"
-          name="screenType"
-          onChange={(e) => {
-            setEditedScreenType(e.target.value);
-          }}
-          value={editedScreenType}
-          className={`px-3 py-2 ${
-            isEditing ? "bg-[#302f2f]" : "bg-transparent"
-          } rounded-lg outline-none `}
-        >
-          <option value="2D">2D</option>
-          <option value="3D">3D</option>
-          <option value="IMAX">IMAX</option>
-          <option value="4DX">4DX</option>
-        </select>
+        <div className="" ref={selectRef}>
+          <select
+            disabled={!isEditing}
+            id="screenType"
+            name="screenType"
+            onChange={(e) => {
+              setEditedScreenType(e.target.value);
+            }}
+            value={editedScreenType}
+            className={`px-3 py-2 ${
+              isEditing ? "bg-[#302f2f]" : "bg-transparent"
+            } rounded-lg outline-none `}
+          >
+            <option value="2D">2D</option>
+            <option value="3D">3D</option>
+            <option value="IMAX">IMAX</option>
+            <option value="4DX">4DX</option>
+          </select>
+        </div>
+
         <div
           className={`bg-[#1E1D1D] pointer-events-none h-[20px] w-[20px] relative ${
             !isEditing ? "left-[-2.5%]" : "left-0"
           }`}
         ></div>
+
+        {isEditing && (
+          <button
+            onClick={handleScreenUpdate}
+            className="bg-[#ff0090] text-[.8rem] text-white px-[10px] py-[5px] rounded-lg hover:bg-[#cf0142]"
+          >
+            Update screen
+          </button>
+        )}
       </div>
       <div className="flex gap-[1rem]">
         {/* left */}
