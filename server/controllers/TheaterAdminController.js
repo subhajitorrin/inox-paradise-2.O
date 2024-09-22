@@ -250,10 +250,12 @@ async function updateScreen(req, res) {
   if (role !== "theateradmin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   const { screenName, screenType } = req.body;
   if (!screenName && !screenType) {
     return res.status(400).json({ message: "Fields are required" });
   }
+
   try {
     const { screenid } = req.params;
     const screen = await ScreenModel.findById(screenid);
@@ -261,8 +263,18 @@ async function updateScreen(req, res) {
       return res.status(404).json({ message: "Screen not found" });
     }
 
-    screen.screenName = screenName;
-    screen.screenType = screenType;
+    const hasChanges =
+      (screenName && screen.screenName !== screenName) ||
+      (screenType && screen.screenType !== screenType);
+
+    if (!hasChanges) {
+      return res.status(200).json({ message: "Nothing to update" });
+    }
+
+    if (screenName && screen.screenName !== screenName)
+      screen.screenName = screenName;
+    if (screenType && screen.screenType !== screenType)
+      screen.screenType = screenType;
 
     await screen.save();
 

@@ -137,7 +137,7 @@ const useTheaterAdmin = create(
           toast.success("Screen updated");
         } catch (error) {
           console.log(error);
-          toast.error(error.response?.data || error.message);
+          toast.error(error.response?.data?.message || error.message);
           throw error;
         }
       },

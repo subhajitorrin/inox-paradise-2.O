@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import ViewSeatMatrix from "./ViewSeatMatrix";
 
 function ScreenCard({ screen, setRefetch }) {
+  const [categoryState, setCategoryState] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [noOfRows, setNoOfRows] = useState("");
   const [price, setPrice] = useState("");
@@ -21,6 +22,10 @@ function ScreenCard({ screen, setRefetch }) {
 
   const { screens, updateScreen, deleteScreen, updateCategory } =
     useTheaterAdmin();
+
+  useEffect(() => {
+    setCategoryState(screen.category.length > 0);
+  }, [screen]);
 
   useEffect(() => {
     const filteredCategories = screens.find((item) => item._id === screen._id);
@@ -49,17 +54,22 @@ function ScreenCard({ screen, setRefetch }) {
   }
 
   useEffect(() => {
-    const filteredCategories = categories.find(
-      (item) => item._id === selectedCategory
-    );
-    if (filteredCategories) {
-      console.log(filteredCategories);
-      setNoOfRows(filteredCategories.rows);
-      setPrice(filteredCategories.price);
-      setSeatsPerRow(filteredCategories.seatsPerRow);
-      setCategoryName(filteredCategories.name);
+    if (categories.length > 0) {
+      if (!selectedCategory) {
+        setSelectedCategory(categories[0]._id);
+      }
+      const filteredCategories = categories.find(
+        (item) => item._id === selectedCategory
+      );
+      if (filteredCategories) {
+        setNoOfRows(filteredCategories.rows);
+        setPrice(filteredCategories.price);
+        setSeatsPerRow(filteredCategories.seatsPerRow);
+        setCategoryName(filteredCategories.name);
+        setGaps(filteredCategories.gaps.join(",") || "");
+      }
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, categories]);
 
   async function handleUpdateCategory() {
     if (selectedCategory === "") {
@@ -158,7 +168,19 @@ function ScreenCard({ screen, setRefetch }) {
         </div>
         {/* right */}
         <div className="items-end w-[35%] flex-col flex ">
-          <div className="flex gap-[10px] flex-col">
+          <div
+            style={{
+              opacity:
+                categoryState === null ? 0 : categoryState === true ? 1 : 0.3,
+              pointerEvents:
+                categoryState === null
+                  ? "none"
+                  : categoryState === true
+                  ? "auto"
+                  : "none"
+            }}
+            className="flex gap-[10px] flex-col"
+          >
             <div className="flex gap-[20px]">
               <div className="flex flex-col">
                 <label className="text-sm font-bold mb-1">
@@ -169,7 +191,7 @@ function ScreenCard({ screen, setRefetch }) {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="px-3 py-2 bg-[#484747] w-[200px] rounded-lg outline-none"
                 >
-                  <option value="">Select a category</option>
+                  {/* <option value="">Select a category</option> */}
                   {categories.map((category, index) => (
                     <option key={index} value={category._id}>
                       {category.name}
@@ -245,12 +267,27 @@ function ScreenCard({ screen, setRefetch }) {
             <button className="py-[5px] px-[20px] bg-[#e11d48] text-white rounded-[7px] hover:bg-[#be123c] transition-colors duration-300">
               Delete Category
             </button>
+          </div>
+
+          <div
+            style={{
+              opacity:
+                categoryState === null ? 0 : categoryState === false ? 1 : 0
+            }}
+            className="h-[100%] w-full mt-[10px]"
+          >
+            <p className="text-center font-[500]">
+              *Create category to build seat matrix
+            </p>
+          </div>
+
+          <div className="flex gap-[10px] flex-col w-[97.5%]">
             <button
               onClick={async () => {
                 await deleteScreen(screen._id);
                 setRefetch((prev) => !prev);
               }}
-              className="py-[5px] px-[20px] bg-[#6b7280] text-white rounded-[7px] hover:bg-[#4b5563] transition-colors duration-300"
+              className="py-[5px] mt-[1rem] px-[20px] bg-[#6b7280] text-white rounded-[7px] hover:bg-[#4b5563] transition-colors duration-300"
             >
               Delete Screen
             </button>
