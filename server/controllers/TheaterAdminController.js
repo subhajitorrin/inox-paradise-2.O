@@ -332,6 +332,7 @@ async function generateSeats(category, screen, n, rowName) {
 }
 
 async function generateLayout(category, screen, row, seatsPerRow) {
+  await SeatModel.deleteMany({ category });
   const list = [];
   for (let i = 0; i < row; i++) {
     const rowName = String.fromCharCode(65 + i);
