@@ -183,9 +183,13 @@ async function getScreens(req, res) {
   }
   const { id } = req;
   try {
-    const screens = await ScreenModel.find({ theater: id }).populate(
-      "category"
-    );
+    const screens = await ScreenModel.find({ theater: id }).populate({
+      path: "category",
+      populate: {
+        path: "layout.seats",
+        model: "Seat"
+      }
+    });
     if (!screens) {
       return res.status(404).json({ message: "Screens not found" });
     }

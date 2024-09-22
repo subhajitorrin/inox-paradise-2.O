@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useTheaterAdmin from "../../store/TheaterAdmin";
 import { CiEdit } from "react-icons/ci";
 import { toast } from "react-toastify";
-import ViewSeatMatrix from "./ViewSeatMatrix"
+import ViewSeatMatrix from "./ViewSeatMatrix";
 
 function ScreenCard({ screen, setRefetch }) {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -151,10 +151,10 @@ function ScreenCard({ screen, setRefetch }) {
           </button>
         )}
       </div>
-      <div className="flex gap-[1rem] h-[88%]">
+      <div className="flex gap-[1rem] min-h-[88%]">
         {/* left */}
-        <div className="border border-white h-full w-[50%] rounded-[10px]">
-          <ViewSeatMatrix screen={screen}/>
+        <div className="border border-white min-h-full w-[50%] rounded-[10px]">
+          <ViewSeatMatrix screen={screen} />
         </div>
         {/* right */}
         <div className="items-center w-[50%] flex-col flex justify-center">
