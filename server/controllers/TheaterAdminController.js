@@ -347,16 +347,18 @@ async function generateSeats(category, screen, n, rowName) {
 }
 
 async function reArrangeRows(screen) {
-  console.log("____________________________________________");
   const list = await ScreenModel.findById(screen).select("category");
+  const categories = await SeatCategoryModel.find({
+    _id: { $in: list.category }
+  });
   let startRow = 65;
-  for (const catid of list.category) {
-    const category = await SeatCategoryModel.findById(catid);
-    for (const layout of category.layout) {
+  const updatePromises = categories.map((category) => {
+    category.layout.map((layout) => {
       layout.row = String.fromCharCode(startRow++);
-    }
-    await category.save();
-  }
+    });
+    return category.save();
+  });
+  await Promise.all(updatePromises);
 }
 
 async function generateLayout(category, screen, row, seatsPerRow) {
