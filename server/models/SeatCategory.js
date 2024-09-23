@@ -24,6 +24,7 @@ const seatCategorySchema = new mongoose.Schema({
   },
   layout: [
     {
+      _id: false,
       row: {
         type: String
       },

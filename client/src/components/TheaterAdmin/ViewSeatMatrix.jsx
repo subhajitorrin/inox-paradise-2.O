@@ -3,8 +3,10 @@ import CategoryCard from "./CategoryCard";
 import SeatLoader from "./SeatLoader";
 
 function ViewSeatMatrix({ screen, isLoading }) {
+  console.log(screen);
   return (
     // Use parentheses instead of curly braces
+
     <>
       {isLoading ? (
         <SeatLoader />

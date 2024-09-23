@@ -346,6 +346,27 @@ async function generateSeats(category, screen, n, rowName) {
   return list;
 }
 
+async function reArrangeRows(screen) {
+  console.log("____________________________________________");
+  const list = await ScreenModel.findById(screen).select("category");
+
+  let startRow = 65;
+
+  for (const catid of list.category) {
+    const category = await SeatCategoryModel.findById(catid);
+    console.log(category);
+
+    // Loop through the layouts and assign rows
+    for (const layout of category.layout) {
+      layout.row = String.fromCharCode(startRow);
+      console.log(startRow);
+      startRow++;
+    }
+
+    await category.save();
+  }
+}
+
 async function generateLayout(category, screen, row, seatsPerRow) {
   await SeatModel.deleteMany({ category });
   const list = [];
@@ -396,10 +417,11 @@ async function updateCategory(req, res) {
     }
 
     let isUpdated = false;
-    if (name && name !== category.name) {
+    if (name && name != category.name) {
       category.name = name;
       isUpdated = true;
     }
+
     if (price && price !== category.price) {
       if (price < 0) {
         return res.status(400).json({ message: "Price cannot be negative!" });
@@ -428,7 +450,6 @@ async function updateCategory(req, res) {
       return res.status(400).json({ message: "Invalid Gaps!" });
     }
     if (gapList.length === 0 && category.gaps.length === 0) {
-      isUpdated = false;
     } else if (!arraysHaveSameElements(gapList, category.gaps)) {
       category.gaps = gapList;
       isUpdated = true;
@@ -438,14 +459,14 @@ async function updateCategory(req, res) {
       if (seatsPerRow < 0) {
         return res.status(400).json({ message: "Seats cannot be negative!" });
       }
-      if (seatsPerRow >30) {
+      if (seatsPerRow > 30) {
         return res.status(400).json({ message: "Maximum 30 seats!" });
       }
       category.seatsPerRow = seatsPerRow;
       isUpdated = true;
     }
 
-    if (!isUpdated) {
+    if (isUpdated === false) {
       return res.status(400).json({ message: "No changes detected" });
     }
 
@@ -467,6 +488,7 @@ async function updateCategory(req, res) {
       category.layout = layout;
     }
 
+    // await reArrangeRows(category.screen);
     await category.save();
 
     return res
