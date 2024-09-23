@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useMovie from "../../../store/Movie";
-
 import SearchMovieCard from "./SearchMovieCard";
 import useTheaterAdmin from "../../../store/TheaterAdmin";
-import { set } from "mongoose";
 import { toast } from "react-toastify";
 
 function Schedule() {
@@ -117,7 +115,7 @@ function Schedule() {
       toast.warn("Fill all the fields");
       return;
     }
-    console.log(
+    const scheduleData = {
       selectedMovie,
       startTime,
       endTime,
@@ -125,17 +123,9 @@ function Schedule() {
       screenType,
       language,
       selectedScreen
-    );
+    };
     try {
-      await AddSchedule(
-        selectedMovie,
-        startTime,
-        endTime,
-        date,
-        screenType,
-        language,
-        selectedScreen
-      );
+      await AddSchedule(scheduleData);
     } catch (error) {
       console.log(error);
     }

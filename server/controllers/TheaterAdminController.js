@@ -7,6 +7,7 @@ import SeatCategoryModel from "../models/SeatCategory.js";
 import mailSender from "../utils/SendMail.js";
 import generateOtp from "../utils/generateOtp.js";
 import ScreenModel from "../models/Screen.js";
+import ScheduleModel from "../models/Schedule.js";
 
 async function loginTheaterAdminWithOtp(req, res) {
   const { email, password } = req.body;
@@ -560,7 +561,43 @@ async function getAvailableScreens(req, res) {
   }
 }
 
-async function addSchedule(req, res) {}
+async function addSchedule(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { scheduleData } = req.body;
+  try {
+    let startTime = new Date(scheduleData.date);
+    startTime.setHours(scheduleData.startTime.split(":")[0]);
+    startTime.setMinutes(scheduleData.startTime.split(":")[1]);
+
+    let endTime = new Date(scheduleData.date);
+    endTime.setHours(scheduleData.endTime.split(":")[0]);
+    endTime.setMinutes(scheduleData.endTime.split(":")[1]);
+
+    const newSchedule = new ScheduleModel({
+      ...scheduleData,
+      screen: scheduleData.selectedScreen._id,
+      theater: req.id,
+      movie: scheduleData.selectedMovie._id,
+      startTime,
+      endTime,
+      nextShowTime: new Date(endTime.getTime() + 15 * 60 * 1000)
+    });
+    // await newSchedule.save();
+    // totalSeats
+    console.log(newSchedule);
+    return res
+      .status(200)
+      .json({ message: "Schedule added successfully", schedule: newSchedule });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error adding schedule", error: error.message });
+  }
+}
 
 export {
   loginTheaterAdminWithOtp,

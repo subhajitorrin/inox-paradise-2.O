@@ -199,25 +199,13 @@ const useTheaterAdmin = create(
         }
       },
       AddSchedule: async (
-        selectedMovie,
-        startTime,
-        endTime,
-        date,
-        screenType,
-        language,
-        selectedScreen
+        scheduleData
       ) => {
         try {
           const { data } = await axios.post(
             `${BASE_URL}/theateradmin/schedule/add-schedule`,
             {
-              selectedMovie,
-              startTime,
-              endTime,
-              date,
-              screenType,
-              language,
-              selectedScreen
+              scheduleData
             }
           );
           toast.success("Schedule added");
