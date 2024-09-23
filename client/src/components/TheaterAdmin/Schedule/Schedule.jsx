@@ -21,10 +21,6 @@ function Schedule() {
   const { availableScreens, getAvailableScreens } = useTheaterAdmin();
 
   useEffect(() => {
-    console.log(screenType);
-  }, [screenType]);
-
-  useEffect(() => {
     getMovies();
   }, []);
 
@@ -46,14 +42,7 @@ function Schedule() {
   }, [searchText, movieList]);
 
   useEffect(() => {
-    if (
-      startTime !== "" &&
-      endTime !== "" &&
-      date !== "" &&
-      screenType !== ""
-    ) {
-      getAvailableScreens(startTime, endTime, date, screenType);
-    }
+    getAvailableScreens(startTime, endTime, date, screenType);
   }, [startTime, endTime, date, screenType, getAvailableScreens]);
 
   return (

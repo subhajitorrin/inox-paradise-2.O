@@ -187,7 +187,7 @@ const useTheaterAdmin = create(
       },
       getAvailableScreens: async (startTime, endTime, date, screenType) => {
         try {
-          const { data } = await axios.get(
+          const { data } = await axios.post(
             `${BASE_URL}/theateradmin/screen/get-available-screens`,
             { startTime, endTime, date, screenType }
           );

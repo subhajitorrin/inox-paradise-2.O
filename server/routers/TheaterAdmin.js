@@ -46,7 +46,7 @@ TheaterRouter.put(
   AuthToken,
   updateCategory
 );
-TheaterRouter.get(
+TheaterRouter.post(
   `/theateradmin/screen/get-available-screens`,
   AuthToken,
   getAvailableScreens

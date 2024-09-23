@@ -530,7 +530,9 @@ async function getAvailableScreens(req, res) {
       return res.status(404).json({ message: "Screens not found" });
     }
 
-    console.log(screens);
+    const { startTime, endTime, date, screenType } = req.body; 
+
+    console.log(startTime, endTime, date, screenType);
 
     return res.status(200).json({ message: "Screens found", screens });
   } catch (error) {
