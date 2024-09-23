@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import useTheaterAdmin from "../../store/TheaterAdmin";
-import { set } from "mongoose";
+import useTheaterAdmin from "../../../store/TheaterAdmin";
 import ScreenCard from "./ScreenCard";
 
 function Screen() {

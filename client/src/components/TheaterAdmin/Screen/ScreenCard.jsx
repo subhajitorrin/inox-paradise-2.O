@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import useTheaterAdmin from "../../store/TheaterAdmin";
+import useTheaterAdmin from "../../../store/TheaterAdmin";
 import { CiEdit } from "react-icons/ci";
 import { toast } from "react-toastify";
 import ViewSeatMatrix from "./ViewSeatMatrix";

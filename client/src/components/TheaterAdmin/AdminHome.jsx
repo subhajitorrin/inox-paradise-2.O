@@ -1,9 +1,9 @@
 import React from "react";
-import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useTheaterAdmin from "../../store/TheaterAdmin";
-import Schedule from "./Schedule";
-import Screen from "./Screen";
+import Schedule from "./Schedule/Schedule";
+import Screen from "./Screen/Screen";
 
 const list = [
   { path: "/admin", name: "Overview" },
