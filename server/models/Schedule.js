@@ -30,7 +30,9 @@ const scheduleSchema = new mongoose.Schema(
     },
     nextShowTime: {
       type: Date,
-      default: null
+      default: function () {
+        return new Date(this.endTime.getTime() + 15 * 60 * 1000);
+      }
     },
     bookedSeats: [
       {
@@ -39,9 +41,14 @@ const scheduleSchema = new mongoose.Schema(
         default: []
       }
     ],
+    bookedCount: {
+      type: Number,
+      default: 0
+    },
     totalSeats: {
       type: Number,
-      required: true
+      required: true,
+      default: 0
     },
     availableSeats: {
       type: Number,
@@ -64,7 +71,12 @@ const scheduleSchema = new mongoose.Schema(
         type: String,
         default: []
       }
-    ]
+    ],
+    screenType: {
+      type: String,
+      enum: ["2D", "3D", "IMAX", "4DX"],
+      required: true
+    }
   },
   { timestamps: true }
 );

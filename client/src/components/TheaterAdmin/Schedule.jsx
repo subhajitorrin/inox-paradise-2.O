@@ -1,5 +1,7 @@
 import React from "react";
 
+// movie startTime language screenType
+
 function Schedule() {
   return (
     <div className="h-full w-full p-[10px]">
