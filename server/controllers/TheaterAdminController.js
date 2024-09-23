@@ -554,9 +554,22 @@ async function getAvailableScreens(req, res) {
         theater: req.id
       });
 
+      for (const item of schedules) {
+        if (
+          (sTime >= item.startTime && sTime <= item.endTime) ||
+          (eTime >= item.startTime && eTime <= item.endTime)
+        ) {
+          unavailableScreens.push(item.screen);
+        }
+      }
+
+      console.log(startTime,endTime);
+
+      console.log(unavailableScreens);
+
       const now = new Date();
 
-      console.log(schedules, "schedules", now.toLocaleTimeString());
+      // console.log(schedules, "schedules", now.toLocaleTimeString());
 
       // unavailableScreens = schedules.map(schedule => schedule.screen);
     }

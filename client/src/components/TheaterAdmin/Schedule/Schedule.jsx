@@ -217,7 +217,14 @@ function Schedule() {
             Start time:
           </label>
           <input
-            onChange={(e) => setStartTime(e.target.value)}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+              const startDate = new Date(`1970-01-01T${e.target.value}:00`);
+              const endDate = new Date(
+                startDate.getTime() + selectedMovie.duration * 60000
+              );
+              setEndTime(endDate.toTimeString().slice(0, 5));
+            }}
             value={startTime}
             type="time"
             className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
@@ -230,7 +237,6 @@ function Schedule() {
             End time:
           </label>
           <input
-            onChange={(e) => setEndTime(e.target.value)}
             value={endTime}
             readOnly={true}
             type="time"
