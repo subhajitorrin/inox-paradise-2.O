@@ -33,7 +33,7 @@ function App() {
         <Route path="/masteradmin/*" element={<MasterAdmin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      <ToastContainer />
+      <ToastContainer autoClose={1000} position="top-center"/>
     </div>
   );
 }
