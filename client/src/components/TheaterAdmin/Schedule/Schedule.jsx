@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useMovie from "../../../store/Movie";
 
 import SearchMovieCard from "./SearchMovieCard";
 import useTheaterAdmin from "../../../store/TheaterAdmin";
-
-// language screenType
 
 function Schedule() {
   const { movieList, getMovies } = useMovie();
   const [allMovies, setAllMovies] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const searchRef = useRef(null);
 
   const [selectedMovie, setSelectedMovie] = useState("");
   const [date, setDate] = useState("");
@@ -72,6 +71,18 @@ function Schedule() {
     return `${hours}hr ${mins}m`;
   }
 
+  useEffect(() => {
+    function handleToggleSearch(e) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setToggleSearch(false);
+      }
+    }
+    window.addEventListener("click", handleToggleSearch);
+    return () => {
+      window.removeEventListener("click", handleToggleSearch);
+    };
+  }, []);
+
   return (
     <div className="h-full w-full p-[10px]">
       {/* Top section  */}
@@ -81,7 +92,7 @@ function Schedule() {
           <label htmlFor="screenType" className="text-sm font-bold mb-1">
             Select Movie:
           </label>
-          <div className="relative">
+          <div ref={searchRef} className="relative">
             <input
               onClick={() => {
                 setToggleSearch((prev) => !prev);
