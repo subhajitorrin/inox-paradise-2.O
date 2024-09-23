@@ -12,7 +12,8 @@ import {
   deleteScreen,
   updateCategory,
   deleteCategory,
-  getAvailableScreens
+  getAvailableScreens,
+  addSchedule
 } from "../controllers/TheaterAdminController.js";
 const TheaterRouter = express.Router();
 TheaterRouter.post("/theateradmin/send-otp", loginTheaterAdminWithOtp);
@@ -50,5 +51,10 @@ TheaterRouter.post(
   `/theateradmin/screen/get-available-screens`,
   AuthToken,
   getAvailableScreens
+);
+TheaterRouter.post(
+  `/theateradmin/schedule/add-schedule`,
+  AuthToken,
+  addSchedule
 );
 export default TheaterRouter;

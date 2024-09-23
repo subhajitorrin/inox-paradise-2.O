@@ -559,6 +559,9 @@ async function getAvailableScreens(req, res) {
       .json({ message: "Error fetching screens", screens: [] });
   }
 }
+
+async function addSchedule(req, res) {}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -571,5 +574,6 @@ export {
   deleteScreen,
   updateCategory,
   deleteCategory,
-  getAvailableScreens
+  getAvailableScreens,
+  addSchedule
 };

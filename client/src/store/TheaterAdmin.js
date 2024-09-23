@@ -197,6 +197,35 @@ const useTheaterAdmin = create(
           console.log(error.response?.data?.message || error.message);
           throw error;
         }
+      },
+      AddSchedule: async (
+        selectedMovie,
+        startTime,
+        endTime,
+        date,
+        screenType,
+        language,
+        selectedScreen
+      ) => {
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/schedule/add-schedule`,
+            {
+              selectedMovie,
+              startTime,
+              endTime,
+              date,
+              screenType,
+              language,
+              selectedScreen
+            }
+          );
+          toast.success("Schedule added");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
     }),
     {

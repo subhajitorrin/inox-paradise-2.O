@@ -4,37 +4,39 @@ import useMovie from "../../../store/Movie";
 import SearchMovieCard from "./SearchMovieCard";
 import useTheaterAdmin from "../../../store/TheaterAdmin";
 import { set } from "mongoose";
+import { toast } from "react-toastify";
 
 function Schedule() {
+  // External hooks for fetching movies and available screens
   const { movieList, getMovies } = useMovie();
+  const { availableScreens, getAvailableScreens, AddSchedule } =
+    useTheaterAdmin();
+
+  // State management
   const [allMovies, setAllMovies] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [toggleScreen, setToggleScreen] = useState(false);
   const [selectedScreen, setSelectedScreen] = useState("");
-  const searchRef = useRef(null);
-  const screenRef = useRef(null);
-
   const [selectedMovie, setSelectedMovie] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [language, setLanguage] = useState("");
   const [screenType, setScreenType] = useState("");
-  const { availableScreens, getAvailableScreens } = useTheaterAdmin();
 
+  // Refs for handling outside click
+  const searchRef = useRef(null);
+  const screenRef = useRef(null);
+
+  // Fetch movies when the component mounts
   useEffect(() => {
     getMovies();
-  }, []);
+  }, [getMovies]);
 
+  // Update allMovies when movieList or searchText changes
   useEffect(() => {
-    if (movieList) {
-      setAllMovies(movieList);
-    }
-  }, [movieList]);
-
-  useEffect(() => {
-    if (movieList.length > 0 && searchText !== "") {
+    if (searchText) {
       const filteredMovies = movieList.filter((movie) =>
         movie.title.toLowerCase().startsWith(searchText.toLowerCase())
       );
@@ -44,8 +46,9 @@ function Schedule() {
     }
   }, [searchText, movieList]);
 
+  // Fetch available screens when scheduling data is set
   useEffect(() => {
-    if (selectedMovie !== "") {
+    if (selectedMovie) {
       getAvailableScreens(startTime, endTime, date, screenType);
     }
   }, [
@@ -57,47 +60,86 @@ function Schedule() {
     getAvailableScreens
   ]);
 
+  // Automatically calculate and set the end time based on the selected movie's duration
   useEffect(() => {
-    if (selectedMovie !== "" && startTime !== "") {
+    if (selectedMovie && startTime) {
       const startDate = new Date(`1970-01-01T${startTime}:00`);
       const endDate = new Date(
         startDate.getTime() + selectedMovie.duration * 60000
       );
-      const formattedEndTime = endDate.toTimeString().slice(0, 5);
-      setEndTime(formattedEndTime);
-      console.log(formattedEndTime);
+      setEndTime(endDate.toTimeString().slice(0, 5));
     }
   }, [selectedMovie, startTime]);
 
-  function formatMinutesToHours(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}hr ${mins}m`;
-  }
-
+  // Handle outside clicks for search toggle
   useEffect(() => {
-    function handleToggleSearch(e) {
+    const handleClickOutsideSearch = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setToggleSearch(false);
       }
-    }
-    window.addEventListener("click", handleToggleSearch);
+    };
+    window.addEventListener("click", handleClickOutsideSearch);
     return () => {
-      window.removeEventListener("click", handleToggleSearch);
+      window.removeEventListener("click", handleClickOutsideSearch);
     };
   }, []);
 
+  // Handle outside clicks for screen toggle
   useEffect(() => {
-    function handleToggleScreen(e) {
+    const handleClickOutsideScreen = (e) => {
       if (screenRef.current && !screenRef.current.contains(e.target)) {
         setToggleScreen(false);
       }
-    }
-    window.addEventListener("click", handleToggleScreen);
+    };
+    window.addEventListener("click", handleClickOutsideScreen);
     return () => {
-      window.removeEventListener("click", handleToggleScreen);
+      window.removeEventListener("click", handleClickOutsideScreen);
     };
   }, []);
+
+  // Utility function to format minutes to hours and minutes
+  const formatMinutesToHours = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}hr ${mins}m`;
+  };
+
+  async function handleAddSchedule() {
+    if (
+      !selectedMovie ||
+      !startTime ||
+      !endTime ||
+      !date ||
+      !screenType ||
+      !language ||
+      !selectedScreen
+    ) {
+      toast.warn("Fill all the fields");
+      return;
+    }
+    console.log(
+      selectedMovie,
+      startTime,
+      endTime,
+      date,
+      screenType,
+      language,
+      selectedScreen
+    );
+    try {
+      await AddSchedule(
+        selectedMovie,
+        startTime,
+        endTime,
+        date,
+        screenType,
+        language,
+        selectedScreen
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="h-full w-full p-[10px]">
@@ -326,7 +368,10 @@ function Schedule() {
           <label htmlFor="screenName" className="text-sm font-bold mb-1">
             &nbsp;
           </label>
-          <button className="bg-[#FF0051] text-white px-[20px] py-2 rounded-lg hover:bg-[#cf0142]">
+          <button
+            onClick={handleAddSchedule}
+            className="bg-[#FF0051] text-white px-[20px] py-2 rounded-lg hover:bg-[#cf0142]"
+          >
             Add
           </button>
         </div>
