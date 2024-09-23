@@ -353,12 +353,15 @@ async function reArrangeRows(screen) {
     _id: { $in: list.category }
   });
   let startRow = 65;
+  let countCapacity = 0;
   const updatePromises = categories.map((category) => {
     category.layout.map((layout) => {
       layout.row = String.fromCharCode(startRow++);
+      countCapacity += layout.seats.length;
     });
     return category.save();
   });
+  await ScreenModel.findByIdAndUpdate(screen, { capacity: countCapacity });
   await Promise.all(updatePromises);
 }
 
@@ -542,13 +545,12 @@ async function getAvailableScreens(req, res) {
         _id: scr._id,
         screenName: scr.screenName,
         screenType: scr.screenType,
-        isAvailable: scr.screenType === screenType
+        isAvailable: scr.screenType === screenType,
+        capacity: scr.capacity
       };
 
       filteredScreens.push(obj);
     }
-
-    console.log(filteredScreens);
 
     return res
       .status(200)
@@ -568,6 +570,18 @@ async function addSchedule(req, res) {
   }
   const { scheduleData } = req.body;
   try {
+    if (
+      !scheduleData.selectedMovie ||
+      !scheduleData.startTime ||
+      !scheduleData.endTime ||
+      !scheduleData.date ||
+      !scheduleData.screenType ||
+      !scheduleData.language ||
+      !scheduleData.selectedScreen
+    ) {
+      return res.status(400).json({ message: "Invalid data" });
+    }
+
     let startTime = new Date(scheduleData.date);
     startTime.setHours(scheduleData.startTime.split(":")[0]);
     startTime.setMinutes(scheduleData.startTime.split(":")[1]);
@@ -583,11 +597,10 @@ async function addSchedule(req, res) {
       movie: scheduleData.selectedMovie._id,
       startTime,
       endTime,
-      nextShowTime: new Date(endTime.getTime() + 15 * 60 * 1000)
+      nextShowTime: new Date(endTime.getTime() + 15 * 60 * 1000),
+      totalSeats: scheduleData.selectedScreen.capacity
     });
-    // await newSchedule.save();
-    // totalSeats
-    console.log(newSchedule);
+    await newSchedule.save();
     return res
       .status(200)
       .json({ message: "Schedule added successfully", schedule: newSchedule });
