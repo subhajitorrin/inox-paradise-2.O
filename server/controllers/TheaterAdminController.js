@@ -518,6 +518,26 @@ async function deleteCategory(req, res) {
     return res.status(500).json({ message: "Error deleting category" });
   }
 }
+
+async function getAvailableScreens(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const screens = await ScreenModel.find({ theater: req.id });
+    if (!screens) {
+      return res.status(404).json({ message: "Screens not found" });
+    }
+
+    console.log(screens);
+
+    return res.status(200).json({ message: "Screens found", screens });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching screens" });
+  }
+}
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -529,5 +549,6 @@ export {
   updateScreen,
   deleteScreen,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getAvailableScreens
 };

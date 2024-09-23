@@ -14,6 +14,7 @@ const useTheaterAdmin = create(
       isAdminAuthenticated: false,
       isLoading: false,
       screens: [],
+      availableScreens: [],
       sendOtpForTheaterRegistration: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -181,6 +182,19 @@ const useTheaterAdmin = create(
           return data;
         } catch (error) {
           toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
+      getAvailableScreens: async (startTime, endTime, date, screenType) => {
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/theateradmin/screen/get-available-screens`,
+            { startTime, endTime, date, screenType }
+          );
+          set({ availableScreens: data.screens });
+          return data.screens;
+        } catch (error) {
+          console.log(error.response?.data?.message || error.message);
           throw error;
         }
       }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useMovie from "../../../store/Movie";
 
 import SearchMovieCard from "./SearchMovieCard";
+import useTheaterAdmin from "../../../store/TheaterAdmin";
 
 // language screenType
 
@@ -9,8 +10,19 @@ function Schedule() {
   const { movieList, getMovies } = useMovie();
   const [allMovies, setAllMovies] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  const [selectedMovie, setSelectedMovie] = useState("");
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [language, setLanguage] = useState("");
+  const [screenType, setScreenType] = useState("");
+  const { availableScreens, getAvailableScreens } = useTheaterAdmin();
+
+  useEffect(() => {
+    console.log(screenType);
+  }, [screenType]);
 
   useEffect(() => {
     getMovies();
@@ -32,6 +44,17 @@ function Schedule() {
       setAllMovies(movieList);
     }
   }, [searchText, movieList]);
+
+  useEffect(() => {
+    if (
+      startTime !== "" &&
+      endTime !== "" &&
+      date !== "" &&
+      screenType !== ""
+    ) {
+      getAvailableScreens(startTime, endTime, date, screenType);
+    }
+  }, [startTime, endTime, date, screenType, getAvailableScreens]);
 
   return (
     <div className="h-full w-full p-[10px]">
@@ -76,6 +99,19 @@ function Schedule() {
                           onClick={() => {
                             setSelectedMovie(movie);
                             setToggleSearch(false);
+                            setSearchText("");
+                            setScreenType(
+                              (movie.screenType &&
+                                movie.screenType.length > 0 &&
+                                movie.screenType[0]) ||
+                                []
+                            );
+                            setLanguage(
+                              (movie.language &&
+                                movie.language.length > 0 &&
+                                movie.language[0]) ||
+                                []
+                            );
                           }}
                         >
                           <SearchMovieCard movie={movie} />
@@ -94,6 +130,8 @@ function Schedule() {
             Select date:
           </label>
           <input
+            onChange={(e) => setDate(e.target.value)}
+            value={date}
             type="date"
             className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
           />
@@ -105,6 +143,8 @@ function Schedule() {
             Start time:
           </label>
           <input
+            onChange={(e) => setStartTime(e.target.value)}
+            value={startTime}
             type="time"
             className="px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
           />
@@ -116,6 +156,8 @@ function Schedule() {
             end time:
           </label>
           <input
+            onChange={(e) => setEndTime(e.target.value)}
+            value={endTime}
             readOnly={true}
             type="time"
             className="opacity-[.5]  px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
@@ -127,7 +169,11 @@ function Schedule() {
           <label htmlFor="screenType" className="text-sm font-bold mb-1">
             Language:
           </label>
-          <select className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none ">
+          <select
+            onChange={(e) => setLanguage(e.target.value)}
+            disabled={selectedMovie === ""}
+            className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
+          >
             {selectedMovie &&
               selectedMovie.language.map((lang, index) => {
                 return (
@@ -139,17 +185,42 @@ function Schedule() {
           </select>
         </div>
 
-        {/* screen */}
+        {/* screen type */}
         <div className="flex flex-col">
           <label htmlFor="screenType" className="text-sm font-bold mb-1">
-            Screen:
+            Screen type:
           </label>
-          <select className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none ">
+          <select
+            onChange={(e) => setScreenType(e.target.value)}
+            disabled={selectedMovie === ""}
+            className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
+          >
             {selectedMovie &&
-              selectedMovie.language.map((lang, index) => {
+              selectedMovie.screenType.map((type, index) => {
                 return (
-                  <option key={index} value={lang}>
-                    {lang}
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+
+        {/* available screens */}
+        <div className="flex flex-col">
+          <label htmlFor="screenType" className="text-sm font-bold mb-1">
+            Screens:
+          </label>
+          <select
+            onChange={(e) => setScreenType(e.target.value)}
+            disabled={screenType === ""}
+            className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
+          >
+            {availableScreens &&
+              availableScreens.map((item, index) => {
+                return (
+                  <option key={index} value={item._id}>
+                    {item.screen}
                   </option>
                 );
               })}
