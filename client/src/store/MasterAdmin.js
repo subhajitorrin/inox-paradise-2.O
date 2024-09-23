@@ -175,7 +175,7 @@ const useMasterAdmin = create(
         set({ updateMovie: movieData });
       },
 
-      updateMovieToBackend: async (movieData,movieid) => {
+      updateMovieToBackend: async (movieData, movieid) => {
         set({ isLoading: true });
         try {
           const { data } = await axios.put(
@@ -183,6 +183,7 @@ const useMasterAdmin = create(
             { movieData },
             { headers: { "Content-Type": "application/json" } }
           );
+          set({ updateMovie: data.movie });
           toast.success("Movie updated successfully");
           return data;
         } catch (error) {

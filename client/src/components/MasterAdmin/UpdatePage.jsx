@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import useMasterAdmin from "../../store/MasterAdmin";
 import { BeatLoader } from "react-spinners";
 import { IoIosArrowBack } from "react-icons/io";
+import useMovie from "../../store/Movie";
 
 const genrelist = [
   "Action",
@@ -37,6 +38,8 @@ const languageList = [
   "Maithili"
 ];
 
+const screenTypeList = ["2D", "3D", "IMAX", "4DX"];
+
 function UpdatePage({ setIsUpdatePage }) {
   const [isFetching, setIsFetching] = useState(true);
   const [castList, setCastList] = useState([]);
@@ -49,6 +52,7 @@ function UpdatePage({ setIsUpdatePage }) {
   const [poster, setPoster] = useState("");
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
+  const [screenType, setScreenType] = useState([]);
 
   const { setUpdateMovie, updateMovieToBackend, updateMovie, isLoading } =
     useMasterAdmin();
@@ -62,6 +66,7 @@ function UpdatePage({ setIsUpdatePage }) {
   useEffect(() => {
     if (updateMovie !== null) {
       setLanguage(updateMovie.language || []);
+      setScreenType(updateMovie.screenType || []);
       setCastList(updateMovie.castList || []);
       settitle(updateMovie.title || "");
       setgenre(updateMovie.genre || []);
@@ -130,12 +135,13 @@ function UpdatePage({ setIsUpdatePage }) {
       castList,
       poster,
       trailerUrl,
-      synopsis
+      synopsis,
+      screenType
     };
     try {
       await updateMovieToBackend(movieData, updateMovie._id);
-      sessionStorage.removeItem("isUpdatePage");
-      setIsUpdatePage(false);
+      // sessionStorage.removeItem("isUpdatePage");
+      // setIsUpdatePage(false);
     } catch (error) {
       console.log(error);
     }
@@ -332,6 +338,46 @@ function UpdatePage({ setIsUpdatePage }) {
             onRemove={(selectedList) => {
               const list = selectedList.map((item) => item.name);
               setLanguage(list);
+            }}
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
+              },
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px"
+              }
+            }}
+          />
+        </div>
+
+        {/* screen type */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="language" className="font-[500] w-[100px]">
+            Screen type
+          </label>
+          <Multiselect
+            options={screenTypeList.map((item) => ({ name: item }))}
+            displayValue="name"
+            selectedValues={screenType.map((item) => ({ name: item }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setScreenType(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setScreenType(list);
             }}
             className="w-[400px] bg-[#353333]"
             style={{

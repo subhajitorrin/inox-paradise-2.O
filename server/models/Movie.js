@@ -10,6 +10,13 @@ const movieSchema = new mongoose.Schema(
     poster: { type: String, required: true },
     trailerUrl: String,
     rating: { type: Number, default: 0.0 },
+    screenType: [
+      {
+        type: String,
+        enum: ["2D", "3D", "IMAX", "4DX"],
+        default: ["2D"]
+      }
+    ],
     castList: [
       {
         type: {

@@ -36,6 +36,8 @@ const languageList = [
   "Maithili"
 ];
 
+const screenTypeList = ["2D", "3D", "IMAX", "4DX"];
+
 function AddMovie() {
   const [isFetching, setIsFetching] = useState(true);
   const [castList, setCastList] = useState([]);
@@ -48,6 +50,7 @@ function AddMovie() {
   const [poster, setPoster] = useState("");
   const [trailerUrl, setTrailerUrl] = useState("");
   const [synopsis, setSynopsis] = useState("");
+  const [screenType, setScreenType] = useState([]);
 
   const { addMovie, isLoading } = useMasterAdmin();
 
@@ -128,7 +131,8 @@ function AddMovie() {
       castList,
       poster,
       trailerUrl,
-      synopsis
+      synopsis,
+      screenType
     };
     try {
       await addMovie(movieData);
@@ -142,6 +146,7 @@ function AddMovie() {
       setTrailerUrl("");
       setSynopsis("");
       setCastList([]);
+      setScreenType([])
     } catch (error) {
       console.log(error);
     }
@@ -331,6 +336,46 @@ function AddMovie() {
             onRemove={(selectedList) => {
               const list = selectedList.map((item) => item.name);
               setLanguage(list);
+            }}
+            className="w-[400px] bg-[#353333]"
+            style={{
+              option: {
+                color: "white"
+              },
+              optionContainer: {
+                backgroundColor: "#353333"
+              },
+              searchBox: {
+                border: "none",
+                paddingLeft: "20px"
+              },
+              multiselectContainer: {
+                width: "400px",
+                borderRadius: "5px",
+                fontSize: "14px",
+                paddingTop: "5px",
+                paddingBottom: "5px"
+              }
+            }}
+          />
+        </div>
+
+        {/* screen type */}
+        <div className="flex gap-[10px] items-center">
+          <label htmlFor="language" className="font-[500] w-[100px]">
+            Screen type
+          </label>
+          <Multiselect
+            options={screenTypeList.map((item) => ({ name: item }))}
+            displayValue="name"
+            selectedValues={screenType.map((item) => ({ name: item }))}
+            onSelect={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setScreenType(list);
+            }}
+            onRemove={(selectedList) => {
+              const list = selectedList.map((item) => item.name);
+              setScreenType(list);
             }}
             className="w-[400px] bg-[#353333]"
             style={{
