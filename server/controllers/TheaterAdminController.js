@@ -526,18 +526,37 @@ async function getAvailableScreens(req, res) {
   }
   try {
     const screens = await ScreenModel.find({ theater: req.id });
-    if (!screens) {
-      return res.status(404).json({ message: "Screens not found" });
+    if (!screens || screens.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Screens not found", screens: [] });
     }
 
-    const { startTime, endTime, date, screenType } = req.body; 
+    const { startTime, endTime, date, screenType } = req.body;
 
-    console.log(startTime, endTime, date, screenType);
+    let filteredScreens = [];
 
-    return res.status(200).json({ message: "Screens found", screens });
+    for (const scr of screens) {
+      let obj = {
+        _id: scr._id,
+        screenName: scr.screenName,
+        screenType: scr.screenType,
+        isAvailable: scr.screenType === screenType
+      };
+
+      filteredScreens.push(obj);
+    }
+
+    console.log(filteredScreens);
+
+    return res
+      .status(200)
+      .json({ message: "Screens found", screens: filteredScreens });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Error fetching screens" });
+    return res
+      .status(500)
+      .json({ message: "Error fetching screens", screens: [] });
   }
 }
 export {

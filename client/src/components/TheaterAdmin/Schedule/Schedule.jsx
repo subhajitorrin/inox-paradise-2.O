@@ -3,13 +3,17 @@ import useMovie from "../../../store/Movie";
 
 import SearchMovieCard from "./SearchMovieCard";
 import useTheaterAdmin from "../../../store/TheaterAdmin";
+import { set } from "mongoose";
 
 function Schedule() {
   const { movieList, getMovies } = useMovie();
   const [allMovies, setAllMovies] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [toggleScreen, setToggleScreen] = useState(false);
+  const [selectedScreen, setSelectedScreen] = useState("");
   const searchRef = useRef(null);
+  const screenRef = useRef(null);
 
   const [selectedMovie, setSelectedMovie] = useState("");
   const [date, setDate] = useState("");
@@ -80,6 +84,18 @@ function Schedule() {
     window.addEventListener("click", handleToggleSearch);
     return () => {
       window.removeEventListener("click", handleToggleSearch);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleToggleScreen(e) {
+      if (screenRef.current && !screenRef.current.contains(e.target)) {
+        setToggleScreen(false);
+      }
+    }
+    window.addEventListener("click", handleToggleScreen);
+    return () => {
+      window.removeEventListener("click", handleToggleScreen);
     };
   }, []);
 
@@ -255,20 +271,55 @@ function Schedule() {
           <label htmlFor="screenType" className="text-sm font-bold mb-1">
             Screens:
           </label>
-          <select
-            onChange={(e) => setScreenType(e.target.value)}
-            disabled={screenType === ""}
-            className="w-[150px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
-          >
-            {availableScreens &&
-              availableScreens.map((item, index) => {
-                return (
-                  <option key={index} value={item._id}>
-                    {item.screenType} • {item.screenName}
-                  </option>
-                );
-              })}
-          </select>
+          <div ref={screenRef} className="relative">
+            <input
+              onClick={() => {
+                setToggleScreen(!toggleScreen);
+              }}
+              value={
+                selectedScreen !== ""
+                  ? `${selectedScreen.screenName} - ${selectedScreen.screenType}`
+                  : ""
+              }
+              type="text"
+              placeholder="Select screen"
+              readOnly={true}
+              className="cursor-pointer w-[150px]  px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
+            />
+            {toggleScreen && (
+              <div className="w-[150px] absolute top-[110%] rounded-[7px] bg-[#302f2f]">
+                {availableScreens.length === 0 ? (
+                  <div
+                    onClick={() => {
+                      setToggleScreen(false);
+                    }}
+                    className="text-center py-[1rem]"
+                  >
+                    Not available
+                  </div>
+                ) : (
+                  availableScreens.map((item, index) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          setSelectedScreen(item);
+                          setToggleScreen(false);
+                        }}
+                        style={{
+                          opacity: item.isAvailable ? 1 : 0.3,
+                          pointerEvents: item.isAvailable ? "auto" : "none"
+                        }}
+                        key={index}
+                        className="p-[10px] hover:bg-[#444242] cursor-pointer overflow-hidden"
+                      >
+                        {item.screenType} - {item.screenName}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col">
