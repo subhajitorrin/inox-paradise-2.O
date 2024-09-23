@@ -538,6 +538,29 @@ async function getAvailableScreens(req, res) {
 
     const { startTime, endTime, date, screenType } = req.body;
 
+    let unavailableScreens = [];
+
+    if (date && startTime && endTime) {
+      let sTime = new Date(date);
+      sTime.setHours(startTime.split(":")[0]);
+      sTime.setMinutes(startTime.split(":")[1]);
+
+      let eTime = new Date(date);
+      eTime.setHours(endTime.split(":")[0]);
+      eTime.setMinutes(endTime.split(":")[1]);
+
+      const schedules = await ScheduleModel.find({
+        date,
+        theater: req.id
+      });
+
+      const now = new Date();
+
+      console.log(schedules, "schedules", now.toLocaleTimeString());
+
+      // unavailableScreens = schedules.map(schedule => schedule.screen);
+    }
+
     let filteredScreens = [];
 
     for (const scr of screens) {

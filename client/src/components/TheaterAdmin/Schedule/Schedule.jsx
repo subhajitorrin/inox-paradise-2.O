@@ -49,14 +49,7 @@ function Schedule() {
     if (selectedMovie) {
       getAvailableScreens(startTime, endTime, date, screenType);
     }
-  }, [
-    selectedMovie,
-    startTime,
-    endTime,
-    date,
-    screenType,
-    getAvailableScreens
-  ]);
+  }, [selectedMovie, startTime, date, screenType, getAvailableScreens]);
 
   // Automatically calculate and set the end time based on the selected movie's duration
   useEffect(() => {
@@ -68,6 +61,12 @@ function Schedule() {
       setEndTime(endDate.toTimeString().slice(0, 5));
     }
   }, [selectedMovie, startTime]);
+
+  useEffect(() => {
+    if (availableScreens.length > 0) {
+      setSelectedScreen(availableScreens[0]);
+    }
+  }, [availableScreens]);
 
   // Handle outside clicks for search toggle
   useEffect(() => {
