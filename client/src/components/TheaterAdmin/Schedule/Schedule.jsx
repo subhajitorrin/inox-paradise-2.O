@@ -42,8 +42,35 @@ function Schedule() {
   }, [searchText, movieList]);
 
   useEffect(() => {
-    getAvailableScreens(startTime, endTime, date, screenType);
-  }, [startTime, endTime, date, screenType, getAvailableScreens]);
+    if (selectedMovie !== "") {
+      getAvailableScreens(startTime, endTime, date, screenType);
+    }
+  }, [
+    selectedMovie,
+    startTime,
+    endTime,
+    date,
+    screenType,
+    getAvailableScreens
+  ]);
+
+  useEffect(() => {
+    if (selectedMovie !== "" && startTime !== "") {
+      const startDate = new Date(`1970-01-01T${startTime}:00`);
+      const endDate = new Date(
+        startDate.getTime() + selectedMovie.duration * 60000
+      );
+      const formattedEndTime = endDate.toTimeString().slice(0, 5);
+      setEndTime(formattedEndTime);
+      console.log(formattedEndTime);
+    }
+  }, [selectedMovie, startTime]);
+
+  function formatMinutesToHours(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}hr ${mins}m`;
+  }
 
   return (
     <div className="h-full w-full p-[10px]">
@@ -142,7 +169,7 @@ function Schedule() {
         {/* end time  */}
         <div className="pointer-events-none flex flex-col">
           <label htmlFor="screenName" className="text-sm font-bold mb-1">
-            end time:
+            End time:
           </label>
           <input
             onChange={(e) => setEndTime(e.target.value)}
@@ -150,6 +177,23 @@ function Schedule() {
             readOnly={true}
             type="time"
             className="opacity-[.5]  px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
+          />
+        </div>
+
+        {/* duration  */}
+        <div className="pointer-events-none flex flex-col">
+          <label htmlFor="screenName" className="text-sm font-bold mb-1">
+            Duration:
+          </label>
+          <input
+            value={
+              selectedMovie !== ""
+                ? formatMinutesToHours(selectedMovie.duration)
+                : "0hr 00m"
+            }
+            readOnly={true}
+            type="text"
+            className="opacity-[.5] w-[90px]  px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
           />
         </div>
 
@@ -203,13 +247,13 @@ function Schedule() {
           <select
             onChange={(e) => setScreenType(e.target.value)}
             disabled={screenType === ""}
-            className="w-[120px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
+            className="w-[150px] px-3 py-2 bg-[#302f2f] rounded-lg outline-none "
           >
             {availableScreens &&
               availableScreens.map((item, index) => {
                 return (
                   <option key={index} value={item._id}>
-                    {item.screen}
+                    {item.screenType} • {item.screenName}
                   </option>
                 );
               })}
