@@ -32,14 +32,16 @@ function Row({ row, gaps }) {
         })}
 
         {/* Handle gaps after the last seat */}
-        {gaps.includes(row.seats.length) && (
-          Array.from({ length: gaps.filter(gapIndex => gapIndex === row.seats.length).length }).map((_, gapIndex) => (
+        {gaps.includes(row.seats.length) &&
+          Array.from({
+            length: gaps.filter((gapIndex) => gapIndex === row.seats.length)
+              .length
+          }).map((_, gapIndex) => (
             <div
               className="h-[20px] border border-[#ff005154] w-[20px] bg-transparent"
               key={`gap-end-${gapIndex}`}
             ></div>
-          ))
-        )}
+          ))}
       </div>
     </div>
   );
