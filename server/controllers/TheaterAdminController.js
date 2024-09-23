@@ -349,20 +349,12 @@ async function generateSeats(category, screen, n, rowName) {
 async function reArrangeRows(screen) {
   console.log("____________________________________________");
   const list = await ScreenModel.findById(screen).select("category");
-
   let startRow = 65;
-
   for (const catid of list.category) {
     const category = await SeatCategoryModel.findById(catid);
-    console.log(category);
-
-    // Loop through the layouts and assign rows
     for (const layout of category.layout) {
-      layout.row = String.fromCharCode(startRow);
-      console.log(startRow);
-      startRow++;
+      layout.row = String.fromCharCode(startRow++);
     }
-
     await category.save();
   }
 }
@@ -488,8 +480,8 @@ async function updateCategory(req, res) {
       category.layout = layout;
     }
 
-    // await reArrangeRows(category.screen);
     await category.save();
+    await reArrangeRows(category.screen);
 
     return res
       .status(200)
