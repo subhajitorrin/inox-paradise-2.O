@@ -51,16 +51,43 @@ async function getMovieById(req, res) {
   }
 }
 
+function getStartNEndDate(date) {
+  const monthMapping = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11
+  };
+  const trimDate = date.slice(4, 15).split(" ");
+  const searchDate = new Date();
+  searchDate.setDate(trimDate[1]);
+  searchDate.setMonth(monthMapping[trimDate[0]]);
+  searchDate.setFullYear(trimDate[2]);
+  const startOfDay = new Date(searchDate.setUTCHours(0, 0, 0, 0));
+  const endOfDay = new Date(searchDate.setUTCHours(23, 59, 59, 999));
+  return { startOfDay, endOfDay };
+}
+
 async function getSchedulesByMovieId(req, res) {
   const { movieid, date } = req.params;
   try {
-    console.log(movieid, date);
+    const { startOfDay, endOfDay } = getStartNEndDate(date);
 
     const schedules = await ScheduleModel.find({
-      movie: movieid
-    })
-      .select("-screen")
-      .populate("movie");
+      movie: movieid,
+      date: {
+        $gte: startOfDay,
+        $lte: endOfDay
+      }
+    }).select("theater -_id");
 
     return res.status(200).json({
       message: "Schedules fetched successfully",
