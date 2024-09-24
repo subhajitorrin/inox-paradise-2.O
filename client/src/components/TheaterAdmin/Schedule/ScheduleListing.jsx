@@ -9,7 +9,7 @@ function ScheduleListing() {
   return (
     <div className="h-full w-full py-[5px] px-[10px]">
       <FilterRow />
-      <div className="overflow-y-auto scrollNone h-[95%]">
+      <div className="overflow-y-auto w-full scrollNone h-[95%] flex flex-col">
         {filteredSchedules &&
           filteredSchedules.map((item, index) => (
             <ScheduleCard schedule={item} key={index} />

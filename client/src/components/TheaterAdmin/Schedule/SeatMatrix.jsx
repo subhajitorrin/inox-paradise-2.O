@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import CategoryCard from "./CategoryCard";
-import SeatLoader from "./SeatLoader";
 
-function ViewSeatMatrix({ screen, isLoading }) {
+function SeatMatrix({ screen, isLoading }) {
   return (
     <>
       {isLoading ? (
-        <SeatLoader />
+        // <SeatLoader />
+        <></>
       ) : (
         <div className="relative w-full h-full pb-[3rem]">
           <div>
@@ -19,10 +19,13 @@ function ViewSeatMatrix({ screen, isLoading }) {
               Screen here
             </p>
           </div>
+          <p className="text-end w-full absolute bottom-[10px] right-[10px] text-[80%] font-[500]">
+            {screen.screenName}
+          </p>
         </div>
       )}
     </>
   );
 }
 
-export default ViewSeatMatrix;
+export default SeatMatrix;
