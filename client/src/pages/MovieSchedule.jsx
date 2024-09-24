@@ -93,11 +93,18 @@ function MovieSchedule() {
   }
 
   useEffect(() => {
-    if (id && dates.length > 0) {
+    if (id && dates.length > 0 && language && screenType) {
       const date = getDate(dates[selectedDateIndexOnScheule]);
-      getScheduleList(id, date);
+      getScheduleList(id, date, language, screenType);
     }
-  }, [id, dates, selectedDateIndexOnScheule, getScheduleList]);
+  }, [
+    id,
+    dates,
+    selectedDateIndexOnScheule,
+    getScheduleList,
+    language,
+    screenType
+  ]);
 
   useEffect(() => {
     function handleOutsideClick(e) {

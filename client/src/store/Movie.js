@@ -51,10 +51,10 @@ const useMovie = create(
       setSelectedDate: (index) => {
         set({ selectedDateIndexOnScheule: index });
       },
-      getScheduleList: async (movieid, date) => {
+      getScheduleList: async (movieid, date, language, screenType) => {
         try {
           const { data } = await axios.get(
-            `${BASE_URL}/get-schedules-by-movie/${movieid}/${date}`
+            `${BASE_URL}/get-schedules-by-movie/${movieid}/${date}/${language}/${screenType}`
           );
           set({ scheduleList: data.schedules });
         } catch (error) {

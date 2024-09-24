@@ -12,5 +12,8 @@ MovieRouter.get("/get-all-movies", getAllMovies);
 MovieRouter.get("/movie-by-id/:id", getMovieById);
 MovieRouter.get("/get-upcoming-movies", getUpcomingMovies);
 MovieRouter.get("/get-newrelease-movies", getNewReleaseMovies);
-MovieRouter.get("/get-schedules-by-movie/:movieid/:date", getSchedulesByMovieId);
+MovieRouter.get(
+  "/get-schedules-by-movie/:movieid/:date/:language/:screen",
+  getSchedulesByMovieId
+);
 export default MovieRouter;
