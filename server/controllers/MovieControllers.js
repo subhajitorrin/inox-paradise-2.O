@@ -1,5 +1,6 @@
 import MovieModel from "../models/Movie.js";
 import ScheduleModel from "../models/Schedule.js";
+import TheaterModel from "../models/TheaterAdmin.js";
 
 async function getAllMovies(req, res) {
   try {
@@ -81,7 +82,7 @@ async function getSchedulesByMovieId(req, res) {
   try {
     const { startOfDay, endOfDay } = getStartNEndDate(date);
 
-    const schedules = await ScheduleModel.find({
+    let theaters = await ScheduleModel.find({
       movie: movieid,
       date: {
         $gte: startOfDay,
@@ -89,9 +90,25 @@ async function getSchedulesByMovieId(req, res) {
       }
     }).select("theater -_id");
 
+    theaters = theaters.map((item) => item.theater);
+
+    let list = [];
+    for (const theaterId of theaters) {
+      const scheduleList = await ScheduleModel.find({
+        movie: movieid,
+        date: {
+          $gte: startOfDay,
+          $lte: endOfDay
+        },
+        theater: theaterId
+      });
+      const theater = await TheaterModel.findById(theaterId);
+      list.push({ theater, scheduleList });
+    }
+
     return res.status(200).json({
       message: "Schedules fetched successfully",
-      schedules
+      schedules: list
     });
   } catch (error) {
     console.log(error);
