@@ -1,4 +1,5 @@
 import MovieModel from "../models/Movie.js";
+import ScheduleModel from "../models/Schedule.js";
 
 async function getAllMovies(req, res) {
   try {
@@ -55,9 +56,15 @@ async function getSchedulesByMovieId(req, res) {
   try {
     console.log(movieid, date);
 
+    const schedules = await ScheduleModel.find({
+      movie: movieid
+    })
+      .select("-screen")
+      .populate("movie");
+
     return res.status(200).json({
       message: "Schedules fetched successfully",
-      schedules: []
+      schedules
     });
   } catch (error) {
     console.log(error);

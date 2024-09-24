@@ -354,7 +354,7 @@ function Schedule() {
                           pointerEvents: item.isAvailable ? "auto" : "none"
                         }}
                         key={index}
-                        className="p-[10px] hover:bg-[#444242] cursor-pointer overflow-hidden"
+                        className="z-[10] relative p-[10px] bg-[#302f2f]  hover:bg-[#444242] cursor-pointer overflow-hidden"
                       >
                         {item.screenType} - {item.screenName}
                       </div>
