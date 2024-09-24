@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMobile } from "../store/ScreenWidth";
 import useMovie from "../store/Movie";
 import { useEffect, useState } from "react";
+import TheaterCards from "../components/MovieSchedules/TheaterCards";
 function MovieSchedule() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -90,10 +91,6 @@ function MovieSchedule() {
     }
   }, [id, dates, selectedDateIndexOnScheule, getScheduleList]);
 
-  useEffect(() => {
-    console.log(scheduleList);
-  }, [scheduleList]);
-
   if (isMobile) {
     return (
       movie && (
@@ -136,7 +133,18 @@ function MovieSchedule() {
           </div>
 
           {/* schedule section */}
-          <div className=""></div>
+          <div className="min-h-screen gap-[5px] flex flex-col p-[10px] bg-[#f4f4f4]">
+            {scheduleList &&
+              scheduleList.map((item, index) => {
+                return (
+                  <TheaterCards
+                    key={index}
+                    theater={item.theater}
+                    list={item.scheduleList}
+                  />
+                );
+              })}
+          </div>
         </div>
       )
     );
