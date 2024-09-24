@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 
 function ShowTimeCard({ show }) {
   const options = { hour: "numeric", minute: "numeric", hour12: true };
-  useEffect(() => {
-    console.log(show);
-  }, [show]);
   return (
     <div className="border border-[#0000002d] px-[15px] py-[7px] rounded-[5px]">
       <p
