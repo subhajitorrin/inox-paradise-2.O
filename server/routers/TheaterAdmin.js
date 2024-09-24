@@ -13,7 +13,8 @@ import {
   updateCategory,
   deleteCategory,
   getAvailableScreens,
-  addSchedule
+  addSchedule,
+  getFilteredSchedules
 } from "../controllers/TheaterAdminController.js";
 const TheaterRouter = express.Router();
 TheaterRouter.post("/theateradmin/send-otp", loginTheaterAdminWithOtp);
@@ -56,5 +57,10 @@ TheaterRouter.post(
   `/theateradmin/schedule/add-schedule`,
   AuthToken,
   addSchedule
+);
+TheaterRouter.post(
+  `/theateradmin/schedule/get-schedules`,
+  AuthToken,
+  getFilteredSchedules
 );
 export default TheaterRouter;

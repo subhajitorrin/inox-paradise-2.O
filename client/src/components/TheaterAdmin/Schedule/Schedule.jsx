@@ -3,6 +3,7 @@ import useMovie from "../../../store/Movie";
 import SearchMovieCard from "./SearchMovieCard";
 import useTheaterAdmin from "../../../store/TheaterAdmin";
 import { toast } from "react-toastify";
+import ScheduleListing from "./ScheduleListing";
 
 function Schedule() {
   // External hooks for fetching movies and available screens
@@ -376,6 +377,9 @@ function Schedule() {
             Add
           </button>
         </div>
+      </div>
+      <div className="h-[85%] w-full">
+        <ScheduleListing />
       </div>
     </div>
   );

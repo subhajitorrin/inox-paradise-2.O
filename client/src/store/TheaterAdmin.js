@@ -15,6 +15,7 @@ const useTheaterAdmin = create(
       isLoading: false,
       screens: [],
       availableScreens: [],
+      filteredSchedules: [],
       sendOtpForTheaterRegistration: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -198,9 +199,7 @@ const useTheaterAdmin = create(
           throw error;
         }
       },
-      AddSchedule: async (
-        scheduleData
-      ) => {
+      AddSchedule: async (scheduleData) => {
         try {
           const { data } = await axios.post(
             `${BASE_URL}/theateradmin/schedule/add-schedule`,
@@ -214,6 +213,19 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data?.message || error.message);
           throw error;
         }
+      },
+      getFilteredSchedules: async (filteredData) => {
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/schedule/get-schedules`,
+            {
+              filteredData
+            }
+          );
+          set({ filteredSchedules: data.schedules });
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+        }
       }
     }),
     {
@@ -221,7 +233,8 @@ const useTheaterAdmin = create(
       partialize: (state) => ({
         isAdminAuthenticated: state.isAdminAuthenticated,
         admin: state.admin,
-        screens: state.screens
+        screens: state.screens,
+        filteredSchedules: state.filteredSchedules
       }),
       storage: createJSONStorage(() => sessionStorage)
     }

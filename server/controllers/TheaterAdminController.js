@@ -646,6 +646,50 @@ async function addSchedule(req, res) {
   }
 }
 
+async function getFilteredSchedules(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { filteredData } = req.body;
+  try {
+    let schedules;
+    if (filteredData.sort === "sort by start time") {
+      schedules = await ScheduleModel.find({
+        theater: req.id,
+        date: filteredData.date
+      })
+        .sort({ startTime: 1 })
+        .populate("movie")
+        .populate({
+          path: "screen",
+          populate: {
+            path: "category"
+          }
+        });
+    } else if (filteredData.sort === "sort by end time") {
+      schedules = await ScheduleModel.find({
+        theater: req.id,
+        date: filteredData.date
+      })
+        .sort({ startTime: 1 })
+        .populate("movie")
+        .populate({
+          path: "screen",
+          populate: {
+            path: "category"
+          }
+        });
+    }
+    return res.status(200).json({ message: "Schedules found", schedules });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error fetching schedules", schedules: [] });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -659,5 +703,6 @@ export {
   updateCategory,
   deleteCategory,
   getAvailableScreens,
-  addSchedule
+  addSchedule,
+  getFilteredSchedules
 };
