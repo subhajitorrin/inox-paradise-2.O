@@ -672,7 +672,7 @@ async function getFilteredSchedules(req, res) {
         theater: req.id,
         date: filteredData.date
       })
-        .sort({ startTime: 1 })
+        .sort({ startTime: -1 })
         .populate("movie")
         .populate({
           path: "screen",

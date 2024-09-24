@@ -9,7 +9,8 @@ function ScheduleCard({ schedule }) {
     availableSeats,
     totalSeats,
     language,
-    screenType
+    screenType,
+    bookedCount
   } = schedule;
 
   const options = { hour: "numeric", minute: "numeric", hour12: true }; // Modify this for 24-hour format if needed
@@ -28,13 +29,14 @@ function ScheduleCard({ schedule }) {
         </h3>
         <p className="mb-1">Date: {new Date(date).toLocaleDateString()}</p>
         <p className="mb-1">
-          <span className="font-medium">Start Time:</span>{" "}
+          <span className="">Start Time:</span>{" "}
           {new Date(startTime).toLocaleTimeString(undefined, options)}
         </p>
         <p className="mb-1">
-          <span className="font-medium">End Time:</span>{" "}
+          <span className="m">End Time:</span>{" "}
           {new Date(endTime).toLocaleTimeString(undefined, options)}
         </p>
+        <p className="mb-1">Total bookings: {bookedCount}</p>
         <p className="mb-1">
           Available Seats: {availableSeats} / {totalSeats}
         </p>
