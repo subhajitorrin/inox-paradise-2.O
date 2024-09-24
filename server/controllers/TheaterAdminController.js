@@ -646,6 +646,31 @@ async function addSchedule(req, res) {
   }
 }
 
+async function handleScheduleStatus(schedules) {
+  for (const sch of schedules) {
+    let status;
+    const today = new Date();
+    if (new Date(sch.endTime) < today) {
+      status = "Finished Showing";
+      if (sch.status !== status) {
+        await ScheduleModel.findByIdAndUpdate(sch._id, { status });
+      }
+    } else if (new Date(sch.startTime) > today) {
+      status = "Upcoming";
+      if (sch.status !== status) {
+        await ScheduleModel.findByIdAndUpdate(sch._id, { status });
+      }
+    } else {
+      status = "Now Showing";
+      if (sch.status !== status) {
+        await ScheduleModel.findByIdAndUpdate(sch._id, { status });
+      }
+    }
+    sch.status = status;
+  }
+  return schedules;
+}
+
 async function getFilteredSchedules(req, res) {
   const { role } = req;
   if (role !== "theateradmin") {
@@ -687,6 +712,9 @@ async function getFilteredSchedules(req, res) {
           }
         });
     }
+
+    schedules = await handleScheduleStatus(schedules);
+
     return res.status(200).json({ message: "Schedules found", schedules });
   } catch (error) {
     console.log(error);

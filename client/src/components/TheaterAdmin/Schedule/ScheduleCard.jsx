@@ -11,21 +11,20 @@ function ScheduleCard({ schedule }) {
     totalSeats,
     language,
     screenType,
-    bookedCount
+    bookedCount,
+    status
   } = schedule;
 
-  const [status, setStatus] = useState("");
-
-  useEffect(() => {
-    const today = new Date();
-    if (new Date(startTime) <= today && new Date(endTime) >= today) {
-      setStatus("Now Showing");
-    } else if (new Date(endTime) < today) {
-      setStatus("Finished Showing");
-    } else {
-      setStatus("Upcoming");
-    }
-  }, [date, startTime, endTime]);
+  // useEffect(() => {
+  //   const today = new Date();
+  //   if (new Date(startTime) <= today && new Date(endTime) >= today) {
+  //     setStatus("Now Showing");
+  //   } else if (new Date(endTime) < today) {
+  //     setStatus("Finished Showing");
+  //   } else {
+  //     setStatus("Upcoming");
+  //   }
+  // }, [date, startTime, endTime]);
 
   const options = { hour: "numeric", minute: "numeric", hour12: true }; // Modify this for 24-hour format if needed
 
@@ -63,18 +62,12 @@ function ScheduleCard({ schedule }) {
         </div>
         <div className="font-[500] text-[1.1rem] mt-[10px] border border-[#ffffff42]  rounded-[5px] py-[5px] px-[10px]">
           <div className="flex justify-between text-[#FFA500]">
-            {" "}
-            {/* Orange for Total Bookings */}
             <p className="mb-1">Total Bookings: {bookedCount}</p>
             <p className="mb-1 text-[#32CD32]">
-              {" "}
-              {/* Lime Green for Total Revenue */}
               Total Revenue: <span>₹0</span>
             </p>
           </div>
           <div className="flex justify-end text-[#FFD700]">
-            {" "}
-            {/* Gold for Available Seats */}
             <p className="mb-1 ">
               Available Seats: {availableSeats} / {totalSeats}
             </p>
