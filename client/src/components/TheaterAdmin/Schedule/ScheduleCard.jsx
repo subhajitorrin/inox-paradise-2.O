@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ViewSeatMatrix from "../Screen/ViewSeatMatrix";
 import SeatMatrix from "./SeatMatrix";
 
@@ -15,6 +15,19 @@ function ScheduleCard({ schedule }) {
     bookedCount
   } = schedule;
 
+  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const today = new Date();
+    if (new Date(startTime) <= today && new Date(endTime) >= today) {
+      setStatus("Now Showing");
+    } else if (new Date(endTime) < today) {
+      setStatus("Finished Showing");
+    } else {
+      setStatus("Upcoming");
+    }
+  }, [date, startTime, endTime]);
+
   const options = { hour: "numeric", minute: "numeric", hour12: true }; // Modify this for 24-hour format if needed
 
   return (
@@ -28,7 +41,7 @@ function ScheduleCard({ schedule }) {
             className="h-[300px] w-[200px] object-cover rounded-[5px] mr-[10px]"
           />
           <div className="flex-grow text-[90%]">
-            <h3 className="text-[1.1rem] font-semibold mb-2">
+            <h3 className="text-[1.1rem] font-semibold mb-[20px]">
               {movie?.title || "Unknown Title"}
             </h3>
             <p className="mb-1">Date: {new Date(date).toLocaleDateString()}</p>
@@ -44,10 +57,13 @@ function ScheduleCard({ schedule }) {
             <p className="mb-1">Language: {language}</p>
             <p className="mb-1">Screen Type: {screenType}</p>
             <p className="mb-1">Seat capacity: {totalSeats}</p>
+            <p className="mb-1 text-center font-[500] text-[.9rem] uppercase mt-[10px] opacity-[.7]">
+              {status}
+            </p>
           </div>
         </div>
-        <div className="font-[500] text-[1.1rem] mt-[10px]">
-          <div className="flex justify-between pr-[20px] text-[#FFA500]">
+        <div className="font-[500] text-[1.1rem] mt-[10px] border border-[#ffffff42]  rounded-[5px] py-[5px] px-[10px]">
+          <div className="flex justify-between text-[#FFA500]">
             {" "}
             {/* Orange for Total Bookings */}
             <p className="mb-1">Total Bookings: {bookedCount}</p>
@@ -57,10 +73,10 @@ function ScheduleCard({ schedule }) {
               Total Revenue: <span>₹0</span>
             </p>
           </div>
-          <div className="flex justify-between pr-[20px] text-[#FFD700]">
+          <div className="flex justify-end text-[#FFD700]">
             {" "}
             {/* Gold for Available Seats */}
-            <p className="mb-1 text-center">
+            <p className="mb-1 ">
               Available Seats: {availableSeats} / {totalSeats}
             </p>
           </div>

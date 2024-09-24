@@ -664,7 +664,10 @@ async function getFilteredSchedules(req, res) {
         .populate({
           path: "screen",
           populate: {
-            path: "category"
+            path: "category",
+            populate: {
+              path: "layout.seats"
+            }
           }
         });
     } else if (filteredData.sort === "sort by end time") {
@@ -677,7 +680,10 @@ async function getFilteredSchedules(req, res) {
         .populate({
           path: "screen",
           populate: {
-            path: "category"
+            path: "category",
+            populate: {
+              path: "layout.seats"
+            }
           }
         });
     }
