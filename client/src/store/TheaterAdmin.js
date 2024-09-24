@@ -215,6 +215,7 @@ const useTheaterAdmin = create(
         }
       },
       getFilteredSchedules: async (filteredData) => {
+        set({ isLoading: true });
         try {
           const { data } = await axios.post(
             `${BASE_URL}/theateradmin/schedule/get-schedules`,
@@ -225,6 +226,8 @@ const useTheaterAdmin = create(
           set({ filteredSchedules: data.schedules });
         } catch (error) {
           toast.error(error.response?.data?.message || error.message);
+        } finally {
+          set({ isLoading: false });
         }
       }
     }),
