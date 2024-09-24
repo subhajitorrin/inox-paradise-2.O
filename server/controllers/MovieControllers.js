@@ -103,7 +103,9 @@ async function getSchedulesByMovieId(req, res) {
         },
         theater: theaterId
       });
-      const theater = await TheaterModel.findById(theaterId);
+      const theater = await TheaterModel.findById(theaterId).select(
+        "name address -_id"
+      );
       list.push({ theater, scheduleList });
     }
 
