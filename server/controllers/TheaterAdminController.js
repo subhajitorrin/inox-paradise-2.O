@@ -550,28 +550,23 @@ async function getAvailableScreens(req, res) {
       eTime.setMinutes(endTime.split(":")[1]);
 
       const schedules = await ScheduleModel.find({
-        date,
-        theater: req.id
-      });
+        $or: [
+          { startTime: { $lte: eTime, $gte: sTime } },
+          { endTime: { $gte: sTime, $lte: eTime } },
+          { startTime: { $lte: sTime }, endTime: { $gte: eTime } }
+        ]
+      }).select({ screen: 1, _id: 0 });
 
-      for (const item of schedules) {
-        if (
-          (sTime >= item.startTime && sTime <= item.endTime) ||
-          (eTime >= item.startTime && eTime <= item.endTime)
-        ) {
-          unavailableScreens.push(item.screen);
-        }
-      }
+      // for (const item of schedules) {
+      //   if (
+      //     (sTime >= item.startTime && sTime <= item.endTime) ||
+      //     (eTime >= item.startTime && eTime <= item.endTime)
+      //   ) {
+      //     unavailableScreens.push(item.screen);
+      //   }
+      // }
 
-      console.log(startTime,endTime);
-
-      console.log(unavailableScreens);
-
-      const now = new Date();
-
-      // console.log(schedules, "schedules", now.toLocaleTimeString());
-
-      // unavailableScreens = schedules.map(schedule => schedule.screen);
+      unavailableScreens = schedules.map((item) => item.screen.toString());
     }
 
     let filteredScreens = [];
@@ -585,6 +580,9 @@ async function getAvailableScreens(req, res) {
         capacity: scr.capacity
       };
 
+      if (unavailableScreens.includes(scr._id.toString())) {
+        obj.isAvailable = false;
+      }
       filteredScreens.push(obj);
     }
 
