@@ -64,7 +64,13 @@ function Schedule() {
 
   useEffect(() => {
     if (availableScreens.length > 0) {
-      setSelectedScreen(availableScreens[0]);
+      const arr = [...availableScreens];
+      arr.reverse();
+      arr.forEach((screen) => {
+        if (screen.isAvailable) {
+          setSelectedScreen(screen);
+        }
+      });
     }
   }, [availableScreens]);
 
@@ -315,7 +321,7 @@ function Schedule() {
               }}
               value={
                 selectedScreen !== ""
-                  ? `${selectedScreen.screenName} - ${selectedScreen.screenType}`
+                  ? `${selectedScreen.screenType} - ${selectedScreen.screenName}`
                   : ""
               }
               type="text"
