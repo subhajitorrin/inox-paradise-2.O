@@ -49,4 +49,26 @@ async function getMovieById(req, res) {
     return res.status(500).json({ message: "Error fetching movie" });
   }
 }
-export { getAllMovies, getUpcomingMovies, getNewReleaseMovies, getMovieById };
+
+async function getSchedulesByMovieId(req, res) {
+  const { movieid, date } = req.params;
+  try {
+    console.log(movieid, date);
+
+    return res.status(200).json({
+      message: "Schedules fetched successfully",
+      schedules: []
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching schedules" });
+  }
+}
+
+export {
+  getAllMovies,
+  getUpcomingMovies,
+  getNewReleaseMovies,
+  getMovieById,
+  getSchedulesByMovieId
+};

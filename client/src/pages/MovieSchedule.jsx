@@ -8,8 +8,13 @@ function MovieSchedule() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isMobile } = useMobile();
-  const { getMovieById, selectedDateIndexOnScheule, setSelectedDate } =
-    useMovie();
+  const {
+    getScheduleList,
+    getMovieById,
+    selectedDateIndexOnScheule,
+    setSelectedDate,
+    scheduleList
+  } = useMovie();
   const [movie, setmovieDetail] = useState(null);
   const [dates, setDates] = useState([]);
 
@@ -56,6 +61,38 @@ function MovieSchedule() {
       getNext7Days();
     }
   }, [movie]);
+
+  function getDate(data) {
+    const monthMap = {
+      JAN: 0,
+      FEB: 1,
+      MAR: 2,
+      APR: 3,
+      MAY: 4,
+      JUN: 5,
+      JUL: 6,
+      AUG: 7,
+      SEP: 8,
+      OCT: 9,
+      NOV: 10,
+      DEC: 11
+    };
+    const currentYear = new Date().getFullYear();
+    const monthIndex = monthMap[data.month];
+    const constructedDate = new Date(currentYear, monthIndex, data.date);
+    return constructedDate;
+  }
+
+  useEffect(() => {
+    if (id && dates.length > 0) {
+      const date = getDate(dates[selectedDateIndexOnScheule]);
+      getScheduleList(id, date);
+    }
+  }, [id, dates, selectedDateIndexOnScheule, getScheduleList]);
+
+  useEffect(() => {
+    console.log(scheduleList);
+  }, [scheduleList]);
 
   if (isMobile) {
     return (

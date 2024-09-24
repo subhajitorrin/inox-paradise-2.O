@@ -15,6 +15,7 @@ const useMovie = create(
       newReleaseMovieList: [],
       selectedDateIndexOnScheule: 0,
       isLoading: false,
+      scheduleList: [],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -49,6 +50,16 @@ const useMovie = create(
       },
       setSelectedDate: (index) => {
         set({ selectedDateIndexOnScheule: index });
+      },
+      getScheduleList: async (movieid, date) => {
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/get-schedules-by-movie/${movieid}/${date}`
+          );
+          set({ scheduleList: data.schedules });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }),
     {
