@@ -90,10 +90,11 @@ async function getSchedulesByMovieId(req, res) {
       }
     }).select("theater -_id");
 
-    theaters = theaters.map((item) => item.theater);
+    let theaterSet = new Set(theaters.map((item) => item.theater.toString()));
+    theaterSet = Array.from(theaterSet);
 
     let list = [];
-    for (const theaterId of theaters) {
+    for (const theaterId of theaterSet) {
       const scheduleList = await ScheduleModel.find({
         movie: movieid,
         date: {
