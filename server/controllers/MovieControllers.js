@@ -78,7 +78,7 @@ function getStartNEndDate(date) {
 }
 
 async function getSchedulesByMovieId(req, res) {
-  const { movieid, date } = req.params;
+  const { movieid, date, language, screen } = req.params;
   try {
     const { startOfDay, endOfDay } = getStartNEndDate(date);
 
@@ -87,7 +87,9 @@ async function getSchedulesByMovieId(req, res) {
       date: {
         $gte: startOfDay,
         $lte: endOfDay
-      }
+      },
+      language,
+      screenType: screen
     }).select("theater -_id");
 
     let theaterSet = new Set(theaters.map((item) => item.theater.toString()));
@@ -101,14 +103,15 @@ async function getSchedulesByMovieId(req, res) {
           $gte: startOfDay,
           $lte: endOfDay
         },
-        theater: theaterId
+        theater: theaterId,
+        language,
+        screenType: screen
       });
       const theater = await TheaterModel.findById(theaterId).select(
         "name address -_id"
       );
       list.push({ theater, scheduleList });
     }
-
     return res.status(200).json({
       message: "Schedules fetched successfully",
       schedules: list

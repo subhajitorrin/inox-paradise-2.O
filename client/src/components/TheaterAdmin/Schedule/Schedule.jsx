@@ -155,11 +155,11 @@ function Schedule() {
               type="text"
               placeholder="Select Movie"
               readOnly={true}
-              className="cursor-pointer scrollNone px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
+              className=" cursor-pointer scrollNone px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
             ></input>
             {/* dropdown */}
             {toggleSearch && (
-              <div className="overflow-y-auto scrollNone max-h-[500px] bg-[#302f2f] absolute w-[300px] top-[110%] rounded-[10px]">
+              <div className="z-[10] overflow-y-auto scrollNone max-h-[500px] bg-[#302f2f] absolute w-[300px] top-[110%] rounded-[10px]">
                 <div className="bg-[#302f2f] sticky top-0 w-full p-[10px]">
                   <input
                     onChange={(e) => {
@@ -331,7 +331,7 @@ function Schedule() {
               className="cursor-pointer w-[150px]  px-3 py-2 bg-[#302f2f] rounded-lg outline-none"
             />
             {toggleScreen && (
-              <div className="w-[150px] absolute top-[110%] rounded-[7px] bg-[#302f2f]">
+              <div className="z-[20] w-[150px] absolute top-[110%] rounded-[7px] bg-[#302f2f]">
                 {availableScreens.length === 0 ? (
                   <div
                     onClick={() => {

@@ -357,75 +357,47 @@ function MovieSchedule() {
           </div>
 
           {/* language and screen type */}
-          <div className="justify-end pt-[5px] flex items-center gap-[10px]">
-            <div className="cursor-pointer relative font-[500]" ref={languageRef}>
-              <div className=" relative w-[70px] flex items-center justify-between">
-                <MdArrowDropDown className="absolute left-0 " />
-                <input
-                  type="text"
-                  className="cursor-pointer outline-none w-[70px] ml-[20px]"
-                  placeholder="Language"
-                  onClick={() => {
-                    setToggleLangugae(true);
-                  }}
-                  readOnly={true}
-                  value={language}
-                />
-              </div>
-              {toggleLangugae && (
-                <div className="rounded-[5px] px-[10px] absolute top-[120%] z-[10] bg-white border border-[#0000003f]">
-                  {movie &&
-                    movie.language.map((item, index) => {
-                      return (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            setLanguage(item);
-                            setToggleLangugae((prev) => !prev);
-                          }}
-                          className="p-[5px] px-[10px]"
-                        >
-                          {item}
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
-            <div className="cursor-pointer relative font-[500]" ref={screenTypeRef}>
-              <div className=" relative w-[100px] flex items-center justify-between">
-                <MdArrowDropDown className="absolute left-0" />
-                <input
-                  type="text"
-                  className="cursor-pointer outline-none w-[100px] ml-[20px]"
-                  placeholder="Screen type"
-                  onClick={() => {
-                    setToggleScreenType(true);
-                  }}
-                  readOnly={true}
-                  value={screenType}
-                />
-              </div>
-              {toggleScreenType && (
-                <div className="rounded-[5px] px-[10px] absolute top-[120%] z-[10] bg-white border border-[#0000003f]">
-                  {movie &&
-                    movie.screenType.map((item, index) => {
-                      return (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            setScreenType(item);
-                            setToggleScreenType((prev) => !prev);
-                          }}
-                          className="p-[5px] px-[10px]"
-                        >
-                          {item}
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
+          <div className="w-full flex justify-end">
+            <select
+              onChange={(e) => {
+                setLanguage(e.target.value);
+              }}
+              value={language}
+              className="px-3 py-2 bg-[white] rounded-lg outline-none "
+            >
+              {movie &&
+                movie.language.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      className="border border-transparent"
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  );
+                })}
+            </select>
+            <select
+              onChange={(e) => {
+                setScreenType(e.target.value);
+              }}
+              value={screenType}
+              className="px-3 py-2 bg-[white] rounded-lg outline-none "
+            >
+              {movie &&
+                movie.screenType.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      className="border border-transparent"
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  );
+                })}
+            </select>
           </div>
 
           {/* schedule section */}
