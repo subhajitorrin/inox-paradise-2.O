@@ -142,11 +142,36 @@ async function searchMovie(req, res) {
   }
 }
 
+async function getSeatMatrix(req, res) {
+  const { scheduleid } = req.params;
+  try {
+    const schedule = await ScheduleModel.findById(scheduleid)
+      .select("date startTime screen theater movie bookedSeats")
+      .populate([
+        { path: "movie", select: "title" },
+        {
+          path: "screen",
+          select: "-schedules",
+          populate: { path: "category" }
+        },
+        { path: "theater", select: "name city" }
+      ]);
+
+    return res.status(200).json(schedule);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while fetching seat matrix" });
+  }
+}
+
 export {
   getAllMovies,
   getUpcomingMovies,
   getNewReleaseMovies,
   getMovieById,
   getSchedulesByMovieId,
-  searchMovie
+  searchMovie,
+  getSeatMatrix
 };

@@ -8,7 +8,7 @@ const scheduleSchema = new mongoose.Schema(
     },
     theater: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Theater",
+      ref: "TheaterAdmin",
       required: true
     },
     movie: {

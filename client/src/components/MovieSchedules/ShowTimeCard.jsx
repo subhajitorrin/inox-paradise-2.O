@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
 import { useMobile } from "../../store/ScreenWidth";
+import { useNavigate } from "react-router-dom";
 
 function ShowTimeCard({ show }) {
+  const navigate = useNavigate();
   const { isMobile } = useMobile();
   const options = { hour: "numeric", minute: "numeric", hour12: true };
   return (
     <div
+      onClick={() => {
+        navigate(`/seatmatrix/${show._id}`);
+      }}
       className={`cursor-pointer border border-[#0000002d] ${
         isMobile ? "px-[15px] py-[7px]" : "px-[20px] py-[2px]"
       } rounded-[5px]`}

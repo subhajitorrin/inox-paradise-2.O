@@ -19,6 +19,7 @@ const useMovie = create(
       searchText: "",
       searchLoading: false,
       searchedList: [],
+      seatMatrix: [],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -86,6 +87,16 @@ const useMovie = create(
       },
       setSearchLoading: async (status) => {
         set({ searchLoading: status });
+      },
+      getSeatMatrix: async (scheduleId) => {
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/seatmatrix/${scheduleId}`
+          );
+          set({ seatMatrix: data });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }),
     {
