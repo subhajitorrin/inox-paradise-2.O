@@ -175,9 +175,29 @@ function SeatMatrix() {
             return <CategoryCard key={index} category={item} />;
           })}
           <div className="w-full flex justify-center">
-            <img className="absolute bottom-[20px]" src="https://assetscdn1.paytm.com/movies_new/_next/static/media/screen-icon.8dd7f126.svg" />
+            <img
+              className="absolute bottom-[20px]"
+              src="https://assetscdn1.paytm.com/movies_new/_next/static/media/screen-icon.8dd7f126.svg"
+            />
           </div>
         </div>
+
+        {/* selected seat display */}
+        {true && (
+          <div className="flex justify-evenly items-center w-full bg-white border-t border-[#00000030] fixed bottom-0 py-[10px]">
+            <div className="font-[500] text-[17px]">
+              <p className="text-[18px] font-bold">&#8377;{670}</p>
+              <p>
+                Tickets {5} x {350}
+              </p>
+            </div>
+            <div className="">
+              <button className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]">
+                Book Ticket
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     )
   );

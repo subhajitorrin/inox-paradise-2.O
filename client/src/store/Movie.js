@@ -20,6 +20,7 @@ const useMovie = create(
       searchLoading: false,
       searchedList: [],
       seatMatrix: [],
+      selectedSeats: [],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
