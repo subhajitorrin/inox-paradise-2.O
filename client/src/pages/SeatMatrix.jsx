@@ -4,16 +4,21 @@ import useMovie from "../store/Movie";
 import { IoChevronBackOutline } from "react-icons/io5";
 const options = { day: "numeric", month: "short" };
 
-function Seat({ num, available = true, seatid }) {
+function Seat({ num, available = true, seatid, categoryName, price }) {
+  const { handleSelectSeats, selectedSeats } = useMovie();
   const [onselect, setOnselect] = useState(false);
 
-  function handleOnclick() {
-    setOnselect((prev) => !prev);
-  }
+  useEffect(() => {
+    if (selectedSeats.seats.includes(seatid)) {
+      setOnselect(true);
+    } else {
+      setOnselect(false);
+    }
+  }, [selectedSeats, seatid]);
 
   return available ? (
     <div
-      onClick={handleOnclick}
+      onClick={() => handleSelectSeats(seatid, categoryName, price)}
       style={{
         backgroundColor: onselect ? "black" : "",
         color: onselect ? "white" : ""
@@ -29,7 +34,7 @@ function Seat({ num, available = true, seatid }) {
   );
 }
 
-function Row({ row, gaps }) {
+function Row({ row, gaps, categoryName, price }) {
   return (
     <div className="flex items-center">
       <p className="uppercase w-[20px] font-bold text-[.9rem] absolute left-[10px]">
@@ -54,7 +59,13 @@ function Row({ row, gaps }) {
           return (
             <React.Fragment key={index}>
               {gapElements}
-              <Seat seat={item} num={index + 1} />
+              <Seat
+                seat={item}
+                num={index + 1}
+                categoryName={categoryName}
+                price={price}
+                seatid={item}
+              />
             </React.Fragment>
           );
         })}
@@ -84,7 +95,15 @@ function CategoryCard({ category }) {
         </p>
         <div className="flex flex-col gap-[2px]">
           {category.layout.map((item, index) => {
-            return <Row key={index} row={item} gaps={category.gaps} />;
+            return (
+              <Row
+                key={index}
+                row={item}
+                gaps={category.gaps}
+                categoryName={category.name}
+                price={category.price}
+              />
+            );
           })}
         </div>
       </div>
@@ -95,17 +114,17 @@ function CategoryCard({ category }) {
 function SeatMatrix() {
   const { scheduleid } = useParams();
   const navigate = useNavigate();
-  const { seatMatrix, getSeatMatrix } = useMovie();
+  const { seatMatrix, getSeatMatrix, selectedSeats } = useMovie();
+
+  useEffect(() => {
+    console.log(selectedSeats);
+  }, [selectedSeats]);
 
   useEffect(() => {
     if (scheduleid) {
       getSeatMatrix(scheduleid);
     }
   }, [getSeatMatrix, scheduleid]);
-
-  useEffect(() => {
-    console.log(seatMatrix);
-  }, [seatMatrix]);
 
   return (
     seatMatrix &&
