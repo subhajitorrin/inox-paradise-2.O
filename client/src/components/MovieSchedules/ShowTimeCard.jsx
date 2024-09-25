@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 function ShowTimeCard({ show }) {
   const options = { hour: "numeric", minute: "numeric", hour12: true };
   return (
-    <div className="border border-[#0000002d] px-[15px] py-[7px] rounded-[5px]">
+    <div className="cursor-pointer border border-[#0000002d] px-[15px] py-[7px] rounded-[5px]">
       <p
         className={`font-[500] text-center  ${
           show.availableSeats < show.totalSeats / 2

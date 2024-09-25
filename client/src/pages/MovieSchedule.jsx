@@ -8,6 +8,7 @@ import TheaterCards from "../components/MovieSchedules/TheaterCards";
 import { MdArrowDropDown } from "react-icons/md";
 import Navbar from "../components/Navbar/Navbar";
 import { MdOutlineStarPurple500 } from "react-icons/md";
+import MovieTheaterCard from "../components/MovieSchedules/desktop/MovieTheaterCard";
 
 function MovieSchedule() {
   const { id } = useParams();
@@ -320,7 +321,8 @@ function MovieSchedule() {
                   })}
                 </div>
                 <div className="flex items-center gap-[2px] text-[.8rem] font-[500] mt-[5px]">
-                  Rating <MdOutlineStarPurple500 className="text-[18px] text-[#F84464]" />
+                  Rating{" "}
+                  <MdOutlineStarPurple500 className="text-[18px] text-[#F84464]" />
                   <p className="">{movie.rating} / 10</p>
                 </div>
               </div>
@@ -352,6 +354,20 @@ function MovieSchedule() {
                 })}
               </div>
             </div>
+          </div>
+
+          {/* schedule section */}
+          <div className="mt-[20px]">
+            {scheduleList &&
+              scheduleList.map((item, index) => {
+                return (
+                  <MovieTheaterCard
+                    key={index}
+                    theater={item.theater}
+                    list={item.scheduleList}
+                  />
+                );
+              })}
           </div>
         </div>
       )}
