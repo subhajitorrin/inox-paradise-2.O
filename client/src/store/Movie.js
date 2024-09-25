@@ -16,6 +16,7 @@ const useMovie = create(
       selectedDateIndexOnScheule: 0,
       isLoading: false,
       scheduleList: [],
+      searchText: "",
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -60,6 +61,9 @@ const useMovie = create(
         } catch (error) {
           console.log(error);
         }
+      },
+      setSearchText: (text) => {
+        set({ searchText: text });
       }
     }),
     {
