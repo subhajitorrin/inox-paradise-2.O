@@ -139,6 +139,10 @@ const useMovie = create(
             }
           } else {
             // If the seat is not yet selected, add it to the selected seats array
+            if (selectedSeats.seats.length === 10) {
+              toast.warning("Maximum 10 seats!");
+              return;
+            }
             set({
               selectedSeats: {
                 ...selectedSeats, // Preserve category and price
