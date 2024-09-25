@@ -229,7 +229,7 @@ const useTheaterAdmin = create(
         } finally {
           set({ isLoading: false });
         }
-      }
+      },
     }),
     {
       name: "TheaterAdmin",

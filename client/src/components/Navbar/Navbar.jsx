@@ -10,6 +10,10 @@ import useMovie from "../../store/Movie";
 import { RxCross2 } from "react-icons/rx";
 import useDebounce from "../../hook/useDebounce.js";
 import SearchCard from "./SearchCard.jsx";
+import { SyncLoader } from "react-spinners";
+import { CgSearch } from "react-icons/cg";
+import { LiaSadCrySolid } from "react-icons/lia";
+
 function Navbar() {
   const { isMobile } = useMobile();
   const navigate = useNavigate();
@@ -19,7 +23,8 @@ function Navbar() {
     setSearchText,
     searchMovie,
     searchedList,
-    searchLoading
+    searchLoading,
+    setSearchLoading
   } = useMovie();
 
   const debouncedSearch = useDebounce(searchText);
@@ -85,15 +90,38 @@ function Navbar() {
     );
   }
 
+  useEffect(() => {
+    if (searchText !== "") {
+      document.querySelector("body").style.overflow = "hidden";
+    } else {
+      document.querySelector("body").style.overflow = "auto";
+    }
+  }, [searchText]);
+
   return (
     <div className="relative w-full py-[20px] bg-[white] flex justify-between items-center px-[10%]">
       {/* search container */}
       {searchText !== "" && (
         <div className="top-[100%] overflow-y-auto left-[0] absolute z-[100] h-[90vh] w-full bg-white px-[10%]">
-          {searchedList &&
+          {searchLoading ? (
+            <div className=" h-[200px] flex flex-col gap-[20px] items-center justify-center">
+              <SyncLoader color="#b4b4b4" size={10} />
+              <p className="text-[1.1rem] font-[500] flex items-center gap-[3px]">
+                Searching Movie{" "}
+                <CgSearch className="text-[1.1rem] relative top-[2px]" />
+              </p>
+            </div>
+          ) : searchedList && searchedList.length === 0 ? (
+            <div className=" h-[200px] flex flex-col gap-[20px] items-center justify-center">
+              <p className="text-[1.1rem] text-[#b40303] font-[500] flex items-center gap-[3px]">
+                Nothing found!
+              </p>
+            </div>
+          ) : (
             searchedList.map((item, index) => {
               return <SearchCard item={item} key={index} />;
-            })}
+            })
+          )}
         </div>
       )}
 
@@ -113,6 +141,7 @@ function Navbar() {
           <input
             type="text"
             onChange={(e) => {
+              setSearchLoading(true);
               setSearchText(e.target.value);
             }}
             value={searchText}

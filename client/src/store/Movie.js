@@ -83,6 +83,9 @@ const useMovie = create(
         } finally {
           set({ searchLoading: false });
         }
+      },
+      setSearchLoading: async (status) => {
+        set({ searchLoading: status });
       }
     }),
     {
