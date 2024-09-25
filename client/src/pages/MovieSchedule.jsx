@@ -6,6 +6,8 @@ import useMovie from "../store/Movie";
 import { useEffect, useRef, useState } from "react";
 import TheaterCards from "../components/MovieSchedules/TheaterCards";
 import { MdArrowDropDown } from "react-icons/md";
+import Navbar from "../components/Navbar/Navbar";
+import { MdOutlineStarPurple500 } from "react-icons/md";
 
 function MovieSchedule() {
   const { id } = useParams();
@@ -143,6 +145,12 @@ function MovieSchedule() {
     }
   }, [movie]);
 
+  const formatMinutesToHours = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}hr ${mins}m`;
+  };
+
   if (isMobile) {
     return (
       movie && (
@@ -273,6 +281,82 @@ function MovieSchedule() {
       )
     );
   }
+
+  return (
+    <>
+      <Navbar />
+      {movie && (
+        <div className="min-h-[90vh] w-full px-[10%]">
+          {/* top section */}
+          <div className="flex py-[20px] border-b border-[#0000001d]">
+            <div className="h-[200px] flex gap-[20px] items-center w-[40%]">
+              <img
+                src={movie.poster}
+                className="h-[100%] w-[130px] rounded-[7px] object-cover"
+              />
+              <div className="h-full">
+                <h2 className="text-[30px] font-bold">{movie.title}</h2>
+                <div className="flex gap-[5px] items-center font-[500]">
+                  {movie.language.map((item, index) => {
+                    return (
+                      <div key={index} className="flex items-center gap-[5px]">
+                        <p className="">{item}</p>
+                        <div className="">•</div>
+                      </div>
+                    );
+                  })}
+                  <p>{formatMinutesToHours(movie.duration)}</p>
+                </div>
+                <div className="text-[85%] font-[500] flex gap-[10px] mt-[10px]">
+                  {movie.genre.map((item, index) => {
+                    return (
+                      <p
+                        key={index}
+                        className="bg-[#dddddd] py-[2px] px-[7px] rounded-[5px] text-[85%]"
+                      >
+                        {item}
+                      </p>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-[2px] text-[.8rem] font-[500] mt-[5px]">
+                  Rating <MdOutlineStarPurple500 className="text-[18px] text-[#F84464]" />
+                  <p className="">{movie.rating} / 10</p>
+                </div>
+              </div>
+            </div>
+            <div className="w-[60%] h-[200px] flex flex-col justify-center">
+              <p className="font-[500] text-[85%] text-center mb-[20px]">
+                *Kindly select the date that best suits your preference for the
+                show
+              </p>
+              <div className="flex gap-[20px] justify-center">
+                {dates.map((item, index) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setSelectedDate(index);
+                      }}
+                      className={`${
+                        selectedDateIndexOnScheule === index
+                          ? "bg-[#F84464] text-white"
+                          : ""
+                      } flex flex-col items-center rounded-[5px] min-h-[65px] cursor-pointer w-[55px] py-[5px] text-black text-[82%]`}
+                      key={index}
+                    >
+                      <p>{item.weekday}</p>
+                      <p className="text-[1.1rem] font-[500]">{item.date}</p>
+                      <p>{item.month}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default MovieSchedule;
