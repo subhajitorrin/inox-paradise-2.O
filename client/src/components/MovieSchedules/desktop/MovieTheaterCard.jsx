@@ -47,12 +47,7 @@ function MovieTheaterCard({ theater, list }) {
       <div className="w-[70%]  flex flex-col gap-[1rem] justify-center">
         <div className="w-full flex gap-[2rem] flex-wrap">
           {list.map((item, index) => {
-            return (
-              <ShowTimeCard
-                key={index}
-                show={item}
-              />
-            );
+            return <ShowTimeCard key={index} show={item} />;
           })}
         </div>
         <p className="text-[12px] flex items-center gap-[5px] mb-[1rem]">

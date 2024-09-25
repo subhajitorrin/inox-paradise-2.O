@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
+import { useMobile } from "../../store/ScreenWidth";
 
 function ShowTimeCard({ show }) {
+  const { isMobile } = useMobile();
   const options = { hour: "numeric", minute: "numeric", hour12: true };
   return (
-    <div className="cursor-pointer border border-[#0000002d] px-[15px] py-[7px] rounded-[5px]">
+    <div
+      className={`cursor-pointer border border-[#0000002d] ${
+        isMobile ? "px-[15px] py-[7px]" : "px-[20px] py-[2px]"
+      } rounded-[5px]`}
+    >
       <p
-        className={`font-[500] text-center  ${
+        className={`font-[500] text-center ${
+          isMobile ? "" : "text-[85%] font-bold"
+        }  ${
           show.availableSeats < show.totalSeats / 2
             ? "text-[#c4056b]"
             : "text-[#28c405]"
@@ -13,7 +21,7 @@ function ShowTimeCard({ show }) {
       >
         {new Date(show.startTime).toLocaleTimeString(undefined, options)}
       </p>
-      <p className="text-[70%] text-center">
+      <p className={`text-center ${isMobile ? "text-[70%]" : "text-[65%]"} `}>
         Available <span>{show.availableSeats}</span>
       </p>
     </div>

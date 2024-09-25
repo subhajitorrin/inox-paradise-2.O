@@ -356,8 +356,80 @@ function MovieSchedule() {
             </div>
           </div>
 
+          {/* language and screen type */}
+          <div className="justify-end pt-[5px] flex items-center gap-[10px]">
+            <div className="cursor-pointer relative font-[500]" ref={languageRef}>
+              <div className=" relative w-[70px] flex items-center justify-between">
+                <MdArrowDropDown className="absolute left-0 " />
+                <input
+                  type="text"
+                  className="cursor-pointer outline-none w-[70px] ml-[20px]"
+                  placeholder="Language"
+                  onClick={() => {
+                    setToggleLangugae(true);
+                  }}
+                  readOnly={true}
+                  value={language}
+                />
+              </div>
+              {toggleLangugae && (
+                <div className="rounded-[5px] px-[10px] absolute top-[120%] z-[10] bg-white border border-[#0000003f]">
+                  {movie &&
+                    movie.language.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            setLanguage(item);
+                            setToggleLangugae((prev) => !prev);
+                          }}
+                          className="p-[5px] px-[10px]"
+                        >
+                          {item}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
+            <div className="cursor-pointer relative font-[500]" ref={screenTypeRef}>
+              <div className=" relative w-[100px] flex items-center justify-between">
+                <MdArrowDropDown className="absolute left-0" />
+                <input
+                  type="text"
+                  className="cursor-pointer outline-none w-[100px] ml-[20px]"
+                  placeholder="Screen type"
+                  onClick={() => {
+                    setToggleScreenType(true);
+                  }}
+                  readOnly={true}
+                  value={screenType}
+                />
+              </div>
+              {toggleScreenType && (
+                <div className="rounded-[5px] px-[10px] absolute top-[120%] z-[10] bg-white border border-[#0000003f]">
+                  {movie &&
+                    movie.screenType.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            setScreenType(item);
+                            setToggleScreenType((prev) => !prev);
+                          }}
+                          className="p-[5px] px-[10px]"
+                        >
+                          {item}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* schedule section */}
-          <div className="mt-[20px]">
+          <div className="">
             {scheduleList &&
               scheduleList.map((item, index) => {
                 return (
