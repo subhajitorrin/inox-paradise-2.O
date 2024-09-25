@@ -1,9 +1,96 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useMovie from "../store/Movie";
 import { IoChevronBackOutline } from "react-icons/io5";
-
 const options = { day: "numeric", month: "short" };
+
+function Seat({ num, available = true, seatid }) {
+  const [onselect, setOnselect] = useState(false);
+
+  function handleOnclick() {
+    setOnselect((prev) => !prev);
+  }
+
+  return available ? (
+    <div
+      onClick={handleOnclick}
+      style={{
+        backgroundColor: onselect ? "black" : "",
+        color: onselect ? "white" : ""
+      }}
+      className="hover:bg-black hover:text-white select-none m-[3px] transition-all duration-200 ease-linear cursor-pointer border border-black h-[22px] w-[22px] rounded-[3px] flex items-center justify-center"
+    >
+      <p className="font-bold text-[10px]">{num}</p>
+    </div>
+  ) : (
+    <div className="bg-[#c8c8c8] pointer-events-none opacity-[0.5] select-none m-[3px] transition-all duration-200 ease-linear cursor-pointer border border-transparent h-[22px] w-[22px] rounded-[3px] flex items-center justify-center">
+      <p className="font-bold text-[10px]">{num}</p>
+    </div>
+  );
+}
+
+function Row({ row, gaps }) {
+  return (
+    <div className="flex items-center">
+      <p className="uppercase w-[20px] font-bold text-[.9rem] absolute left-[10px]">
+        {row.row}
+      </p>
+      <div className="flex gap-[5px]">
+        {row.seats.map((item, index) => {
+          // Calculate gaps before the current seat
+          const gapCount = gaps.filter((gapIndex) => gapIndex === index).length;
+
+          // Create gap elements
+          const gapElements = Array.from(
+            { length: gapCount },
+            (_, gapIndex) => (
+              <div
+                className="h-[30px] w-[30px] border border-[#ff005100]  bg-transparent"
+                key={`gap-${index}-${gapIndex}`}
+              ></div>
+            )
+          );
+
+          return (
+            <React.Fragment key={index}>
+              {gapElements}
+              <Seat seat={item} num={index + 1} />
+            </React.Fragment>
+          );
+        })}
+
+        {/* Handle gaps after the last seat */}
+        {gaps.includes(row.seats.length) &&
+          Array.from({
+            length: gaps.filter((gapIndex) => gapIndex === row.seats.length)
+              .length
+          }).map((_, gapIndex) => (
+            <div
+              className="h-[30px] w-[30px] border border-[#ff005100] bg-transparent"
+              key={`gap-end-${gapIndex}`}
+            ></div>
+          ))}
+      </div>
+    </div>
+  );
+}
+
+function CategoryCard({ category }) {
+  return (
+    <div className="w-full relative mb-[20px]">
+      <div className="flex items-center flex-col">
+        <p className="text-center text-[.9rem] font-bold mb-[2px]">
+          {category.name} {category.price}&#8377;
+        </p>
+        <div className="flex flex-col gap-[2px]">
+          {category.layout.map((item, index) => {
+            return <Row key={index} row={item} gaps={category.gaps} />;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function SeatMatrix() {
   const { scheduleid } = useParams();
@@ -25,7 +112,7 @@ function SeatMatrix() {
     seatMatrix.movie && (
       <div className="h-screen w-full flex flex-col">
         {/* top section */}
-        <div className="text-white bg-black px-[5%] py-[15px] w-full border-b border-[#00000051] flex justify-between items-center">
+        <div className="text-white bg-black px-[10%] py-[10px] w-full border-b border-[#00000051] flex justify-between items-center">
           <span
             onClick={() => {
               navigate(-1);
@@ -83,7 +170,14 @@ function SeatMatrix() {
         </div>
 
         {/* Seat Matrix */}
-        <div className=" w-full flex-1"></div>
+        <div className="w-full flex-1 px-[10%] relative">
+          {seatMatrix.screen.category.map((item, index) => {
+            return <CategoryCard key={index} category={item} />;
+          })}
+          <div className="w-full flex justify-center">
+            <img className="absolute bottom-[20px]" src="https://assetscdn1.paytm.com/movies_new/_next/static/media/screen-icon.8dd7f126.svg" />
+          </div>
+        </div>
       </div>
     )
   );
