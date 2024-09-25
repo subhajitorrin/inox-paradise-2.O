@@ -146,7 +146,7 @@ async function getSeatMatrix(req, res) {
   const { scheduleid } = req.params;
   try {
     const schedule = await ScheduleModel.findById(scheduleid)
-      .select("date startTime screen theater movie bookedSeats")
+      .select("date startTime language screen theater movie bookedSeats")
       .populate([
         { path: "movie", select: "title" },
         {
