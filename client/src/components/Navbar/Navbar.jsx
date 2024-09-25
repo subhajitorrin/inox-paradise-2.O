@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -8,12 +8,28 @@ import { useMobile } from "../../store/ScreenWidth";
 import MobileNav from "./MobileNav";
 import useMovie from "../../store/Movie";
 import { RxCross2 } from "react-icons/rx";
-
+import useDebounce from "../../hook/useDebounce.js";
+import SearchCard from "./SearchCard.jsx";
 function Navbar() {
   const { isMobile } = useMobile();
   const navigate = useNavigate();
   const [toggleMobileNav, setToggleMobileNav] = useState(false);
-  const { searchText, setSearchText } = useMovie();
+  const {
+    searchText,
+    setSearchText,
+    searchMovie,
+    searchedList,
+    searchLoading
+  } = useMovie();
+
+  const debouncedSearch = useDebounce(searchText);
+
+  useEffect(() => {
+    async function handleSearch() {
+      await searchMovie(debouncedSearch);
+    }
+    handleSearch();
+  }, [debouncedSearch, searchMovie]);
 
   if (isMobile) {
     return (
@@ -73,7 +89,12 @@ function Navbar() {
     <div className="relative w-full py-[20px] bg-[white] flex justify-between items-center px-[10%]">
       {/* search container */}
       {searchText !== "" && (
-        <div className="top-[100%] left-[0] absolute z-[100] h-[90vh] w-full bg-black"></div>
+        <div className="top-[100%] overflow-y-auto left-[0] absolute z-[100] h-[90vh] w-full bg-white px-[10%]">
+          {searchedList &&
+            searchedList.map((item, index) => {
+              return <SearchCard item={item} key={index} />;
+            })}
+        </div>
       )}
 
       <div className="flex gap-[2rem] items-center">

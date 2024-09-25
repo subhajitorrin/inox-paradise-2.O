@@ -5,7 +5,8 @@ import {
   getNewReleaseMovies,
   getUpcomingMovies,
   getMovieById,
-  getSchedulesByMovieId
+  getSchedulesByMovieId,
+  searchMovie
 } from "../controllers/MovieControllers.js";
 const MovieRouter = express.Router();
 MovieRouter.get("/get-all-movies", getAllMovies);
@@ -16,4 +17,5 @@ MovieRouter.get(
   "/get-schedules-by-movie/:movieid/:date/:language/:screen",
   getSchedulesByMovieId
 );
+MovieRouter.get("/search", searchMovie);
 export default MovieRouter;

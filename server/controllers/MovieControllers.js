@@ -119,10 +119,31 @@ async function getSchedulesByMovieId(req, res) {
   }
 }
 
+async function searchMovie(req, res) {
+  const { searchQuery } = req.query;
+
+  try {
+    if (!searchQuery) {
+      return res.status(200).json({ message: "Search result", list: [] });
+    }
+    let movies = await MovieModel.find({
+      title: {
+        $regex: searchQuery,
+        $options: "i"
+      }
+    });
+    res.status(200).json({ message: "Search result", list: movies });
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({ message: "Error while searching" });
+  }
+}
+
 export {
   getAllMovies,
   getUpcomingMovies,
   getNewReleaseMovies,
   getMovieById,
-  getSchedulesByMovieId
+  getSchedulesByMovieId,
+  searchMovie
 };

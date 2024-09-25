@@ -17,6 +17,8 @@ const useMovie = create(
       isLoading: false,
       scheduleList: [],
       searchText: "",
+      searchLoading: false,
+      searchedList: [],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -64,6 +66,23 @@ const useMovie = create(
       },
       setSearchText: (text) => {
         set({ searchText: text });
+      },
+      searchMovie: async (query) => {
+        set({ searchLoading: true });
+        if (query === "") return;
+        try {
+          const { data } = await axios.get(`${BASE_URL}/search`, {
+            params: {
+              searchQuery: query
+            }
+          });
+          set({ searchedList: data.list });
+        } catch (error) {
+          console.log(error);
+          throw error;
+        } finally {
+          set({ searchLoading: false });
+        }
       }
     }),
     {
