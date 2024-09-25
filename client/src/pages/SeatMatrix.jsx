@@ -129,7 +129,10 @@ function SeatMatrix() {
   return (
     seatMatrix &&
     seatMatrix.movie && (
-      <div className="h-screen w-full flex flex-col">
+      <div
+        style={{ height: selectedSeats.category !== "" ? "110vh" : "100vh" }}
+        className=" w-full flex flex-col"
+      >
         {/* top section */}
         <div className="text-white bg-black px-[10%] py-[10px] w-full border-b border-[#00000051] flex justify-between items-center">
           <span
@@ -195,28 +198,34 @@ function SeatMatrix() {
           })}
           <div className="w-full flex justify-center">
             <img
-              className="absolute bottom-[20px]"
+              style={{ bottom: selectedSeats.category !== "" ? "15%" : "20px" }}
+              className="absolute"
               src="https://assetscdn1.paytm.com/movies_new/_next/static/media/screen-icon.8dd7f126.svg"
             />
           </div>
         </div>
 
         {/* selected seat display */}
-        {true && (
-          <div className="flex justify-evenly items-center w-full bg-white border-t border-[#00000030] fixed bottom-0 py-[10px]">
-            <div className="font-[500] text-[17px]">
-              <p className="text-[18px] font-bold">&#8377;{670}</p>
-              <p>
-                Tickets {5} x {350}
-              </p>
+        {selectedSeats &&
+          selectedSeats.category !== "" &&
+          selectedSeats.price !== "" &&
+          selectedSeats.seats.length > 0 && (
+            <div className="flex justify-evenly items-center w-full bg-white border-t border-[#00000030] fixed bottom-0 py-[10px]">
+              <div className="font-[500] text-[17px]">
+                <p className="text-[18px] font-bold">
+                  &#8377;{selectedSeats.seats.length * selectedSeats.price}
+                </p>
+                <p>
+                  Tickets {selectedSeats.seats.length} x {selectedSeats.price}
+                </p>
+              </div>
+              <div className="">
+                <button className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]">
+                  Book Ticket
+                </button>
+              </div>
             </div>
-            <div className="">
-              <button className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]">
-                Book Ticket
-              </button>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     )
   );
