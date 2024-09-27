@@ -112,7 +112,7 @@ function CategoryCard({ category }) {
 }
 
 function SeatMatrix() {
-  
+  const [isPaymentPage, setIsPaymentPage] = useState(false);
   const { scheduleid } = useParams();
   const navigate = useNavigate();
   const { seatMatrix, getSeatMatrix, selectedSeats } = useMovie();
