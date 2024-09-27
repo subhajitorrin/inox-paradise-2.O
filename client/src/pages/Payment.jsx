@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { IoTicketOutline } from "react-icons/io5";
 import { PiDeviceMobile } from "react-icons/pi";
 import { MdOutlineTimer } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { toast } from "react-toastify";
+import useMovie from "../store/Movie";
 
 const options = { hour: "numeric", minute: "numeric", hour12: true };
 
 function Payment({ paymentData, setPaymentData }) {
-  const [totalPrice, setTotalPrice] = useState(300);
+  const navigate = useNavigate();
+  const { setEmptySelectedSeats } = useMovie();
+  const [totalPrice, setTotalPrice] = useState(0);
   const [timer, setTimer] = useState(300);
   const [foodList, setFoodList] = useState([
     { name: "Popcorn", price: 100, image: "https://via.placeholder.com/200" },
@@ -52,6 +57,62 @@ function Payment({ paymentData, setPaymentData }) {
     setTotalPrice((prev) => prev - parseInt(priceToRemove));
     setFoodsCart((prev) => prev.filter((_, i) => i !== index));
   }
+
+  async function handlePaymentClick() {
+    await handlePayment(totalPrice);
+    toast.success("Payment successful");
+    setPaymentData({});
+    setEmptySelectedSeats();
+    navigate("/");
+  }
+
+  async function handlePayment(withGstPrice) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        key: "rzp_test_7cs83Ikm791P0j",
+        amount: parseInt(withGstPrice * 100),
+        currency: "INR",
+        name: "Inox Paradise",
+        description: "Book your seat",
+        image: "",
+        handler: (response) => {
+          resolve(true);
+        },
+        prefill: {
+          name: "",
+          email: "",
+          contact: ""
+        },
+        notes: {
+          address: ""
+        },
+        theme: {
+          color: "#3399cc"
+        },
+        modal: {
+          ondismiss: () => {
+            // Handle payment cancellation
+            resolve(false);
+          }
+        }
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    });
+  }
+
+  useEffect(() => {
+    // Load Razorpay SDK script dynamically
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Clean up the script tag
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <div className="w-full bg-white flex justify-center gap-[2rem]  py-[2%] relative">
@@ -162,7 +223,7 @@ function Payment({ paymentData, setPaymentData }) {
           </p>
         </div>
         <button
-          onClick={() => alert("Payment successful!")}
+          onClick={handlePaymentClick}
           className="absolute bottom-0 flex justify-between px-[1rem] w-full bg-[#f84464] py-[10px] rounded-b-[10px] text-white font-[500]"
         >
           <p className="flex gap-[10px] items-center text-[1.1rem]">

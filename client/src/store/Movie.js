@@ -155,6 +155,9 @@ const useMovie = create(
         else {
           set({ selectedSeats: { category, price, seats: [seat] } });
         }
+      },
+      setEmptySelectedSeats: () => {
+        set({ selectedSeats: { category: "", price: "", seats: [] } });
       }
     }),
     {
