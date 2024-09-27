@@ -112,6 +112,7 @@ function CategoryCard({ category }) {
 }
 
 function SeatMatrix() {
+  
   const { scheduleid } = useParams();
   const navigate = useNavigate();
   const { seatMatrix, getSeatMatrix, selectedSeats } = useMovie();
