@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useMovie from "../store/Movie";
 import { IoChevronBackOutline } from "react-icons/io5";
+import Payment from "./Payment";
 const options = { day: "numeric", month: "short" };
 
 function Seat({ num, available = true, seatid, categoryName, price }) {
@@ -129,7 +130,10 @@ function SeatMatrix() {
 
   return (
     seatMatrix &&
-    seatMatrix.movie && (
+    seatMatrix.movie &&
+    (isPaymentPage ? (
+      <Payment />
+    ) : (
       <div
         style={{ height: selectedSeats.category !== "" ? "110vh" : "100vh" }}
         className=" w-full flex flex-col"
@@ -221,14 +225,17 @@ function SeatMatrix() {
                 </p>
               </div>
               <div className="">
-                <button className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]">
+                <button
+                  onClick={() => setIsPaymentPage(true)}
+                  className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]"
+                >
                   Book Ticket
                 </button>
               </div>
             </div>
           )}
       </div>
-    )
+    ))
   );
 }
 
