@@ -10,8 +10,7 @@ function Payment() {
   const [timer, setTimer] = useState(300);
   const [foodList, setFoodList] = useState([
     { name: "Popcorn", price: 100, image: "https://via.placeholder.com/200" },
-    { name: "Coke", price: 50, image: "https://via.placeholder.com/200" },
-    { name: "Nachos", price: 120, image: "https://via.placeholder.com/200" }
+    { name: "Coke", price: 50, image: "https://via.placeholder.com/200" }
   ]);
   const [foodsCart, setFoodsCart] = useState([]);
 
@@ -64,7 +63,7 @@ function Payment() {
   }
 
   return (
-    <div className="w-full bg-white flex justify-center gap-[2rem] px-[2rem] relative">
+    <div className="w-full bg-white flex justify-center gap-[2rem]  py-[2%] relative">
       <div className="w-[50%]">
         <div className="h-full w-full rounded-[10px] shadow-xl border border-[#0000002f]">
           <p className="text-[20px] font-bold text-center mb-[1.5rem] h-[8%] pt-[1rem]">
