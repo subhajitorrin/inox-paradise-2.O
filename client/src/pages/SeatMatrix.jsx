@@ -114,13 +114,10 @@ function CategoryCard({ category }) {
 
 function SeatMatrix() {
   const [isPaymentPage, setIsPaymentPage] = useState(false);
+  const [paymentData, setPaymentData] = useState({});
   const { scheduleid } = useParams();
   const navigate = useNavigate();
   const { seatMatrix, getSeatMatrix, selectedSeats } = useMovie();
-
-  useEffect(() => {
-    console.log(selectedSeats);
-  }, [selectedSeats]);
 
   useEffect(() => {
     if (scheduleid) {
@@ -128,11 +125,28 @@ function SeatMatrix() {
     }
   }, [getSeatMatrix, scheduleid]);
 
+  async function handleBookTicket() {
+    const paymentData = {
+      title: seatMatrix.movie.title,
+      date: new Date(seatMatrix.date).toLocaleDateString("en-GB", options),
+      time: `${seatMatrix.startTime}`,
+      screen: seatMatrix.screen.screenName,
+      seats: selectedSeats.seats,
+      category: selectedSeats.category,
+      price: selectedSeats.price,
+      language: seatMatrix.language
+    };
+    console.log(seatMatrix);
+    
+    setPaymentData(paymentData);
+    setIsPaymentPage(true);
+  }
+
   return (
     seatMatrix &&
     seatMatrix.movie &&
     (isPaymentPage ? (
-      <Payment />
+      <Payment paymentData={paymentData} setPaymentData={setPaymentData} />
     ) : (
       <div
         style={{ height: selectedSeats.category !== "" ? "110vh" : "100vh" }}
@@ -226,7 +240,7 @@ function SeatMatrix() {
               </div>
               <div className="">
                 <button
-                  onClick={() => setIsPaymentPage(true)}
+                  onClick={handleBookTicket}
                   className="px-[2rem] py-[10px] bg-black rounded-[7px] text-white font-[500]"
                 >
                   Book Ticket

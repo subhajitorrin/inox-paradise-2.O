@@ -5,7 +5,9 @@ import { PiDeviceMobile } from "react-icons/pi";
 import { MdOutlineTimer } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 
-function Payment() {
+const options = { hour: "numeric", minute: "numeric", hour12: true };
+
+function Payment({ paymentData, setPaymentData }) {
   const [totalPrice, setTotalPrice] = useState(300);
   const [timer, setTimer] = useState(300);
   const [foodList, setFoodList] = useState([
@@ -13,17 +15,6 @@ function Payment() {
     { name: "Coke", price: 50, image: "https://via.placeholder.com/200" }
   ]);
   const [foodsCart, setFoodsCart] = useState([]);
-
-  const paymentData = {
-    moviename: "Inception",
-    date: "2024-09-30",
-    time: "7:00 PM",
-    seatCategory: "VIP",
-    seats: ["A1", "A2"],
-    seatCount: 2,
-    price: 200,
-    screen: "Screen 1"
-  };
 
   const formatSeconds = (seconds) => {
     const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -42,8 +33,8 @@ function Payment() {
 
   useEffect(() => {
     const calculatedPrice =
-      Math.floor(paymentData.price * paymentData.seatCount * 0.18) +
-      paymentData.price * paymentData.seatCount;
+      Math.floor(paymentData.price * paymentData.seats.length * 0.18) +
+      paymentData.price * paymentData.seats.length;
     setTotalPrice(calculatedPrice);
   }, [paymentData]);
 
@@ -106,30 +97,32 @@ function Payment() {
           <p className="tracking-widest text-[#f84464] font-[500] ">
             BOOKING SUMMARY
           </p>
-          <p className="text-[20px] font-[500]">{paymentData.moviename}</p>
+          <p className="text-[20px] font-[500]">{paymentData.title}</p>
           <p>
-            {paymentData.date} | {paymentData.time}
+            {paymentData.date} |{" "}
+            {new Date(paymentData.time).toLocaleTimeString(undefined, options)}
           </p>
           <p className="uppercase ">
-            <span className="font-[500]">{paymentData.seatCategory}</span> -{" "}
+            <span className="font-[500]">{paymentData.category}</span> -{" "}
             {paymentData.seats.join(", ")}
           </p>
           <p className="font-[500]">
-            {paymentData.seatCount > 1 ? (
-              <span>{paymentData.seatCount} Tickets</span>
+            {paymentData.seats.length > 1 ? (
+              <span>{paymentData.seats.length} Tickets</span>
             ) : (
-              <span>{paymentData.seatCount} Ticket</span>
+              <span>{paymentData.seats.length} Ticket</span>
             )}{" "}
             | {paymentData.screen}
           </p>
           <div className="flex justify-between">
             <p>Ticket Price</p>
-            <p>Rs. {paymentData.price * paymentData.seatCount}</p>
+            <p>Rs. {paymentData.price * paymentData.seats.length}</p>
           </div>
           <div className="flex justify-between items-center ">
             <p className="text-[.8rem]">GST charges @18%</p>
             <p className="text-[.8rem]">
-              Rs. {Math.floor(paymentData.price * paymentData.seatCount * 0.18)}
+              Rs.{" "}
+              {Math.floor(paymentData.price * paymentData.seats.length * 0.18)}
             </p>
           </div>
           {/* Foods section */}
