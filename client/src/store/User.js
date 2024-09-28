@@ -12,6 +12,8 @@ const useUser = create(
     (set, get) => ({
       user: null,
       isLogin: null,
+      isAuthenticating: true,
+      toggleSidenavbar: false,
       setIsLogin: (value) => set({ isLogin: value }),
       sendOtp: async (email, password, name) => {
         try {
@@ -70,8 +72,13 @@ const useUser = create(
           console.log(error);
           toast.error(error.response?.data?.message || error.message);
           throw error;
+        } finally {
+          set({ isAuthenticating: false });
         }
       },
+      setToggleSideNavbar:(value)=>{
+        set({toggleSidenavbar:value})
+      }
     }),
     {
       name: "Inox-User-Store",

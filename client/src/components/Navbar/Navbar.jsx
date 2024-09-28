@@ -16,7 +16,7 @@ import useUser from "@/store/User";
 
 function Navbar() {
   const { isMobile } = useMobile();
-  const { setIsLogin, user } = useUser();
+  const { setIsLogin, user, setToggleSideNavbar } = useUser();
   const navigate = useNavigate();
   const [toggleMobileNav, setToggleMobileNav] = useState(false);
   const {
@@ -179,7 +179,9 @@ function Navbar() {
             )}
           </div>
 
-          <AiOutlineMenu className="text-[22px] cursor-pointer" />
+          <span onClick={() => setToggleSideNavbar(true)}>
+            <AiOutlineMenu className="text-[22px] cursor-pointer" />
+          </span>
         </div>
       </div>
     </>

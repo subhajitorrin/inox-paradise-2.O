@@ -6,16 +6,12 @@ import { MdOutlineArrowRight } from "react-icons/md";
 import { MdHelpOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { RiAdminLine } from "react-icons/ri";
+import useUser from "@/store/User";
+import { LuWallet } from "react-icons/lu";
 
-function SideNavbarDesktop({
-  toggleSideNavbar = false,
-  settoggleSideNavbar,
-  user,
-  settoggleLogin,
-  setuser,
-  setWrappersArr
-}) {
+function SideNavbarDesktop() {
   const navigate = useNavigate();
+  const { toggleSidenavbar, setToggleSideNavbar, user } = useUser();
 
   const randomUser = {
     name: "John Doe",
@@ -49,10 +45,7 @@ function SideNavbarDesktop({
   const [currentUser, setCurrentUser] = useState(randomUser);
 
   function handleLogout() {
-    localStorage.removeItem("userid");
-    setuser("");
-    setWrappersArr([true, false, false, false]);
-    settoggleSideNavbar(false);
+    setToggleSideNavbar(false);
   }
 
   function handleOffSidebar(e) {
@@ -63,7 +56,7 @@ function SideNavbarDesktop({
       }
     });
     if (flag) {
-      settoggleSideNavbar(false);
+      setToggleSideNavbar(false);
     }
   }
 
@@ -71,32 +64,37 @@ function SideNavbarDesktop({
     <div
       className="bg-[#00000049] z-[100] fixed w-full h-screen transition-all ease-linear duration-200 backdrop-filter backdrop-blur-[5px]"
       style={{
-        opacity: toggleSideNavbar ? "1" : "0",
-        pointerEvents: toggleSideNavbar ? "auto" : "none"
+        opacity: toggleSidenavbar ? "1" : "0",
+        pointerEvents: toggleSidenavbar ? "auto" : "none"
       }}
       onClick={handleOffSidebar}
     >
       <div
-        style={{ right: toggleSideNavbar ? "0" : "-100%" }}
+        style={{ right: toggleSidenavbar ? "0" : "-100%" }}
         className=" bg-white select-none transition-all ease-linear duration-200 absolute z-[100] h-full w-[320px] rounded-l-[20px]"
       >
         <div className="w-full py-[20px] flex flex-col gap-[1rem]">
           <p className="font-bold text-[20px] px-[1rem]">
-            {currentUser && currentUser.name !== "" ? (
-              <span>Welcome</span>
-            ) : (
+            {user === null && (
               <span className="font-[500] text-[17px] flex items-center gap-[10px]">
                 <FaRegCircleUser className="text-[25px] " />
                 Guest
               </span>
             )}
           </p>
-          {currentUser && currentUser.name !== "" ? (
+          {user !== null ? (
             <>
-              <p className="font-[500] text-[17px] flex items-center gap-[10px] px-[1rem] mt-[1rem]">
-                <FaRegCircleUser className="text-[25px] " />
-                {currentUser.name}
-              </p>
+              <div className="flex items-center justify-between px-[5%] mt-[1.2rem]">
+                <p className="font-[500] text-[100%] flex items-center gap-[10px]">
+                  <FaRegCircleUser className="text-[1.3rem] " />
+                  {currentUser.name}
+                </p>
+                <div className="font-[500] flex items-center gap-[10px]">
+                  <LuWallet />
+                  <p className="text-[100%]">Wallet {user.wallet}</p>
+                </div>
+              </div>
+
               <div className="flex flex-col gap-[1rem]">
                 {menulist.map((item, index) => {
                   return (
@@ -104,7 +102,7 @@ function SideNavbarDesktop({
                       onClick={() => {
                         if (index === 0) {
                           navigate(`/mybookings/${currentUser.userId}`);
-                          settoggleSideNavbar(false);
+                          setToggleSideNavbar(false);
                         }
                       }}
                       key={index}
@@ -112,10 +110,10 @@ function SideNavbarDesktop({
                     >
                       <div className="flex justify-between items-center">
                         <div className="flex gap-[20px] items-center">
-                          <span className="text-[25px]">{item.icon}</span>
+                          <span className="text-[1.3rem]">{item.icon}</span>
                           <div>
-                            <p>{item.name}</p>
-                            <p className="text-[.9rem]">{item.desc}</p>
+                            <p className="text-[100%]">{item.name}</p>
+                            <p className="text-[.75rem]">{item.desc}</p>
                           </div>
                         </div>
                         <MdOutlineArrowRight />
@@ -142,12 +140,7 @@ function SideNavbarDesktop({
             <p>Admin Login</p>
           </div>
           {currentUser !== null && currentUser.name === "" ? (
-            <button
-              className="w-full rounded-[7px] bg-[#da4b63] text-white py-[5px] font-[500]"
-              onClick={() => {
-                settoggleLogin(true);
-              }}
-            >
+            <button className="w-full rounded-[7px] bg-[#da4b63] text-white py-[5px] font-[500]">
               Login
             </button>
           ) : (
@@ -162,7 +155,7 @@ function SideNavbarDesktop({
         <RxCross1
           className="text-black absolute top-[25px] right-[20px] cursor-pointer font-bold text-[19px]"
           onClick={() => {
-            settoggleSideNavbar(false);
+            setToggleSideNavbar(false);
           }}
         />
       </div>
