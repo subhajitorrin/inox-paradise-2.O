@@ -163,27 +163,39 @@ async function logout(req, res) {
 }
 
 async function bookTicket(req, res) {
-  const { role } = req;
+  const { role, id } = req; // Destructure role and id from req
+
+  // Check if the user has the 'user' role
   if (role !== "user") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   try {
-    const user = await UserModel.findById(req.id).select("-password");
-    const { ticketData } = req.body;
+    // Find user by id and exclude the password field
+    const user = await UserModel.findById(id).select("-password");
+
+    const { ticketData } = req.body; // Extract ticket data from request body
+
+    // Generate booking ID and assign it to the ticket data
     const bookingId = generateRandomString();
     ticketData.bookingId = bookingId;
+
+    // Create a new ticket instance
     const newTicket = new TicketModel(ticketData);
     newTicket.user = user._id;
     newTicket.price = ticketData.withGstPrice;
+
+    // Save the new ticket to the database
     await newTicket.save();
-    const ticketres = await BookingSuccessEmailSend(
-      user,
-      ticketData,
-      ticketData.movie.poster
-    );
+
+    // Send booking success email
+    await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
+
+    // Respond with success message
     return res.status(200).json({ message: "Ticket booked successfully" });
   } catch (error) {
-    console.log(error);
+    // Log the error and send a response with error message
+    console.error(error);
     return res.status(400).json({ message: error.message });
   }
 }
