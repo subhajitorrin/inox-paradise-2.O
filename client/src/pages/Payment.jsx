@@ -66,7 +66,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   }
 
   async function handlePaymentClick() {
-    await handlePayment(totalPrice);
+    // await handlePayment(totalPrice);
     await bookTicket(paymentData);
     toast.success("Payment successful");
     setPaymentData({});

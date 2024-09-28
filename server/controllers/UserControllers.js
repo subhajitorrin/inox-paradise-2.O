@@ -4,6 +4,7 @@ import OtpModel from "../models/OTP.js";
 import UserModel from "../models/User.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import TicketModel from "../models/Ticket.js";
 
 async function sendOtp(req, res) {
   const { email, password, name } = req.body;
@@ -165,8 +166,11 @@ async function bookTicket(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   try {
-    // const {}=req.body;
-
+    const { ticketData } = req.body;
+    console.log(ticketData);
+    const newTicket = new TicketModel(ticketData);
+    await newTicket.save();
+    return res.status(200).json({ message: "Ticket booked successfully" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });
