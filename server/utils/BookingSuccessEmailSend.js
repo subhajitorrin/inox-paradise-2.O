@@ -1,4 +1,4 @@
-import mailSender from "./sendMail.js";
+import mailSender from "./SendMail.js";
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
