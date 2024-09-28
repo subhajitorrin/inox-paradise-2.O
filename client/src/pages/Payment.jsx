@@ -67,7 +67,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
 
   async function handlePaymentClick() {
     await handlePayment(totalPrice);
-    await bookTicket();
+    await bookTicket(paymentData);
     toast.success("Payment successful");
     setPaymentData({});
     setEmptySelectedSeats();
@@ -172,7 +172,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
             {new Date(paymentData.time).toLocaleTimeString(undefined, options)}
           </p>
           <p className="uppercase ">
-            <span className="font-[500]">{paymentData.category}</span> -{" "}
+            <span className="font-[500]">{paymentData.seatCategory}</span> -{" "}
             {paymentData.seats.join(", ")}
           </p>
           <p className="font-[500]">
@@ -181,7 +181,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
             ) : (
               <span>{paymentData.seats.length} Ticket</span>
             )}{" "}
-            | {paymentData.screen}
+            | {paymentData.screen.screenName}
           </p>
           <div className="flex justify-between">
             <p>Ticket Price</p>
