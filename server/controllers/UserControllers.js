@@ -163,20 +163,31 @@ async function logout(req, res) {
 }
 
 async function bookTicket(req, res) {
-  const { role, id } = req; // Destructure role and id from req
-
-  // Check if the user has the 'user' role
-  if (role !== "user") {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
   try {
-    // Find user by id and exclude the password field
+    // Extract user role and ID from request
+    const { role, id } = req;
+
+    // Check for unauthorized access
+    if (role !== "user") {
+      throw new Error("Unauthorized");
+    }
+
+    // Get ticket data from request body
+    const { ticketData } = req.body;
+
+    // Find user and check if exists
     const user = await UserModel.findById(id).select("-password");
+    if (!user) {
+      throw new Error("User not found");
+    }
 
-    const { ticketData } = req.body; // Extract ticket data from request body
+    // Find schedule and check if exists
+    const schedule = await ScheduleModel.findById(ticketData.scheduleid);
+    if (!schedule) {
+      throw new Error("Show not found");
+    }
 
-    // Generate booking ID and assign it to the ticket data
+    // Generate booking ID and assign it to ticket data
     const bookingId = generateRandomString();
     ticketData.bookingId = bookingId;
 
@@ -185,16 +196,28 @@ async function bookTicket(req, res) {
     newTicket.user = user._id;
     newTicket.price = ticketData.withGstPrice;
 
-    // Save the new ticket to the database
-    await newTicket.save();
+    // Add the new ticket ID to user's tickets
+    user.myTickets.push(newTicket._id);
 
-    // Send booking success email
-    await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
+    // Prepare the booked seats
+    const seats = ticketData.seats.map(seat => seat.id);
 
-    // Respond with success message
+    // Update schedule with booked seats and revenue
+    schedule.bookedSeats = seats;
+    schedule.availableSeats -= seats.length;
+    schedule.bookedCount += 1;
+    schedule.revenue += ticketData.price * ticketData.seats.length;
+
+    // Save changes to the database
+    await Promise.all([schedule.save(), user.save(), newTicket.save()]);
+
+    // Send booking success email (commented out)
+    // await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
+
+    // Return success response
     return res.status(200).json({ message: "Ticket booked successfully" });
   } catch (error) {
-    // Log the error and send a response with error message
+    // Log the error and send a response with the error message
     console.error(error);
     return res.status(400).json({ message: error.message });
   }

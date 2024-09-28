@@ -149,7 +149,8 @@ function SeatMatrix() {
       seatCount: selectedSeats.seats.length,
       moviename: seatMatrix.movie.title,
       theatername: seatMatrix.theater.name,
-      screenName: `${seatMatrix.screen.screenName} - ${seatMatrix.screen.screenType}`
+      screenName: `${seatMatrix.screen.screenName} - ${seatMatrix.screen.screenType}`,
+      scheduleid
     };
     setPaymentData(paymentData);
     setIsPaymentPage(true);
