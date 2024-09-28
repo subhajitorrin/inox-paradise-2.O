@@ -138,4 +138,20 @@ async function loginWithEmailPass(req, res) {
   }
 }
 
-export { sendOtp, verifyOtp, loginWithEmailPass };
+async function getUser(req, res) {
+  const { role } = req;
+  if (role !== "user") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const user = await UserModel.findById(req.id).select("-password");
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+}
+
+export { sendOtp, verifyOtp, loginWithEmailPass, getUser };

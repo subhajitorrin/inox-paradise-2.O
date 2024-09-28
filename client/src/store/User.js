@@ -60,6 +60,17 @@ const useUser = create(
           toast.error(error.response?.data?.message || error.message);
           throw error;
         }
+      },
+      getUser: async () => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/user/get-user`);
+          set({ user: data });
+          return data;
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
     }),
     {

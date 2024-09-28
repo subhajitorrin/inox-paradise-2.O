@@ -12,12 +12,12 @@ import MovieSchedule from "./pages/MovieSchedule";
 import SeatMatrix from "./pages/SeatMatrix";
 import SideNavbarDesktop from "./components/Navbar/SideNavbarDesktop";
 import Login from "./components/Login/Login";
-import  useUser  from "./store/User";
+import useUser from "./store/User";
 import Register from "./components/Register/Register";
 
 function App() {
   const { setMobile } = useMobile();
-  const { isLogin } = useUser();
+  const { isLogin, getUser } = useUser();
 
   useEffect(() => {
     function handleResize() {
@@ -27,6 +27,10 @@ function App() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    getUser();
   }, []);
 
   return (
