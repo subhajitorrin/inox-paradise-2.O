@@ -136,6 +136,7 @@ function SeatMatrix() {
       return;
     }
     const paymentData = {
+      imageurl: seatMatrix.movie.image,
       movie: seatMatrix.movie._id,
       theater: seatMatrix.theater._id,
       title: seatMatrix.movie.title,
@@ -146,7 +147,10 @@ function SeatMatrix() {
       seatCategory: selectedSeats.category,
       price: selectedSeats.price,
       language: seatMatrix.language,
-      seatCount: selectedSeats.seats.length
+      seatCount: selectedSeats.seats.length,
+      moviename: seatMatrix.movie.title,
+      theatername: seatMatrix.theater.name,
+      screenName: `${seatMatrix.screen.screenName} - ${seatMatrix.screen.screenType}`
     };
     setPaymentData(paymentData);
     setIsPaymentPage(true);
