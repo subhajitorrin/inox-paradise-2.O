@@ -170,20 +170,17 @@ async function bookTicket(req, res) {
   try {
     const user = await UserModel.findById(req.id).select("-password");
     const { ticketData } = req.body;
-    console.log(ticketData);
-    
     const bookingId = generateRandomString();
     ticketData.bookingId = bookingId;
     const newTicket = new TicketModel(ticketData);
+    newTicket.user = user._id;
+    newTicket.price = ticketData.withGstPrice;
     await newTicket.save();
     const ticketres = await BookingSuccessEmailSend(
       user,
       ticketData,
-      ticketData.imageurl
+      ticketData.movie.poster
     );
-    // if (!ticketres) {
-    //   throw new Error("Failed to send email");
-    // }
     return res.status(200).json({ message: "Ticket booked successfully" });
   } catch (error) {
     console.log(error);

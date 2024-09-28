@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const ticketSchema = new mongoose.Schema({
   movie: { type: mongoose.Schema.Types.ObjectId, ref: "Movie" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   language: String,
   date: String,
   time: String,

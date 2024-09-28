@@ -8,7 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function HtmlContent(BookingData, poster, qrCodeUrl) {
-
   const foodItemsHtml = BookingData.foods && BookingData.foods.length > 0
     ? `
     <div class="food-container">
@@ -150,7 +149,7 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
             <div class="topinfo info">
               <p class="movie-title fontBold fontsize20">${BookingData.moviename}</p>
               <p>${BookingData.language} 2D</p>
-              <p>${BookingData.date} | ${BookingData.time}</p>
+              <p>${new Date(BookingData.date).toLocaleDateString("en-GB", {day: "numeric",month: "short"})} | ${new Date('2024-09-28T04:30:00.000Z').toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
               <p>${BookingData.theatername}</p>
               ${foodItemsHtml}
             </div>
@@ -164,7 +163,7 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
               <p>${BookingData.seatCount}Tickets</p>
               <p class="font-weight-bold fontBold fontsize17">${BookingData.screenName}</p>
               <p class="uppercase">
-                // ${BookingData.seatCategory} - ${arrToString(BookingData.seats)}
+                ${BookingData.seatCategory} - ${arrToString(BookingData.seats)}
               </p>
               <p class="font-weight-bold uppercase fontBold">
                 Booking ID: ${BookingData.bookingId}
@@ -173,7 +172,7 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
           </div>
           <div class="footer">
             <p>Total Amount</p>
-            <p>Rs.${BookingData.price}</p>
+            <p>Rs.${BookingData.withGstPrice}</p>
           </div>
         </div>
       </body>
@@ -230,7 +229,7 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
                 <li><strong>Seat Count:</strong> ${BookingData.seatCount}</li>
                 <li><strong>Booked Seats:</strong> ${arrToString(BookingData.seats)}</li>
                 <li><strong>Seat Category:</strong> ${BookingData.seatCategory}</li>
-                <li><strong>Price:</strong> ₹${BookingData.price}</li>
+                <li><strong>Price:</strong> ₹${BookingData.withGstPrice}</li>
                 <li><strong>Screen:</strong> ${BookingData.screenName}</li>
                 <li><strong>Foods:</strong>
                     <ul class="food-container">

@@ -136,8 +136,7 @@ function SeatMatrix() {
       return;
     }
     const paymentData = {
-      imageurl: seatMatrix.movie.image,
-      movie: seatMatrix.movie._id,
+      movie: seatMatrix.movie,
       theater: seatMatrix.theater._id,
       title: seatMatrix.movie.title,
       date: seatMatrix.date,
