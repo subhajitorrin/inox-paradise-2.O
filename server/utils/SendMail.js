@@ -22,6 +22,7 @@ const mailSender = async (email, title, body, attachments) => {
     return info;
   } catch (error) {
     console.log(error.message);
+    return error;
   }
 };
 export default mailSender;

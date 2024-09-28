@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import MasterAdminRotuer from "./routers/MasterAdminRouters.js";
 import MovieRouter from "./routers/MovieRoutes.js";
 import TheaterRouter from "./routers/TheaterAdmin.js";
+import UserRouter from "./routers/UserRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use("/", MasterAdminRotuer);
 app.use("/", MovieRouter);
 app.use("/", TheaterRouter);
+app.use("/", UserRouter);
 
 mongoose
   .connect(MONGOURL)
