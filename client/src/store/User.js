@@ -7,65 +7,69 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 axios.defaults.withCredentials = true;
 
-export const useUser = create(
-  persist((set, get) => ({
-    user: null,
-    isLogin: null,
-    setIsLogin: (value) => set({ isLogin: value }),
-    sendOtp: async (email, password, name) => {
-      try {
-        const { data } = await axios.post(`${BASE_URL}/user/send-otp`, {
-          email,
-          password,
-          name
-        });
-        toast.success("Otp send successfully");
-        return data;
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response?.data?.message || error.message);
-        throw error;
+const useUser = create(
+  persist(
+    (set, get) => ({
+      user: null,
+      isLogin: null,
+      setIsLogin: (value) => set({ isLogin: value }),
+      sendOtp: async (email, password, name) => {
+        try {
+          const { data } = await axios.post(`${BASE_URL}/user/send-otp`, {
+            email,
+            password,
+            name
+          });
+          toast.success("Otp send successfully");
+          return data;
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
+      veirfyOtp: async (email, password, otpId, otp, name) => {
+        try {
+          const { data } = await axios.post(`${BASE_URL}/user/verify-otp`, {
+            email,
+            password,
+            otpId,
+            otp,
+            name
+          });
+          toast.success("User registered, Login now");
+          set({ isLogin: true });
+          return data;
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
+      login: async (email, password) => {
+        try {
+          const { data } = await axios.post(`${BASE_URL}/user/login`, {
+            email,
+            password
+          });
+          set({ user: data.user, isLogin: null });
+          toast.success("Login successfull");
+          return data;
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
-    },
-    veirfyOtp: async (email, password, otpId, otp, name) => {
-      try {
-        const { data } = await axios.post(`${BASE_URL}/user/verify-otp`, {
-          email,
-          password,
-          otpId,
-          otp,
-          name
-        });
-        toast.success("User registered, Login now");
-        set({ isLogin: true });
-        return data;
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response?.data?.message || error.message);
-        throw error;
-      }
-    },
-    login: async (email, password) => {
-      try {
-        const { data } = await axios.post(`${BASE_URL}/user/login`, {
-          email,
-          password
-        });
-        set({ user: data.user, isLogin: null });
-        toast.success("Login successfull");
-        return data;
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response?.data?.message || error.message);
-        throw error;
-      }
-    }
-  })),
-  {
-    name: "user-store",
-    partialize: (state) => ({
-      user: state.user
     }),
-    storage: createJSONStorage(() => sessionStorage)
-  }
+    {
+      name: "Inox-User-Store",
+      partialize: (state) => ({
+        user: state.user
+      }),
+      storage: createJSONStorage(() => sessionStorage)
+    }
+  )
 );
+
+export default useUser;

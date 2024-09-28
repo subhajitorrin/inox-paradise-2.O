@@ -12,7 +12,7 @@ import MovieSchedule from "./pages/MovieSchedule";
 import SeatMatrix from "./pages/SeatMatrix";
 import SideNavbarDesktop from "./components/Navbar/SideNavbarDesktop";
 import Login from "./components/Login/Login";
-import { useUser } from "./store/User";
+import  useUser  from "./store/User";
 import Register from "./components/Register/Register";
 
 function App() {

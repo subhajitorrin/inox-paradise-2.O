@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { useUser } from "@/store/User";
+import useUser  from "@/store/User";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 function Login() {
   const { setIsLogin, login } = useUser();
@@ -98,8 +99,12 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Login with Password
+                <Button disabled={isLoading} type="submit" className="w-full">
+                  {isLoading === true ? (
+                    <BeatLoader color="#ffffff" size={5} />
+                  ) : (
+                    "Login with password"
+                  )}
                 </Button>
               </form>
             </TabsContent>

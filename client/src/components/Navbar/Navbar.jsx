@@ -12,7 +12,7 @@ import useDebounce from "../../hook/useDebounce.js";
 import SearchCard from "./SearchCard.jsx";
 import { SyncLoader } from "react-spinners";
 import { CgSearch } from "react-icons/cg";
-import { useUser } from "@/store/User";
+import  useUser  from "@/store/User";
 
 function Navbar() {
   const { isMobile } = useMobile();

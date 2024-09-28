@@ -11,7 +11,7 @@ import {
 import { Tabs, TabsContent } from "@/components/ui/tabs"; // Ensure TabsContent is imported
 import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
-import { useUser } from "@/store/User";
+import  useUser  from "@/store/User";
 import { RxCross2 } from "react-icons/rx";
 import { BeatLoader } from "react-spinners";
 
