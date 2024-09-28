@@ -10,7 +10,7 @@ import useMovie from "../store/Movie";
 
 const options = { hour: "numeric", minute: "numeric", hour12: true };
 
-function Payment({ paymentData, setPaymentData }) {
+function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   const navigate = useNavigate();
   const { setEmptySelectedSeats } = useMovie();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -29,6 +29,10 @@ function Payment({ paymentData, setPaymentData }) {
 
   useEffect(() => {
     const timerId = setInterval(() => {
+      if (timer === 0) {
+        clearInterval(timerId);
+        setEmptySelectedSeats();
+      }
       setTimer((prev) => prev - 1);
     }, 1000);
     return () => {
@@ -69,11 +73,11 @@ function Payment({ paymentData, setPaymentData }) {
   async function handlePayment(withGstPrice) {
     return new Promise((resolve, reject) => {
       const options = {
-        key: "rzp_test_7cs83Ikm791P0j",
+        key: "rzp_test_7cs83Ikm791abc",
         amount: parseInt(withGstPrice * 100),
         currency: "INR",
-        name: "Inox Paradise",
-        description: "Book your seat",
+        name: "TEST",
+        description: "TEST",
         image: "",
         handler: (response) => {
           resolve(true);
@@ -115,7 +119,7 @@ function Payment({ paymentData, setPaymentData }) {
   }, []);
 
   return (
-    <div className="w-full bg-white flex justify-center gap-[2rem]  py-[2%] relative">
+    <div className="w-full bg-white h-screen flex justify-center gap-[2rem]  py-[2%] relative">
       <div className="w-[50%]">
         <div className="h-full w-full rounded-[10px] shadow-xl border border-[#0000002f]">
           <p className="text-[20px] font-bold text-center mb-[1.5rem] h-[8%] pt-[1rem]">
@@ -153,12 +157,12 @@ function Payment({ paymentData, setPaymentData }) {
           </div>
         </div>
       </div>
-      <div className="relative rounded-[10px] w-[20%] h-[80vh] border border-[#0000002f] flex flex-col gap-[5px] shadow-xl">
-        <div className="flex flex-col gap-[15px] p-[1.5rem]">
+      <div className="relative rounded-[10px] justify-between w-[20%] h-full border border-[#0000002f] flex flex-col gap-[5px] shadow-xl">
+        <div className="text-[85%] flex flex-col gap-[15px] p-[1.5rem]">
           <p className="tracking-widest text-[#f84464] font-[500] ">
             BOOKING SUMMARY
           </p>
-          <p className="text-[20px] font-[500]">{paymentData.title}</p>
+          <p className="text-[1.1rem] font-bold">{paymentData.title}</p>
           <p>
             {paymentData.date} |{" "}
             {new Date(paymentData.time).toLocaleTimeString(undefined, options)}
@@ -208,16 +212,16 @@ function Payment({ paymentData, setPaymentData }) {
               );
             })}
           </div>
-          <div className="flex justify-between items-center font-[500]">
+          <div className="flex justify-between items-center font-[500] text-[100%]">
             <p>Total</p>
             <p>Rs. {totalPrice}</p>
           </div>
         </div>
-        <div className="flex flex-col items-center">
-          <p className="flex gap-[5px] items-center mt-[1rem] font-[500] text-[15px]">
+        <div className="mb-[20%] flex flex-col items-center text-[85%]">
+          <p className="flex gap-[5px] items-center mt-[1rem] font-[500]">
             * Get your E-Ticket <PiDeviceMobile className="text-[20px]" />
           </p>
-          <p className="flex gap-[5px] items-center mt-[1rem] font-[500] text-[15px]">
+          <p className="flex gap-[5px] items-center mt-[10px] font-[500]">
             *Complete your payment <span>{formatSeconds(timer)}</span>{" "}
             <MdOutlineTimer className="text-[20px]" />
           </p>
@@ -226,7 +230,7 @@ function Payment({ paymentData, setPaymentData }) {
           onClick={handlePaymentClick}
           className="absolute bottom-0 flex justify-between px-[1rem] w-full bg-[#f84464] py-[10px] rounded-b-[10px] text-white font-[500]"
         >
-          <p className="flex gap-[10px] items-center text-[1.1rem]">
+          <p className="flex gap-[10px] items-center text-[1rem]">
             <IoTicketOutline className="text-[25px]" />
             Proceed Payment
           </p>

@@ -146,7 +146,7 @@ function SeatMatrix() {
     seatMatrix &&
     seatMatrix.movie &&
     (isPaymentPage ? (
-      <Payment paymentData={paymentData} setPaymentData={setPaymentData} />
+      <Payment paymentData={paymentData} setPaymentData={setPaymentData} setIsPaymentPage={setIsPaymentPage}/>
     ) : (
       <div
         style={{ height: selectedSeats.category !== "" ? "110vh" : "100vh" }}
