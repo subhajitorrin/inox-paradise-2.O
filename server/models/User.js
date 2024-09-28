@@ -22,7 +22,11 @@ const UserSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Ticket"
     }
-  ]
+  ],
+  wallet: {
+    type: Number,
+    default: 0
+  }
 });
 
 const UserModel = mongoose.model("User", UserSchema);

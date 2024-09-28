@@ -136,8 +136,6 @@ function SeatMatrix() {
       price: selectedSeats.price,
       language: seatMatrix.language
     };
-    console.log(seatMatrix);
-    
     setPaymentData(paymentData);
     setIsPaymentPage(true);
   }
@@ -146,7 +144,11 @@ function SeatMatrix() {
     seatMatrix &&
     seatMatrix.movie &&
     (isPaymentPage ? (
-      <Payment paymentData={paymentData} setPaymentData={setPaymentData} setIsPaymentPage={setIsPaymentPage}/>
+      <Payment
+        paymentData={paymentData}
+        setPaymentData={setPaymentData}
+        setIsPaymentPage={setIsPaymentPage}
+      />
     ) : (
       <div
         style={{ height: selectedSeats.category !== "" ? "110vh" : "100vh" }}

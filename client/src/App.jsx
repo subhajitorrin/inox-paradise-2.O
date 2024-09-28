@@ -10,6 +10,7 @@ import MovieDetail from "./pages/MovieDetail";
 import { useMobile } from "./store/ScreenWidth";
 import MovieSchedule from "./pages/MovieSchedule";
 import SeatMatrix from "./pages/SeatMatrix";
+import SideNavbarDesktop from "./components/Navbar/SideNavbarDesktop";
 
 function App() {
   const { setMobile } = useMobile();
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <div className="select-none">
+      <SideNavbarDesktop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetail />} />

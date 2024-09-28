@@ -32,6 +32,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
       if (timer === 0) {
         clearInterval(timerId);
         setEmptySelectedSeats();
+        setIsPaymentPage(false);
       }
       setTimer((prev) => prev - 1);
     }, 1000);
@@ -73,7 +74,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   async function handlePayment(withGstPrice) {
     return new Promise((resolve, reject) => {
       const options = {
-        key: "rzp_test_7cs83Ikm791abc",
+        key: "rzp_test_7cs83Ikm791P0j",
         amount: parseInt(withGstPrice * 100),
         currency: "INR",
         name: "TEST",
