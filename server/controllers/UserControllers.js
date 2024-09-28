@@ -5,8 +5,8 @@ import UserModel from "../models/User.js";
 import bcryptjs from "bcryptjs";
 
 async function sendOtp(req, res) {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const { email, password, name } = req.body;
+  if (!email || !password || !name) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
@@ -30,7 +30,7 @@ async function sendOtp(req, res) {
     const emailBody = `
     <html>
       <body>
-        <h2>Welcome to INOX PARADISE!</h2>
+        <h2>Welcome ${name}!</h2>
         <p>Dear User,</p>
         <p>Thank you for registering with us. To complete your registration and verify your identity, please use the following OTP:</p>
         <h3 style="color: #4CAF50;">${generatedOtp}</h3>
@@ -55,10 +55,10 @@ async function sendOtp(req, res) {
 }
 
 async function verifyOtp(req, res) {
-  const { email, password, otpId, otp } = req.body;
+  const { email, password, otpId, otp, name } = req.body;
 
   try {
-    if (!email || !password || !otpId || !otp) {
+    if (!email || !password || !otpId || !otp || !name) {
       throw new Error("All fields are required");
     }
     const existingOtp = await OtpModel.findById(otpId);
@@ -77,7 +77,7 @@ async function verifyOtp(req, res) {
     const hashedpassword = await bcryptjs.hash(password, 10);
 
     const newUser = new UserModel({
-      name: email.split("@")[0],
+      name: name,
       email,
       password: hashedpassword
     });

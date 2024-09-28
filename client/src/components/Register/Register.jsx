@@ -19,6 +19,7 @@ function Register() {
   const { setIsLogin, sendOtp, veirfyOtp } = useUser();
   const [registerStep, setRegisterStep] = useState("email"); // State for controlling steps
   const [otpSent, setOtpSent] = useState(false);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [inputedOtp, setInputedOtp] = useState("");
@@ -27,14 +28,14 @@ function Register() {
 
   const handleSendOTP = async (event) => {
     event.preventDefault();
-    if (!email || !password) {
+    if (!email || !password || !name) {
       toast.warn("Fill all the fields");
       return;
     }
     try {
       setIsLoading(true);
-      const data = await sendOtp(email, password);
-      setOtpId(data.otpid);
+      const data = await sendOtp(email, password, name);
+      setOtpId(data.otpId);
       setOtpSent(true);
       setRegisterStep("otp");
     } catch (error) {
@@ -43,25 +44,21 @@ function Register() {
     }
   };
 
-  const handleVerifyOTP = (event) => {
+  const handleVerifyOTP = async (event) => {
     event.preventDefault();
     if (!inputedOtp.trim()) {
       toast.warn("Fill OTP");
       return;
     }
     try {
-      if (!otpId || !email || !password) throw new Error("Resend OTP");
+      if (!otpId || !email || !password || !name) throw new Error("Resend OTP");
       setIsLoading(true);
-      const data = veirfyOtp(email, password, otpId, inputedOtp);
-      setRegisterStep("name");
+      await veirfyOtp(email, password, otpId, inputedOtp,name);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Registration form submitted");
   };
 
   return (
@@ -90,6 +87,17 @@ function Register() {
                 Register with Email
               </h2>
               <form onSubmit={handleSendOTP} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="registerEmail">Email</Label>
                   <Input
@@ -137,28 +145,12 @@ function Register() {
                     onChange={(e) => setInputedOtp(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Verify OTP
-                </Button>
-              </form>
-            </TabsContent>
-            {/* Name Input Step */}
-            <TabsContent value="name">
-              {" "}
-              {/* Final step for entering name */}
-              <h2 className="text-lg font-semibold mb-4">Enter Your Name</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Enter your name"
-                    required
-                  />
-                </div>
-                <Button type="submit" className="w-full">
-                  Register
+                <Button disabled={isLoading} type="submit" className="w-full">
+                  {isLoading === true ? (
+                    <BeatLoader color="#ffffff" size={5} />
+                  ) : (
+                    "Verify OTP"
+                  )}
                 </Button>
               </form>
             </TabsContent>

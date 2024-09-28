@@ -12,11 +12,12 @@ export const useUser = create(
     user: null,
     isLogin: null,
     setIsLogin: (value) => set({ isLogin: value }),
-    sendOtp: async (email, password) => {
+    sendOtp: async (email, password, name) => {
       try {
         const { data } = await axios.post(`${BASE_URL}/user/send-otp`, {
           email,
-          password
+          password,
+          name
         });
         toast.success("Otp send successfully");
         return data;
@@ -26,15 +27,17 @@ export const useUser = create(
         throw error;
       }
     },
-    veirfyOtp: async (email, password, otpId, otp) => {
+    veirfyOtp: async (email, password, otpId, otp, name) => {
       try {
         const { data } = await axios.post(`${BASE_URL}/user/verify-otp`, {
           email,
           password,
           otpId,
-          otp
+          otp,
+          name
         });
-        toast.success("Otp verified successfully");
+        toast.success("User registered, Login now");
+        set({ isLogin: true });
         return data;
       } catch (error) {
         console.log(error);
