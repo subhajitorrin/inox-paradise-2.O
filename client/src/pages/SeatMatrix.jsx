@@ -6,12 +6,12 @@ import Payment from "./Payment";
 import useUser from "@/store/User";
 const options = { day: "numeric", month: "short" };
 
-function Seat({ num, available = true, seatid, categoryName, price }) {
+function Seat({ num, row, available = true, seatid, categoryName, price }) {
   const { handleSelectSeats, selectedSeats } = useMovie();
   const [onselect, setOnselect] = useState(false);
 
   useEffect(() => {
-    if (selectedSeats.seats.includes(seatid)) {
+    if (selectedSeats.seats.find((s) => s.id === seatid)) {
       setOnselect(true);
     } else {
       setOnselect(false);
@@ -20,7 +20,9 @@ function Seat({ num, available = true, seatid, categoryName, price }) {
 
   return available ? (
     <div
-      onClick={() => handleSelectSeats(seatid, categoryName, price)}
+      onClick={() =>
+        handleSelectSeats(seatid, categoryName, price, `${row}${num}`)
+      }
       style={{
         backgroundColor: onselect ? "black" : "",
         color: onselect ? "white" : ""
@@ -67,6 +69,7 @@ function Row({ row, gaps, categoryName, price }) {
                 categoryName={categoryName}
                 price={price}
                 seatid={item}
+                row={row.row}
               />
             </React.Fragment>
           );

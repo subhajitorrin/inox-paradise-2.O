@@ -21,6 +21,7 @@ const useMovie = create(
       searchedList: [],
       seatMatrix: [],
       selectedSeats: { category: "", price: "", seats: [] },
+      selectedSeatNames:[],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -99,33 +100,31 @@ const useMovie = create(
           console.log(error);
         }
       },
-      handleSelectSeats: (seat, category, price) => {
-        // Destructure 'selectedSeats' from the state
+      handleSelectSeats: (seat, category, price, name) => {
         const { selectedSeats } = get();
-
+      
         // Check if no seat is currently selected (i.e., category, price, and seats array are empty)
         if (
           selectedSeats.category === "" &&
           selectedSeats.price === "" &&
           selectedSeats.seats.length === 0
         ) {
-          // If no seat is selected, set the selected seat with its category and price
-          set({ selectedSeats: { category, price, seats: [seat] } });
-        }
+          // Set the selected seat with its category, price, and seat details (name and id)
+          set({ selectedSeats: { category, price, seats: [{ name, id: seat }] } });
+        } 
         // If a seat is already selected with the same category and price
-        else if (
-          selectedSeats.category === category &&
-          selectedSeats.price === price
-        ) {
-          // Check if the seat is already included in the selected seats
-          if (selectedSeats.seats.includes(seat)) {
+        else if (selectedSeats.category === category && selectedSeats.price === price) {
+          // Check if the seat is already included in the selected seats by checking the seat's id
+          const isSeatSelected = selectedSeats.seats.some((s) => s.id === seat);
+      
+          if (isSeatSelected) {
             // If the selected seat is the only one, reset the selected seats (i.e., clear the selection)
             if (selectedSeats.seats.length === 1) {
               set({
                 selectedSeats: {
                   category: "",
                   price: "",
-                  seats: selectedSeats.seats.filter((s) => s !== seat) // Remove the seat
+                  seats: []
                 }
               });
             } else {
@@ -133,7 +132,7 @@ const useMovie = create(
               set({
                 selectedSeats: {
                   ...selectedSeats, // Preserve category and price
-                  seats: selectedSeats.seats.filter((s) => s !== seat) // Remove the seat from the selected seats array
+                  seats: selectedSeats.seats.filter((s) => s.id !== seat) // Remove the seat by its id
                 }
               });
             }
@@ -146,16 +145,17 @@ const useMovie = create(
             set({
               selectedSeats: {
                 ...selectedSeats, // Preserve category and price
-                seats: [...selectedSeats.seats, seat] // Add the new seat to the selected seats array
+                seats: [...selectedSeats.seats, { name, id: seat }] // Add the new seat (name and id) to the selected seats array
               }
             });
           }
-        }
+        } 
         // If a seat from a different category or price is selected, reset and select the new seat
         else {
-          set({ selectedSeats: { category, price, seats: [seat] } });
+          set({ selectedSeats: { category, price, seats: [{ name, id: seat }] } });
         }
-      },
+      }
+      ,
       setEmptySelectedSeats: () => {
         set({ selectedSeats: { category: "", price: "", seats: [] } });
       }
