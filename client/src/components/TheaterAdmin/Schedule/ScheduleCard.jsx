@@ -76,7 +76,11 @@ function ScheduleCard({ schedule }) {
         </div>
       </div>
       <div className="w-[70%] border border-[#ffffff42] rounded-[5px] overflow-hidden">
-        <SeatMatrix screen={schedule.screen} isLoading={false} />
+        <SeatMatrix
+          screen={schedule.screen}
+          isLoading={false}
+          booked={schedule.bookedSeats}
+        />
       </div>
     </div>
   );

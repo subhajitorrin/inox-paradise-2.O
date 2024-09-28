@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryCard from "./CategoryCard";
 
-function SeatMatrix({ screen, isLoading }) {
+function SeatMatrix({ screen, isLoading, booked }) {
   return (
     <>
       {isLoading ? (
@@ -11,7 +11,7 @@ function SeatMatrix({ screen, isLoading }) {
         <div className="relative w-full h-full pb-[3rem]">
           <div>
             {screen.category.map((item, index) => {
-              return <CategoryCard category={item} key={index} />;
+              return <CategoryCard category={item} key={index} booked={booked}/>;
             })}
           </div>
           <div className="flex justify-center w-full absolute bottom-[5px]">
