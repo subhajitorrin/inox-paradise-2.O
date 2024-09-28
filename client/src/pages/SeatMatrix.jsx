@@ -133,14 +133,17 @@ function SeatMatrix() {
       return;
     }
     const paymentData = {
+      movie: seatMatrix.movie._id,
+      theater: seatMatrix.theater._id,
       title: seatMatrix.movie.title,
       date: new Date(seatMatrix.date).toLocaleDateString("en-GB", options),
       time: `${seatMatrix.startTime}`,
-      screen: seatMatrix.screen.screenName,
+      screen: seatMatrix.screen,
       seats: selectedSeats.seats,
-      category: selectedSeats.category,
+      seatCategory: selectedSeats.category,
       price: selectedSeats.price,
-      language: seatMatrix.language
+      language: seatMatrix.language,
+      seatCount: selectedSeats.seats.length
     };
     setPaymentData(paymentData);
     setIsPaymentPage(true);

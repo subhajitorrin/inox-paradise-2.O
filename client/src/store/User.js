@@ -88,6 +88,16 @@ const useUser = create(
           toast.error(error.response?.data?.message || error.message);
           throw error;
         }
+      },
+      bookTicket:async(ticketData)=>{
+        try{
+          const {data}=await axios.post(`${BASE_URL}/user/book-ticket`,{ticketData});
+          return data;
+        }catch(error){
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
     }),
     {

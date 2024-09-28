@@ -7,11 +7,13 @@ import { MdOutlineTimer } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-toastify";
 import useMovie from "../store/Movie";
+import useUser from "@/store/User";
 
 const options = { hour: "numeric", minute: "numeric", hour12: true };
 
 function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   const navigate = useNavigate();
+  const { bookTicket } = useUser();
   const { setEmptySelectedSeats } = useMovie();
   const [totalPrice, setTotalPrice] = useState(0);
   const [timer, setTimer] = useState(300);
@@ -65,6 +67,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
 
   async function handlePaymentClick() {
     await handlePayment(totalPrice);
+    await bookTicket();
     toast.success("Payment successful");
     setPaymentData({});
     setEmptySelectedSeats();

@@ -159,4 +159,18 @@ async function logout(req, res) {
   return res.status(200).json({ message: "Logged out successfully" });
 }
 
-export { sendOtp, verifyOtp, loginWithEmailPass, getUser, logout };
+async function bookTicket(req, res) {
+  const { role } = req;
+  if (role !== "user") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    // const {}=req.body;
+
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: error.message });
+  }
+}
+
+export { sendOtp, verifyOtp, loginWithEmailPass, getUser, logout, bookTicket };
