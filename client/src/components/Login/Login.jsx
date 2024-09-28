@@ -99,7 +99,7 @@ function Login() {
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Login with Email
+                  Login with Password
                 </Button>
               </form>
             </TabsContent>

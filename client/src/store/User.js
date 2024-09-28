@@ -52,6 +52,7 @@ export const useUser = create(
           password
         });
         set({ user: data.user, isLogin: null });
+        toast.success("Login successfull");
         return data;
       } catch (error) {
         console.log(error);
