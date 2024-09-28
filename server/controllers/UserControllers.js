@@ -3,6 +3,7 @@ import mailSender from "../utils/SendMail.js";
 import OtpModel from "../models/OTP.js";
 import UserModel from "../models/User.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 async function sendOtp(req, res) {
   const { email, password, name } = req.body;
@@ -90,4 +91,51 @@ async function verifyOtp(req, res) {
   }
 }
 
-export { sendOtp, verifyOtp };
+async function loginWithEmailPass(req, res) {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      throw new Error("All fields are required");
+    }
+
+    const existingUser = await UserModel.findOne({ email });
+    if (!existingUser) {
+      throw new Error("User not found");
+    }
+
+    const isPasswordCorrect = await bcryptjs.compare(
+      password,
+      existingUser.password
+    );
+    if (!isPasswordCorrect) {
+      throw new Error("Wrong password");
+    }
+
+    existingUser.password = "";
+
+    const token = jwt.sign(
+      {
+        id: existingUser._id,
+        email: existingUser.email,
+        name: existingUser.name,
+        role: existingUser.role
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: "None"
+    });
+
+    return res.status(200).json({ user: existingUser });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: error.message });
+  }
+}
+
+export { sendOtp, verifyOtp, loginWithEmailPass };
