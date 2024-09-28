@@ -12,7 +12,8 @@ function ScheduleCard({ schedule }) {
     language,
     screenType,
     bookedCount,
-    status
+    status,
+    revenue
   } = schedule;
 
   // useEffect(() => {
@@ -64,7 +65,7 @@ function ScheduleCard({ schedule }) {
           <div className="flex justify-between text-[#FFA500]">
             <p className="mb-1">Total Bookings: {bookedCount}</p>
             <p className="mb-1 text-[#32CD32]">
-              Total Revenue: <span>₹0</span>
+              Total Revenue: <span>₹{revenue}</span>
             </p>
           </div>
           <div className="flex justify-end text-[#FFD700]">
