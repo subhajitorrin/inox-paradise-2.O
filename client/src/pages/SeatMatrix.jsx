@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useMovie from "../store/Movie";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Payment from "./Payment";
+import useUser from "@/store/User";
 const options = { day: "numeric", month: "short" };
 
 function Seat({ num, available = true, seatid, categoryName, price }) {
@@ -113,6 +114,7 @@ function CategoryCard({ category }) {
 }
 
 function SeatMatrix() {
+  const { user, setIsLogin } = useUser();
   const [isPaymentPage, setIsPaymentPage] = useState(false);
   const [paymentData, setPaymentData] = useState({});
   const { scheduleid } = useParams();
@@ -126,6 +128,10 @@ function SeatMatrix() {
   }, [getSeatMatrix, scheduleid]);
 
   async function handleBookTicket() {
+    if (user === null) {
+      setIsLogin(true);
+      return;
+    }
     const paymentData = {
       title: seatMatrix.movie.title,
       date: new Date(seatMatrix.date).toLocaleDateString("en-GB", options),
