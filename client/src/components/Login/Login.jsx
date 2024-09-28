@@ -12,15 +12,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@/store/User";
 import { RxCross2 } from "react-icons/rx";
+import { toast } from "react-toastify";
 
 function Login() {
-  const { setIsLogin } = useUser();
+  const { setIsLogin, login } = useUser();
   const [loginMethod, setLoginMethod] = useState("email");
   const [otpSent, setOtpSent] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted");
+
+    if (loginMethod === "email") {
+      if (!email || !password) {
+        toast.warn("Fill all the fields");
+        return;
+      }
+      try {
+        setIsLoading(true);
+        await login(email, password);
+      } catch (error) {
+        //
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      //
+    }
   };
 
   const handleSendOTP = (event) => {
@@ -63,6 +83,8 @@ function Login() {
                     type="email"
                     placeholder="Enter your email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -72,6 +94,8 @@ function Login() {
                     type="password"
                     placeholder="Enter your password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <Button type="submit" className="w-full">
@@ -90,6 +114,8 @@ function Login() {
                       type="email"
                       placeholder="Enter your email"
                       required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <Button type="submit" className="w-full">

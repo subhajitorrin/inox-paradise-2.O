@@ -44,6 +44,20 @@ export const useUser = create(
         toast.error(error.response?.data?.message || error.message);
         throw error;
       }
+    },
+    login: async (email, password) => {
+      try {
+        const { data } = await axios.post(`${BASE_URL}/user/login`, {
+          email,
+          password
+        });
+        set({ user: data.user, isLogin: null });
+        return data;
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response?.data?.message || error.message);
+        throw error;
+      }
     }
   })),
   {

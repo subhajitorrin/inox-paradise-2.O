@@ -3,4 +3,5 @@ import {sendOtp, verifyOtp} from "../controllers/UserControllers.js";
 const UserRouter = express.Router();
 UserRouter.post("/user/send-otp", sendOtp);
 UserRouter.post("/user/verify-otp", verifyOtp);
+UserRouter.post("/user/login", verifyOtp);
 export default UserRouter;
