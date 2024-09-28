@@ -71,7 +71,7 @@ const useUser = create(
           toast.error(error.response?.data?.message || error.message);
           throw error;
         }
-      }
+      },
     }),
     {
       name: "Inox-User-Store",

@@ -12,11 +12,11 @@ import useDebounce from "../../hook/useDebounce.js";
 import SearchCard from "./SearchCard.jsx";
 import { SyncLoader } from "react-spinners";
 import { CgSearch } from "react-icons/cg";
-import  useUser  from "@/store/User";
+import useUser from "@/store/User";
 
 function Navbar() {
   const { isMobile } = useMobile();
-  const { setIsLogin } = useUser();
+  const { setIsLogin, user } = useUser();
   const navigate = useNavigate();
   const [toggleMobileNav, setToggleMobileNav] = useState(false);
   const {
@@ -167,12 +167,16 @@ function Navbar() {
           </div>
 
           <div className="">
-            <button
-              onClick={() => setIsLogin(true)}
-              className="font-[500] bg-[#F84464] text-white text-[14px] py-[2px] px-[1.5rem] rounded-[7px]"
-            >
-              Login
-            </button>
+            {user !== null ? (
+              <p className="font-[500]">{user.name}</p>
+            ) : (
+              <button
+                onClick={() => setIsLogin(true)}
+                className="font-[500] bg-[#F84464] text-white text-[14px] py-[2px] px-[1.5rem] rounded-[7px]"
+              >
+                Login
+              </button>
+            )}
           </div>
 
           <AiOutlineMenu className="text-[22px] cursor-pointer" />
