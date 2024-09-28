@@ -225,7 +225,7 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
                 <li><strong>Movie Name:</strong> ${BookingData.moviename}</li>
                 <li><strong>Language:</strong> ${BookingData.language}</li>
                 <li><strong>Date:</strong> ${new Date(BookingData.date).toLocaleDateString("en-GB", {day: "numeric",month: "short"})}</li>
-                <li><strong>Time:</strong>${new Date(BookingData.time).toLocaleDateString("en-GB", { hour: "numeric", minute: "numeric", hour12: true })}</li>
+                <li><strong>Time:</strong> ${new Date('2024-09-28T04:30:00.000Z').toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</li>
                 <li><strong>Theater:</strong> ${BookingData.theatername}</li>
                 <li><strong>Seat Count:</strong> ${BookingData.seatCount}</li>
                 <li><strong>Booked Seats:</strong> ${arrToString(BookingData.seats)}</li>
@@ -244,10 +244,10 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
         `;
 
   await mailSender(email, title, body, [{ path: imagePath, filename: `Ticket-${BookingData.bookingId}.png` }]);
-  // fs.unlink(imagePath, err => {
-  //   if (err) console.error('Error deleting image:', err);
-  //   else console.log('Image deleted successfully');
-  // });
+  fs.unlink(imagePath, err => {
+    if (err) console.error('Error deleting image:', err);
+    else console.log('Image deleted successfully');
+  });
 }
 
 function arrToString(arr) {

@@ -170,6 +170,8 @@ async function bookTicket(req, res) {
   try {
     const user = await UserModel.findById(req.id).select("-password");
     const { ticketData } = req.body;
+    console.log(ticketData);
+    
     const bookingId = generateRandomString();
     ticketData.bookingId = bookingId;
     const newTicket = new TicketModel(ticketData);
