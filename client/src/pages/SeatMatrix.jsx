@@ -6,7 +6,7 @@ import Payment from "./Payment";
 import useUser from "@/store/User";
 const options = { day: "numeric", month: "short" };
 
-function Seat({ num, row, available = true, seatid, categoryName, price }) {
+function Seat({ num, row, available, seatid, categoryName, price }) {
   const { handleSelectSeats, selectedSeats } = useMovie();
   const [onselect, setOnselect] = useState(false);
 
@@ -18,7 +18,7 @@ function Seat({ num, row, available = true, seatid, categoryName, price }) {
     }
   }, [selectedSeats, seatid]);
 
-  return available ? (
+  return !available ? (
     <div
       onClick={() =>
         handleSelectSeats(seatid, categoryName, price, `${row}${num}`)
@@ -39,6 +39,7 @@ function Seat({ num, row, available = true, seatid, categoryName, price }) {
 }
 
 function Row({ row, gaps, categoryName, price }) {
+  const { seatMatrix } = useMovie();
   return (
     <div className="flex items-center">
       <p className="uppercase w-[20px] font-bold text-[.9rem] absolute left-[10px]">
@@ -70,6 +71,7 @@ function Row({ row, gaps, categoryName, price }) {
                 price={price}
                 seatid={item}
                 row={row.row}
+                available={seatMatrix.bookedSeats.includes(item)}
               />
             </React.Fragment>
           );
