@@ -72,7 +72,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
     toast.success("Payment successful");
     setPaymentData({});
     setEmptySelectedSeats();
-    // navigate("/");
+    navigate("/");
   }
 
   async function handlePayment(withGstPrice) {
