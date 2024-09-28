@@ -136,7 +136,7 @@ function SeatMatrix() {
       movie: seatMatrix.movie._id,
       theater: seatMatrix.theater._id,
       title: seatMatrix.movie.title,
-      date: new Date(seatMatrix.date).toLocaleDateString("en-GB", options),
+      date: seatMatrix.date,
       time: `${seatMatrix.startTime}`,
       screen: seatMatrix.screen,
       seats: selectedSeats.seats,

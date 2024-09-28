@@ -168,7 +168,11 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
           </p>
           <p className="text-[1.1rem] font-bold">{paymentData.title}</p>
           <p>
-            {paymentData.date} |{" "}
+            {new Date(paymentData.date).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short"
+            })}{" "}
+            |{" "}
             {new Date(paymentData.time).toLocaleTimeString(undefined, options)}
           </p>
           <p className="uppercase ">
