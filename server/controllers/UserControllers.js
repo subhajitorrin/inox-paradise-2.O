@@ -154,4 +154,9 @@ async function getUser(req, res) {
   }
 }
 
-export { sendOtp, verifyOtp, loginWithEmailPass, getUser };
+async function logout(req, res) {
+  res.clearCookie("token");
+  return res.status(200).json({ message: "Logged out successfully" });
+}
+
+export { sendOtp, verifyOtp, loginWithEmailPass, getUser, logout };

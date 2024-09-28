@@ -70,7 +70,6 @@ const useUser = create(
           return data;
         } catch (error) {
           console.log(error);
-          toast.error(error.response?.data?.message || error.message);
           throw error;
         } finally {
           set({ isAuthenticating: false });
@@ -78,6 +77,17 @@ const useUser = create(
       },
       setToggleSideNavbar:(value)=>{
         set({toggleSidenavbar:value})
+      },
+      Logout: async () => {
+        try {
+          await axios.post(`${BASE_URL}/user/logout`);
+          set({ user: null, isLogin: null });
+          toast.success("Logout successfull");
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
       }
     }),
     {

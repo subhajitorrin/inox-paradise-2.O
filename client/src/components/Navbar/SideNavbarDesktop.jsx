@@ -11,12 +11,8 @@ import { LuWallet } from "react-icons/lu";
 
 function SideNavbarDesktop() {
   const navigate = useNavigate();
-  const { toggleSidenavbar, setToggleSideNavbar, user } = useUser();
-
-  const randomUser = {
-    name: "John Doe",
-    userId: "randomUserId123"
-  };
+  const { toggleSidenavbar, setToggleSideNavbar, user, Logout, setIsLogin } =
+    useUser();
 
   const randomMenuList = [
     {
@@ -42,9 +38,9 @@ function SideNavbarDesktop() {
   ];
 
   const [menulist, setmenulist] = useState(randomMenuList);
-  const [currentUser, setCurrentUser] = useState(randomUser);
 
-  function handleLogout() {
+  async function handleLogout() {
+    await Logout();
     setToggleSideNavbar(false);
   }
 
@@ -87,7 +83,7 @@ function SideNavbarDesktop() {
               <div className="flex items-center justify-between px-[5%] mt-[1.2rem]">
                 <p className="font-[500] text-[100%] flex items-center gap-[10px]">
                   <FaRegCircleUser className="text-[1.3rem] " />
-                  {currentUser.name}
+                  {user.name}
                 </p>
                 <div className="font-[500] flex items-center gap-[10px]">
                   <LuWallet />
@@ -101,7 +97,7 @@ function SideNavbarDesktop() {
                     <div
                       onClick={() => {
                         if (index === 0) {
-                          navigate(`/mybookings/${currentUser.userId}`);
+                          navigate(`/mybookings/${user._id}`);
                           setToggleSideNavbar(false);
                         }
                       }}
@@ -139,8 +135,13 @@ function SideNavbarDesktop() {
             <RiAdminLine className="absolute left-[20px]" />
             <p>Admin Login</p>
           </div>
-          {currentUser !== null && currentUser.name === "" ? (
-            <button className="w-full rounded-[7px] bg-[#da4b63] text-white py-[5px] font-[500]">
+          {user === null ? (
+            <button
+              onClick={() => {
+                setIsLogin(true);
+              }}
+              className="w-full rounded-[7px] bg-[#da4b63] text-white py-[5px] font-[500]"
+            >
               Login
             </button>
           ) : (
