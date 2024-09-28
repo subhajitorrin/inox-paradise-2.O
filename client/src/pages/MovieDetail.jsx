@@ -11,6 +11,7 @@ import { IoChevronBackSharp } from "react-icons/io5";
 import { IoShareSocial } from "react-icons/io5";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoMdTrendingUp } from "react-icons/io";
+import { BeatLoader } from "react-spinners";
 
 function movie() {
   const { id } = useParams();
@@ -80,7 +81,11 @@ function movie() {
           <div className="py-[15%]  px-[3%]">
             {/* trailer youtube */}
             <div className="rounded-[10px] z-[10] overflow-hidden relative h-[30vh]">
-              {isLoading && <div className="h-[420px]"></div>}
+              {isLoading && (
+                <div className="h-full w-full flex items-center justify-center">
+                  <BeatLoader color="rgb(218,75,99)" size={7} />
+                </div>
+              )}
               <YouTube
                 videoId={getYouTubeId(movie.trailerUrl)}
                 opts={{
@@ -248,7 +253,11 @@ function movie() {
             {/* right */}
             <div className=" flex-1 h-full ">
               <div className="rounded-[10px] overflow-hidden h-[55vh]">
-                {isLoading && <div className="h-[420px]"></div>}
+                {isLoading && (
+                  <div className="h-[420px] w-full flex items-center justify-center">
+                    <BeatLoader color="rgb(218,75,99)" size={7} />
+                  </div>
+                )}
                 <YouTube
                   videoId={getYouTubeId(movie.trailerUrl)}
                   opts={opts}
