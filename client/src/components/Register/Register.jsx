@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUser } from "@/store/User";
+import { RxCross2 } from "react-icons/rx";
 
 function Register() {
   const { setIsLogin } = useUser();
@@ -39,7 +40,13 @@ function Register() {
 
   return (
     <div className="bg-[#00000049] flex items-center justify-center z-[100] fixed w-full h-screen transition-all ease-linear duration-200 backdrop-filter backdrop-blur-[5px]">
-      <Card className="w-[400px] mx-auto">
+      <Card className="w-[400px] mx-auto relative">
+        <span
+          onClick={() => setIsLogin(null)}
+          className="text-[20px] absolute top-[15px] right-[15px] cursor-pointer"
+        >
+          <RxCross2 />
+        </span>
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             Register
