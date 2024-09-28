@@ -1,6 +1,8 @@
 import generateOtp from "../utils/generateOtp.js";
 import mailSender from "../utils/SendMail.js";
 import OtpModel from "../models/OTP.js";
+import UserModel from "../models/User.js";
+import bcryptjs from "bcryptjs";
 
 async function sendOtp(req, res) {
   const { email, password } = req.body;
@@ -52,4 +54,40 @@ async function sendOtp(req, res) {
   }
 }
 
-export { sendOtp };
+async function verifyOtp(req, res) {
+  const { email, password, otpId, otp } = req.body;
+
+  try {
+    if (!email || !password || !otpId || !otp) {
+      throw new Error("All fields are required");
+    }
+    const existingOtp = await OtpModel.findById(otpId);
+    if (!existingOtp) {
+      throw new Error("OTP expired, send again!");
+    }
+    if (existingOtp.otp !== otp) {
+      throw new Error("Wrong otp");
+    }
+
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      throw new Error("User already exists");
+    }
+
+    const hashedpassword = await bcryptjs.hash(password, 10);
+
+    const newUser = new UserModel({
+      name: email.split("@")[0],
+      email,
+      password: hashedpassword
+    });
+
+    await newUser.save();
+    await existingOtp.deleteOne();
+    return res.status(200).json({ message: "User created successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export { sendOtp, verifyOtp };

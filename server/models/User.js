@@ -20,7 +20,8 @@ const UserSchema = new mongoose.Schema({
   myTickets: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket"
+      ref: "Ticket",
+      default: []
     }
   ],
   wallet: {

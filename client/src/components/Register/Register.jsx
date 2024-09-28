@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,27 +10,53 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs"; // Ensure TabsContent is imported
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUser } from "@/store/User";
 import { RxCross2 } from "react-icons/rx";
+import { BeatLoader } from "react-spinners";
 
 function Register() {
-  const { setIsLogin } = useUser();
+  const { setIsLogin, sendOtp, veirfyOtp } = useUser();
   const [registerStep, setRegisterStep] = useState("email"); // State for controlling steps
   const [otpSent, setOtpSent] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [inputedOtp, setInputedOtp] = useState("");
+  const [otpId, setOtpId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendOTP = (event) => {
+  const handleSendOTP = async (event) => {
     event.preventDefault();
-    toast.success("OTP sent");
-    setOtpSent(true);
-    setRegisterStep("otp"); // Set to 'otp' step when OTP is sent
+    if (!email || !password) {
+      toast.warn("Fill all the fields");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const data = await sendOtp(email, password);
+      setOtpId(data.otpid);
+      setOtpSent(true);
+      setRegisterStep("otp");
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleVerifyOTP = (event) => {
     event.preventDefault();
-    console.log("OTP verified");
-    setRegisterStep("name"); // Set to 'name' step when OTP is verified
+    if (!inputedOtp.trim()) {
+      toast.warn("Fill OTP");
+      return;
+    }
+    try {
+      if (!otpId || !email || !password) throw new Error("Resend OTP");
+      setIsLoading(true);
+      const data = veirfyOtp(email, password, otpId, inputedOtp);
+      setRegisterStep("name");
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -71,6 +97,8 @@ function Register() {
                     type="email"
                     placeholder="Enter your email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -80,10 +108,16 @@ function Register() {
                     type="password"
                     placeholder="Enter your password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Send OTP
+                <Button disabled={isLoading} type="submit" className="w-full">
+                  {isLoading === true ? (
+                    <BeatLoader color="#ffffff" size={5} />
+                  ) : (
+                    "Send OTP"
+                  )}
                 </Button>
               </form>
             </TabsContent>
@@ -94,12 +128,13 @@ function Register() {
               <h2 className="text-lg font-semibold mb-4">Verify OTP</h2>
               <form onSubmit={handleVerifyOTP} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="otp">Enter OTP</Label>
                   <Input
                     id="otp"
                     type="text"
                     placeholder="Enter the OTP sent to your email"
                     required
+                    value={inputedOtp}
+                    onChange={(e) => setInputedOtp(e.target.value)}
                   />
                 </div>
                 <Button type="submit" className="w-full">
