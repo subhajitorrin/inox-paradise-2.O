@@ -2,6 +2,7 @@ import generateOtp from "../utils/generateOtp.js";
 import mailSender from "../utils/SendMail.js";
 import OtpModel from "../models/OTP.js";
 import UserModel from "../models/User.js";
+import ScheduleModel from "../models/Schedule.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import TicketModel from "../models/Ticket.js";
