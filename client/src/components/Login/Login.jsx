@@ -1,8 +1,130 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
+import { useUser } from "@/store/User";
 
 function Login() {
+  const { setIsLogin } = useUser();
+  const [loginMethod, setLoginMethod] = useState("email");
+  const [otpSent, setOtpSent] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form submitted");
+  };
+
+  const handleSendOTP = (event) => {
+    event.preventDefault();
+    console.log("OTP sent");
+    setOtpSent(true);
+  };
+
   return (
-    <div className="bg-[#00000049] z-[100] fixed w-full h-screen transition-all ease-linear duration-200 backdrop-filter backdrop-blur-[5px]"></div>
+    <div className="bg-[#00000049] flex items-center justify-center z-[100] fixed w-full h-screen transition-all ease-linear duration-200 backdrop-filter backdrop-blur-[5px]">
+      <Card className="w-[400px] mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">
+            Login
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs
+            value={loginMethod}
+            onValueChange={setLoginMethod}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="email">Email</TabsTrigger>
+              <TabsTrigger value="otp">OTP</TabsTrigger>
+            </TabsList>
+            <TabsContent value="email">
+              <h2 className="text-lg font-semibold mb-4">Login with Email</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full">
+                  Login with Email
+                </Button>
+              </form>
+            </TabsContent>
+            <TabsContent value="otp">
+              <h2 className="text-lg font-semibold mb-4">Login with OTP</h2>
+              {!otpSent ? (
+                <form onSubmit={handleSendOTP} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="otpEmail">Email</Label>
+                    <Input
+                      id="otpEmail"
+                      type="email"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Send OTP
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="otp">Enter OTP</Label>
+                    <Input
+                      id="otp"
+                      type="text"
+                      placeholder="Enter the OTP sent to your email"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Verify OTP
+                  </Button>
+                </form>
+              )}
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center justify-center space-y-2">
+          <Button variant="link" className="text-sm">
+            Forgot password?
+          </Button>
+          <div className="text-sm text-center flex gap-[10px] items-center">
+            Don&apos;t have an account?{" "}
+            <div
+              onClick={() => setIsLogin(false)}
+              className="font-medium text-primary hover:underline"
+            >
+              Register here
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
 

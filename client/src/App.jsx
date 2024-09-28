@@ -11,9 +11,13 @@ import { useMobile } from "./store/ScreenWidth";
 import MovieSchedule from "./pages/MovieSchedule";
 import SeatMatrix from "./pages/SeatMatrix";
 import SideNavbarDesktop from "./components/Navbar/SideNavbarDesktop";
+import Login from "./components/Login/Login";
+import { useUser } from "./store/User";
+import Register from "./components/Register/Register";
 
 function App() {
   const { setMobile } = useMobile();
+  const { isLogin } = useUser();
 
   useEffect(() => {
     function handleResize() {
@@ -28,6 +32,8 @@ function App() {
   return (
     <div className="select-none">
       <SideNavbarDesktop />
+      {isLogin === true && <Login />}
+      {isLogin === false && <Register />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetail />} />

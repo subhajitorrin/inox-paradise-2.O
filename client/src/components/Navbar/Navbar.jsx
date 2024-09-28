@@ -12,11 +12,11 @@ import useDebounce from "../../hook/useDebounce.js";
 import SearchCard from "./SearchCard.jsx";
 import { SyncLoader } from "react-spinners";
 import { CgSearch } from "react-icons/cg";
-import { LiaSadCrySolid } from "react-icons/lia";
-import Login from "../Login/Login.jsx";
+import { useUser } from "@/store/User";
 
 function Navbar() {
   const { isMobile } = useMobile();
+  const { setIsLogin } = useUser();
   const navigate = useNavigate();
   const [toggleMobileNav, setToggleMobileNav] = useState(false);
   const {
@@ -101,7 +101,6 @@ function Navbar() {
 
   return (
     <>
-      {/* <Login /> */}
       <div className="relative w-full py-[20px] bg-[white] flex justify-between items-center px-[10%]">
         {/* search container */}
         {searchText !== "" && (
@@ -168,7 +167,10 @@ function Navbar() {
           </div>
 
           <div className="">
-            <button className="font-[500] bg-[#F84464] text-white text-[14px] py-[2px] px-[1.5rem] rounded-[7px]">
+            <button
+              onClick={() => setIsLogin(true)}
+              className="font-[500] bg-[#F84464] text-white text-[14px] py-[2px] px-[1.5rem] rounded-[7px]"
+            >
               Login
             </button>
           </div>
