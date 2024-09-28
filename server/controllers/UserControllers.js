@@ -204,7 +204,7 @@ async function bookTicket(req, res) {
     const seats = ticketData.seats.map(seat => seat.id);
 
     // Update schedule with booked seats and revenue
-    schedule.bookedSeats = seats;
+    schedule.bookedSeats.push(seats);
     schedule.availableSeats -= seats.length;
     schedule.bookedCount += 1;
     schedule.revenue += ticketData.price * ticketData.seats.length;
