@@ -7,7 +7,13 @@ const ticketSchema = new mongoose.Schema({
   theater: { type: mongoose.Schema.Types.ObjectId, ref: "Theater" },
   seatCount: Number,
   seatCategory: String,
-  seats: [String],
+  seats: [
+    {
+      name: String,
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "Seat" },
+      _id: false
+    }
+  ],
   bookingId: String,
   price: Number,
   screen: { type: mongoose.Schema.Types.ObjectId, ref: "Screen" },

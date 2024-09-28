@@ -175,9 +175,19 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
             |{" "}
             {new Date(paymentData.time).toLocaleTimeString(undefined, options)}
           </p>
-          <p className="uppercase ">
-            <span className="font-[500]">{paymentData.seatCategory}</span> -{" "}
-            {paymentData.seats.join(", ")}
+          <p className="uppercase flex items-center">
+            <span className="font-[500]">
+              {paymentData.seatCategory}&nbsp;-&nbsp;
+            </span>
+            <div className="flex gap-[5px]">
+              {paymentData.seats.map((item, index) => {
+                return (
+                  <p className="" key={index}>
+                    {item.name},
+                  </p>
+                );
+              })}
+            </div>
           </p>
           <p className="font-[500]">
             {paymentData.seats.length > 1 ? (
