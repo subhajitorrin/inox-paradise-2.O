@@ -731,6 +731,7 @@ async function addFood(req, res) {
   const { foodData } = req.body;
   try {
     const newFood = new FoodModel(foodData);
+    newFood.theater = req.id;
     await newFood.save();
     const theaterAdmin = await TheaterAdminModel.findById(req.id);
     theaterAdmin.foods.push(newFood._id);
@@ -797,7 +798,7 @@ async function deleteFood(req, res) {
       throw new Error("Food not found");
     }
     await TheaterAdminModel.findByIdAndUpdate(req.id, {
-      $pull: { foods: foodid } 
+      $pull: { foods: foodid }
     });
     return res
       .status(200)

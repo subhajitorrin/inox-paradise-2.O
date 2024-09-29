@@ -12,6 +12,10 @@ const FoodSchema = new mongoose.Schema({
   image: {
     type: String,
     require: true
+  },
+  theater: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Theater"
   }
 });
 

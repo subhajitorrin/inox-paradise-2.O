@@ -128,6 +128,16 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
     };
   }, []);
 
+  const { getAllFoods, foods } = useMovie();
+
+  useEffect(() => {
+    getAllFoods(paymentData.theater);
+  }, [paymentData]);
+
+  useEffect(()=>{
+    console.log(foods);
+  },[foods])
+
   return (
     <>
       {isLoading && <LoaderPayment />}
@@ -138,7 +148,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
               You can add<span className="text-[#f84464]"> your meal</span>
             </p>
             <div className="scrollNone h-[85%] w-full flex flex-wrap gap-[2rem] justify-center overflow-y-auto">
-              {foodList.map((item, index) => {
+              {foods.map((item, index) => {
                 return (
                   <div
                     key={index}
@@ -159,7 +169,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
                     </p>
                     <button
                       onClick={() => {
-                        handleAddFood(item.name, item.price);
+                        handleAddFood(item);
                       }}
                       className="transition-all ease-linear duration-200 mb-[1rem] w-full rounded-[5px] font-[500] text-[#f84464] py-[5px] border border-[#f84464] hover:bg-[#f84464] hover:text-[white]"
                     >

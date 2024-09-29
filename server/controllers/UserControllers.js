@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import TicketModel from "../models/Ticket.js";
 import BookingSuccessEmailSend from "../utils/BookingSuccessEmailSend.js";
 import generateRandomString from "../utils/GenerateBookingId.js";
+import FoodModel from "../models/Food.js";
 
 async function sendOtp(req, res) {
   const { email, password, name } = req.body;
@@ -231,9 +232,7 @@ async function getFoods(req, res) {
   }
   try {
     const { theaterid } = req.params;
-    const foods = await TheaterAdminModel.findById(theaterid)
-      .select("foods")
-      .populate("foods");
+    const foods = await FoodModel.find({ theater: theaterid });
     return res.status(200).json(foods);
   } catch (error) {
     console.log(error);

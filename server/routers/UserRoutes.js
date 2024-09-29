@@ -16,5 +16,5 @@ UserRouter.post("/user/login", loginWithEmailPass);
 UserRouter.get("/user/get-user", AuthToken, getUser);
 UserRouter.post("/user/logout", logout);
 UserRouter.post("/user/book-ticket", AuthToken, bookTicket);
-UserRouter.post("/user/get-foods", AuthToken, getFoods);
+UserRouter.get("/user/get-foods/:theaterid", AuthToken, getFoods);
 export default UserRouter;

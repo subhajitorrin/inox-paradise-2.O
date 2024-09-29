@@ -22,6 +22,7 @@ const useMovie = create(
       seatMatrix: [],
       selectedSeats: { category: "", price: "", seats: [] },
       selectedSeatNames:[],
+      foods:[],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -158,6 +159,16 @@ const useMovie = create(
       ,
       setEmptySelectedSeats: () => {
         set({ selectedSeats: { category: "", price: "", seats: [] } });
+      },
+      getAllFoods: async (theaterid) => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/user/get-foods/${theaterid}`);
+          set({ foods: data });
+          return data;
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
       }
     }),
     {
