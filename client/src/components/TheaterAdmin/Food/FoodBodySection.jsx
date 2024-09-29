@@ -7,6 +7,8 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import useTheaterAdmin from "@/store/TheaterAdmin";
 
 const foodItems = [
   {
@@ -42,6 +44,12 @@ const foodItems = [
 ];
 
 function FoodBodySection() {
+  const { getAllFoods, foods } = useTheaterAdmin();
+
+  useEffect(() => {
+    getAllFoods();
+  }, []);
+
   const handleUpdate = (itemName) => {
     console.log(`Update ${itemName}`); // Implement your update logic here
   };
@@ -53,7 +61,7 @@ function FoodBodySection() {
   return (
     <div className="w-full text-white scrollNone">
       <div className="flex flex-col gap-[10px]">
-        {foodItems.map((item, index) => (
+        {foods.map((item, index) => (
           <Card
             key={index}
             className="bg-[#292727] flex items-center hover:bg-[#3e3c3c] text-white p-4 border-none cursor-pointer transition-all ease-linear duration-200"

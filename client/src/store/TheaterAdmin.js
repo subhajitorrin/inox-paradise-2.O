@@ -16,7 +16,7 @@ const useTheaterAdmin = create(
       screens: [],
       availableScreens: [],
       filteredSchedules: [],
-      foodList:[],
+      foods:[],
       sendOtpForTheaterRegistration: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -243,6 +243,18 @@ const useTheaterAdmin = create(
           return data;
         } catch (error) {
           toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
+      getAllFoods:async()=>{
+        try {
+          const { data } = await axios.get(
+            `${BASE_URL}/theateradmin/food/get-foods`
+          );
+          set({ foods: data.foods });
+          return data.foods;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
           throw error;
         }
       }
