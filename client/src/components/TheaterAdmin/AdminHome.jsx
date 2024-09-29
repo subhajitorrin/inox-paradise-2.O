@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import useTheaterAdmin from "../../store/TheaterAdmin";
 import Schedule from "./Schedule/Schedule";
 import Screen from "./Screen/Screen";
+import Food from "./Food/Food";
 
 const list = [
   { path: "/admin", name: "Overview" },
@@ -76,6 +77,7 @@ function AdminHome() {
             /> */}
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/screen" element={<Screen />} />
+            <Route path="/food" element={<Food />} />
           </Routes>
         </div>
       </div>
