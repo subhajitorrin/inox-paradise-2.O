@@ -8,6 +8,7 @@ import mailSender from "../utils/SendMail.js";
 import generateOtp from "../utils/generateOtp.js";
 import ScreenModel from "../models/Screen.js";
 import ScheduleModel from "../models/Schedule.js";
+import FoodModel from "../models/Food.js";
 
 async function loginTheaterAdminWithOtp(req, res) {
   const { email, password } = req.body;
