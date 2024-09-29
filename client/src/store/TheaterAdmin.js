@@ -16,6 +16,7 @@ const useTheaterAdmin = create(
       screens: [],
       availableScreens: [],
       filteredSchedules: [],
+      foodList:[],
       sendOtpForTheaterRegistration: async (email, password) => {
         set({ isLoading: true });
         try {
@@ -230,6 +231,21 @@ const useTheaterAdmin = create(
           set({ isLoading: false });
         }
       },
+      addFood:async(foodData)=>{
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/food/add-food`,
+            {
+              foodData
+            }
+          );
+          toast.success("Food added successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      }
     }),
     {
       name: "TheaterAdmin",

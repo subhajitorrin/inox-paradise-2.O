@@ -161,7 +161,7 @@ async function addScreen(req, res) {
     }
 
     const isExist = theaterAdmin.screens.find(
-      (item) => item.screenName === screenName
+      item => item.screenName === screenName
     );
 
     if (isExist) {
@@ -354,8 +354,8 @@ async function reArrangeRows(screen) {
   });
   let startRow = 65;
   let countCapacity = 0;
-  const updatePromises = categories.map((category) => {
-    category.layout.map((layout) => {
+  const updatePromises = categories.map(category => {
+    category.layout.map(layout => {
       layout.row = String.fromCharCode(startRow++);
       countCapacity += layout.seats.length;
     });
@@ -441,9 +441,7 @@ async function updateCategory(req, res) {
       isUpdated = true;
     }
 
-    let gapList = gaps
-      ? gaps.split(",").filter((gap) => gap.trim() !== "")
-      : [];
+    let gapList = gaps ? gaps.split(",").filter(gap => gap.trim() !== "") : [];
     if (!validGaps(gapList)) {
       return res.status(400).json({ message: "Invalid Gaps!" });
     }
@@ -566,7 +564,7 @@ async function getAvailableScreens(req, res) {
       //   }
       // }
 
-      unavailableScreens = schedules.map((item) => item.screen.toString());
+      unavailableScreens = schedules.map(item => item.screen.toString());
     }
 
     let filteredScreens = [];
@@ -724,6 +722,45 @@ async function getFilteredSchedules(req, res) {
   }
 }
 
+async function addFood(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const { foodData } = req.body;
+  try {
+    const newFood = new FoodModel(foodData);
+    await newFood.save();
+    const theaterAdmin = await TheaterAdminModel.findById(req.id);
+    theaterAdmin.foods.push(newFood._id);
+    await theaterAdmin.save();
+    return res
+      .status(200)
+      .json({ message: "Food added successfully", food: newFood });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error adding food", error: error.message });
+  }
+}
+
+async function getFoods(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const foods = await TheaterAdminModel.findById(req.id)
+      .select("foods")
+      .populate("foods");
+    return res.status(200).json(foods);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching foods", foods: [] });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -738,5 +775,7 @@ export {
   deleteCategory,
   getAvailableScreens,
   addSchedule,
-  getFilteredSchedules
+  getFilteredSchedules,
+  addFood,
+  getFoods
 };
