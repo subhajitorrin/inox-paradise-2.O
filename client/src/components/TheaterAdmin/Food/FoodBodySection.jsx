@@ -1,57 +1,57 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useTheaterAdmin from "@/store/TheaterAdmin";
-
-const foodItems = [
-  {
-    name: "Pizza",
-    image:
-      "https://imgmedia.lbb.in/media/2019/07/5d242ad8e93a896e5542da0d_1562651352251.jpg",
-    price: 9.99
-  },
-  {
-    name: "Burger",
-    image:
-      "https://imgmedia.lbb.in/media/2019/07/5d242ad8e93a896e5542da0d_1562651352251.jpg",
-    price: 5.99
-  },
-  {
-    name: "Sushi",
-    image:
-      "https://imgmedia.lbb.in/media/2019/07/5d242ad8e93a896e5542da0d_1562651352251.jpg",
-    price: 14.99
-  },
-  {
-    name: "Pasta",
-    image:
-      "https://imgmedia.lbb.in/media/2019/07/5d242ad8e93a896e5542da0d_1562651352251.jpg",
-    price: 7.99
-  },
-  {
-    name: "Salad",
-    image:
-      "https://imgmedia.lbb.in/media/2019/07/5d242ad8e93a896e5542da0d_1562651352251.jpg",
-    price: 4.99
-  }
-];
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 function FoodBodySection() {
-  const { getAllFoods, foods } = useTheaterAdmin();
+  const { getAllFoods, foods, updateFood } = useTheaterAdmin();
+  const [update, setUpdate] = useState(null);
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (update !== null) {
+      setName(update.name);
+      setImage(update.image);
+      setPrice(update.price);
+    }
+  }, [update]);
 
   useEffect(() => {
     getAllFoods();
   }, []);
 
-  const handleUpdate = (itemName) => {
-    console.log(`Update ${itemName}`); // Implement your update logic here
+  const handleUpdate = async () => {
+    if (name === "" || image === "" || price === "") {
+      toast.warn("Fill data");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      await updateFood(foodData);
+      setUpdate(null);
+      setIsLoading(false);
+      setImage("");
+      setName("");
+      setPrice("");
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDelete = (itemName) => {
@@ -78,8 +78,67 @@ function FoodBodySection() {
               </CardDescription>
             </div>
             <div className="flex gap-[10px]">
-              <Button variant="secondary">Update</Button>
-              <Button variant="destructive">Delete</Button>
+              <Dialog>
+                <DialogTrigger>
+                  <Button variant="secondary" onClick={() => setUpdate(item)}>
+                    Update
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Edit Food</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your food here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className=" items-center gap-4 flex justify-center">
+                      <img
+                        src={image}
+                        alt=""
+                        className="h-[200px] w-[200px] rounded-[5px] object-cover"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label className="text-right">Image</Label>
+                      <Input
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label className="text-right">Name</Label>
+                      <Input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="price" className="text-right">
+                        Price
+                      </Label>
+                      <Input
+                        id="price"
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(parseFloat(e.target.value))} // Update state on change
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button type="button" onClick={handleUpdate}>
+                      Save changes
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Button variant="destructive" onClick={() => handleDelete(item)}>
+                Delete
+              </Button>
             </div>
           </Card>
         ))}
