@@ -66,7 +66,7 @@ function Carousol() {
       </div>
       <div
         className={`${
-          isMobile ? "left-[-91%] h-[250px]" : "left-[-71.5%] h-[350px]"
+          isMobile ? "left-[-91%] h-[250px]" : "left-[-71.5%] h-[300px]"
         }  my-[1rem] flex relative`}
       >
         {carousolList.map((item, index) => {
