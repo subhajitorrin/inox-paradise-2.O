@@ -43,7 +43,7 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/schedule/:id" element={<MovieSchedule />} />
         <Route path="/seatmatrix/:scheduleid" element={<SeatMatrix />} />
-        <Route path="/admin/:subadmin" element={<Admin />} />
+        <Route path="/admin/*" element={<Admin />} />
         <Route path="/masteradmin/*" element={<MasterAdmin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
