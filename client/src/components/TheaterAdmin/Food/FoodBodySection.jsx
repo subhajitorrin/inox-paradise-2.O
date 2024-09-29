@@ -4,19 +4,18 @@ import { useEffect, useState, useRef } from "react";
 import useTheaterAdmin from "@/store/TheaterAdmin";
 import { toast } from "react-toastify";
 import UpdateCard from "./UpdateCard";
+import { DeleteCard } from "./DeleteCard";
 
 function FoodBodySection() {
   const { getAllFoods, foods } = useTheaterAdmin();
   const [update, setUpdate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [delOpen, setDelOpen] = useState(false);
+  const [delData, setDelData] = useState(false);
 
   useEffect(() => {
     getAllFoods();
-  }, [update]);
-
-  const handleDelete = (itemName) => {
-    console.log(`Delete ${itemName}`); // Implement your delete logic here
-  };
+  }, []);
 
   return (
     <div className="w-full text-white scrollNone">
@@ -25,6 +24,12 @@ function FoodBodySection() {
         onOpenChange={setOpen}
         update={update}
         setUpdate={setUpdate}
+      />
+      <DeleteCard
+        delOpen={delOpen}
+        setDelOpen={setDelOpen}
+        delData={delData}
+        setDelData={setDelData}
       />
       <div className="flex flex-col gap-[10px]">
         {foods.map((item, index) => (
@@ -53,7 +58,13 @@ function FoodBodySection() {
               >
                 Update
               </Button>
-              <Button variant="destructive" onClick={() => handleDelete(item)}>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setDelData(item);
+                  setDelOpen(true);
+                }}
+              >
                 Delete
               </Button>
             </div>

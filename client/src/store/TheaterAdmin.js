@@ -231,21 +231,7 @@ const useTheaterAdmin = create(
           set({ isLoading: false });
         }
       },
-      addFood:async(foodData)=>{
-        try {
-          const { data } = await axios.post(
-            `${BASE_URL}/theateradmin/food/add-food`,
-            {
-              foodData
-            }
-          );
-          toast.success("Food added successfully");
-          return data;
-        } catch (error) {
-          toast.error(error.response?.data?.message || error.message);
-          throw error;
-        }
-      },
+      
       getAllFoods:async()=>{
         try {
           const { data } = await axios.get(
@@ -258,6 +244,22 @@ const useTheaterAdmin = create(
           throw error;
         }
       },
+      addFood:async(foodData)=>{
+        try {
+          const { data } = await axios.post(
+            `${BASE_URL}/theateradmin/food/add-food`,
+            {
+              foodData
+            }
+          );
+          get().getAllFoods();
+          toast.success("Food added successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
       updateFood:async(foodData,foodid)=>{
         try {
           const { data } = await axios.put(
@@ -266,6 +268,7 @@ const useTheaterAdmin = create(
               foodData
             }
           );
+          get().getAllFoods();
           toast.success("Food updated successfully");
           return data;
         } catch (error) {
@@ -278,6 +281,7 @@ const useTheaterAdmin = create(
           const { data } = await axios.delete(
             `${BASE_URL}/theateradmin/food/delete-food/${foodId}`
           );
+          get().getAllFoods();
           toast.success("Food deleted successfully");
           return data;
         } catch (error) {
