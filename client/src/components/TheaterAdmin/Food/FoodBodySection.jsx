@@ -73,7 +73,9 @@ function FoodBodySection() {
             />
             <div className="flex flex-col flex-grow">
               <CardTitle>{item.name}</CardTitle>
-              <CardDescription>${item.price.toFixed(2)}</CardDescription>
+              <CardDescription className="text-[#989898] mt-[5px]">
+                ₹{item.price.toFixed(2)}
+              </CardDescription>
             </div>
             <div className="flex gap-[10px]">
               <Button variant="secondary">Update</Button>

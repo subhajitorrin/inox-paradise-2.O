@@ -70,5 +70,4 @@ TheaterRouter.post(
 TheaterRouter.post(`/theateradmin/food/add-food`, AuthToken, addFood);
 TheaterRouter.get(`/theateradmin/food/get-foods`, AuthToken, getFoods);
 
-
 export default TheaterRouter;
