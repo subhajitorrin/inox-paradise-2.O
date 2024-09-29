@@ -257,6 +257,33 @@ const useTheaterAdmin = create(
           toast.error(error.response?.data || error.message);
           throw error;
         }
+      },
+      updateFood:async(foodData,foodid)=>{
+        try {
+          const { data } = await axios.put(
+            `${BASE_URL}/theateradmin/food/update-food/${foodid}`,
+            {
+              foodData
+            }
+          );
+          toast.success("Food updated successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.message);
+          throw error;
+        }
+      },
+      deleteFood:async(foodId)=>{
+        try {
+          const { data } = await axios.delete(
+            `${BASE_URL}/theateradmin/food/delete-food/${foodId}`
+          );
+          toast.success("Food deleted successfully");
+          return data;
+        } catch (error) {
+          toast.error(error.response?.data || error.message);
+          throw error;
+        }
       }
     }),
     {

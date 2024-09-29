@@ -762,6 +762,29 @@ async function getFoods(req, res) {
   }
 }
 
+async function updateFood(req, res) {
+  const { role } = req;
+  if (role !== "theateradmin") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const { foodData } = req.body;
+    const { foodid } = req.params;
+    const updatedFood = await FoodModel.findByIdAndUpdate(foodid, foodData);
+    if (!updatedFood) {
+      throw new Error("Food not found");
+    }
+    return res
+      .status(200)
+      .json({ message: "Food updated successfully", food: updatedFood });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error updating food", error: error.message });
+  }
+}
+
 export {
   loginTheaterAdminWithOtp,
   verifyOtpForTheaterAdmin,
@@ -778,5 +801,6 @@ export {
   addSchedule,
   getFilteredSchedules,
   addFood,
-  getFoods
+  getFoods,
+  updateFood
 };
