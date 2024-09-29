@@ -224,4 +224,29 @@ async function bookTicket(req, res) {
   }
 }
 
-export { sendOtp, verifyOtp, loginWithEmailPass, getUser, logout, bookTicket };
+async function getFoods(req, res) {
+  const { role } = req;
+  if (role !== "user") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const { theaterid } = req.params;
+    const foods = await TheaterAdminModel.findById(theaterid)
+      .select("foods")
+      .populate("foods");
+    return res.status(200).json(foods);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching foods", foods: [] });
+  }
+}
+
+export {
+  getFoods,
+  sendOtp,
+  verifyOtp,
+  loginWithEmailPass,
+  getUser,
+  logout,
+  bookTicket
+};
