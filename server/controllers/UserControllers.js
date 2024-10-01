@@ -292,19 +292,10 @@ async function cancelBooking(req, res) {
     if (!ticket) return res.status(400).json({ message: "Ticket not found" });
     console.log(ticket);
 
-    // if current time is more that 10min of show time
-    const startime = new Date(ticket.time);
-    startime.setHours(startime.getHours() - 1);
-    if (new Date() > startime) {
-      return res
-        .status(400)
-        .json({ message: "Tickets can be calcled 1hr before" });
-    }
-
-    const refundAmount = ticket.price - ticket.price * 0.6;
-    console.log(refundAmount);
+    const refundAmount = Math.floor(ticket.price - ticket.price * 0.6);
 
     ticket.isCancelled = true;
+
     return res.status(200).json({ message: "message" });
   } catch (error) {
     console.log(error);
