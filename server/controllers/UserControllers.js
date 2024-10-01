@@ -288,9 +288,12 @@ async function cancelBooking(req, res) {
     return res.status(400).json({ message: "Unauthorized" });
   }
   try {
-    const ticket = await TicketModel.findById(bookingid);
+    const [ticket, existingUser] = Promise.all([
+      TicketModel.findById(bookingid),
+      UserModel.findById(id)
+    ]);
+
     if (!ticket) return res.status(400).json({ message: "Ticket not found" });
-    console.log(ticket);
 
     const refundAmount = Math.floor(
       ticket.price - ticket.price * 0.6 - ticket.price * 0.18
@@ -307,7 +310,9 @@ async function cancelBooking(req, res) {
     schedule.revenue -= refundAmount;
     schedule.availableSeats += ticket.seats.length;
 
-    await Promise.all([schedule.save(), ticket.save()]);
+    existingUser.wallet += refundAmount;
+
+    await Promise.all([schedule.save(), ticket.save(), existingUser.save()]);
     return res.status(200).json({ message: "Ticket cancelled successfully" });
   } catch (error) {
     console.log(error);

@@ -10,17 +10,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { BeatLoader } from "react-spinners";
 import useUser from "@/store/User";
+import { toast } from "react-toastify";
 
 function CardContainer(booking) {
   console.log(booking.booking);
 
   const [isLoading, setIsLoading] = useState(false);
-  const { cancelBooking } = useUser();
+  const { cancelBooking, getMyBookings } = useUser();
 
   async function handleCancelBooking(id) {
     try {
       setIsLoading(true);
       await cancelBooking(id);
+      await getMyBookings();
+      toast.success("Booking cancelled successfully");
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -90,7 +93,7 @@ function CardContainer(booking) {
 
         {booking.booking.isUpcoming && (
           <Button
-            disabled={isLoading}
+            disabled={isLoading || booking.booking.isCancelled}
             onClick={() => {
               handleCancelBooking(booking.booking._id);
             }}
@@ -98,6 +101,8 @@ function CardContainer(booking) {
           >
             {isLoading ? (
               <BeatLoader color="#ffffff" size={5} />
+            ) : booking.booking.isCancelled ? (
+              "Cancelled"
             ) : (
               "Cancel Booking"
             )}
