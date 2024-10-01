@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Calendar, Clock, Film, MapPin, Ticket } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Film,
+  MapPin,
+  Ticket,
+  Wallet 
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -84,6 +91,10 @@ function CardContainer(booking) {
               return <span key={i}>{seat.name}&nbsp;</span>;
             })}
           </span>
+        </div>
+        <div className="flex items-center">
+          <Wallet  className="mr-2 h-4 w-4" />
+          <span className="text-sm">{booking.booking.price}₹</span>
         </div>
       </CardContent>
       <CardFooter className="p-4 flex gap-[10px]">

@@ -288,13 +288,11 @@ async function cancelBooking(req, res) {
     return res.status(400).json({ message: "Unauthorized" });
   }
   try {
-    const [ticket, existingUser] = Promise.all([
-      TicketModel.findById(bookingid).populate({
-        path: "movie",
-        select: "name"
-      }),
-      UserModel.findById(id)
-    ]);
+    const ticket = await TicketModel.findById(bookingid).populate({
+      path: "movie",
+      select: "name"
+    });
+    const existingUser = await UserModel.findById(id);
 
     if (!ticket) return res.status(400).json({ message: "Ticket not found" });
 
@@ -331,7 +329,7 @@ async function cancelBooking(req, res) {
         hour12: true
       })}</strong> has been successfully cancelled.</p>
         
-        <p>The total amount of <strong>${refundAmount}</strong> has been refunded to your wallet, which you can use for future bookings on our platform.</p>
+        <p>The total amount of Rs.<strong>${refundAmount}</strong> has been refunded to your wallet, which you can use for future bookings on our platform.</p>
         
         <p>If you have any further questions, feel free to reach out to our support team.</p>
         

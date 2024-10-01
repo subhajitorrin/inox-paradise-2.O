@@ -85,7 +85,7 @@ function SideNavbarDesktop() {
                 </p>
                 <div className="font-[500] flex items-center gap-[10px]">
                   <LuWallet />
-                  <p className="text-[100%]">Wallet {user.wallet}</p>
+                  <p className="text-[100%]">Wallet {user.wallet}₹</p>
                 </div>
               </div>
 
