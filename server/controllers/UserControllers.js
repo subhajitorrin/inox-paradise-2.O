@@ -266,6 +266,16 @@ async function getMyBookings(req, res) {
         ]
       });
 
+    for (const ticket of existingUser.myTickets) {
+      const currentTime = new Date();
+      currentTime.setHours(currentTime.getHours() + 1);
+      if (currentTime > new Date(ticket.time)) {
+        ticket.isUpcoming = true;
+      } else {
+        ticket.isUpcoming = false;
+      }
+    }
+
     return res.status(200).json({ bookings: existingUser.myTickets });
   } catch (error) {
     console.log(error);

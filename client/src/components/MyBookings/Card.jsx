@@ -85,15 +85,27 @@ function CardContainer(booking) {
         <Button disabled={isLoading} className="w-full">
           Get E-Ticket
         </Button>
-        <Button
-          disabled={isLoading}
-          onClick={() => {
-            handleCancelBooking(booking.booking._id);
-          }}
-          className="w-full bg-red-600 hover:bg-red-700 text-white"
-        >
-          {isLoading ? <BeatLoader color="#ffffff" size={5} /> : "Cancel Booking"}
-        </Button>
+
+        {booking.booking.isUpcoming ? (
+          <Button
+            disabled={isLoading}
+            onClick={() => {
+              handleCancelBooking(booking.booking._id);
+            }}
+            className="w-full bg-red-600 hover:bg-red-700 text-white"
+          >
+            {isLoading ? (
+              <BeatLoader color="#ffffff" size={5} />
+            ) : (
+              "Cancel Booking"
+            )}
+          </Button>
+        ) : (
+          <Button
+            disabled={isLoading}
+            className="w-full bg-transparent border-transparent"
+          ></Button>
+        )}
       </CardFooter>
     </Card>
   );
