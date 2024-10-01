@@ -7,7 +7,8 @@ import {
   getUser,
   logout,
   bookTicket,
-  getFoods
+  getFoods,
+  getMyBookings
 } from "../controllers/UserControllers.js";
 const UserRouter = express.Router();
 UserRouter.post("/user/send-otp", sendOtp);
@@ -17,4 +18,5 @@ UserRouter.get("/user/get-user", AuthToken, getUser);
 UserRouter.post("/user/logout", logout);
 UserRouter.post("/user/book-ticket", AuthToken, bookTicket);
 UserRouter.get("/user/get-foods/:theaterid", AuthToken, getFoods);
+UserRouter.get("/user/get-bookings", AuthToken, getMyBookings);
 export default UserRouter;

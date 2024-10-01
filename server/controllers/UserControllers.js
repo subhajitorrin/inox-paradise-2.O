@@ -240,6 +240,20 @@ async function getFoods(req, res) {
   }
 }
 
+async function getMyBookings(req, res) {
+  const { role, id } = req;
+  if (role !== "user") {
+    return res.status(400).json({ msg: "Unauthorized" });
+  }
+  try {
+    const existingUser = await UserModel.findById(id).select("-password");
+    return res.status(200).json({ bookings: existingUser.myTickets });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 export {
   getFoods,
   sendOtp,
