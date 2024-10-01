@@ -8,7 +8,8 @@ import {
   logout,
   bookTicket,
   getFoods,
-  getMyBookings
+  getMyBookings,
+  cancelBooking
 } from "../controllers/UserControllers.js";
 const UserRouter = express.Router();
 UserRouter.post("/user/send-otp", sendOtp);
@@ -19,4 +20,5 @@ UserRouter.post("/user/logout", logout);
 UserRouter.post("/user/book-ticket", AuthToken, bookTicket);
 UserRouter.get("/user/get-foods/:theaterid", AuthToken, getFoods);
 UserRouter.get("/user/get-bookings", AuthToken, getMyBookings);
+UserRouter.put("/user/cancel-booking/:bookingid", AuthToken, cancelBooking);
 export default UserRouter;
