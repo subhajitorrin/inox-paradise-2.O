@@ -289,7 +289,10 @@ async function cancelBooking(req, res) {
   }
   try {
     const [ticket, existingUser] = Promise.all([
-      TicketModel.findById(bookingid),
+      TicketModel.findById(bookingid).populate({
+        path: "movie",
+        select: "name"
+      }),
       UserModel.findById(id)
     ]);
 
@@ -311,6 +314,39 @@ async function cancelBooking(req, res) {
     schedule.availableSeats += ticket.seats.length;
 
     existingUser.wallet += refundAmount;
+
+    const cancelletionMail = {
+      title: "Movie Ticket Cancellation Confirmation",
+      body: `
+        <p>Dear ${existingUser.name},</p>
+        
+        <p>We wanted to let you know that your recent movie ticket for <strong>${ticket
+          .movie.name}</strong> scheduled on <strong>${new Date(
+        ticket.date
+      ).toLocaleDateString()}</strong> at <strong>${new Date(
+        ticket.time
+      ).toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      })}</strong> has been successfully cancelled.</p>
+        
+        <p>The total amount of <strong>${refundAmount}</strong> has been refunded to your wallet, which you can use for future bookings on our platform.</p>
+        
+        <p>If you have any further questions, feel free to reach out to our support team.</p>
+        
+        <p>Thank you for choosing us, and we look forward to serving you again!</p>
+        
+        <p>Best regards,<br />
+        The Inox Paradise Team</p>
+      `
+    };
+
+    await mailSender(
+      existingUser.email,
+      cancelletionMail.title,
+      cancelletionMail.body
+    );
 
     await Promise.all([schedule.save(), ticket.save(), existingUser.save()]);
     return res.status(200).json({ message: "Ticket cancelled successfully" });
