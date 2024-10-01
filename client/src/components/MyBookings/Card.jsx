@@ -12,6 +12,8 @@ import { BeatLoader } from "react-spinners";
 import useUser from "@/store/User";
 
 function CardContainer(booking) {
+  console.log(booking.booking);
+
   const [isLoading, setIsLoading] = useState(false);
   const { cancelBooking } = useUser();
 
@@ -86,7 +88,7 @@ function CardContainer(booking) {
           Get E-Ticket
         </Button>
 
-        {booking.booking.isUpcoming ? (
+        {booking.booking.isUpcoming && (
           <Button
             disabled={isLoading}
             onClick={() => {
@@ -100,11 +102,6 @@ function CardContainer(booking) {
               "Cancel Booking"
             )}
           </Button>
-        ) : (
-          <Button
-            disabled={isLoading}
-            className="w-full bg-transparent border-transparent"
-          ></Button>
         )}
       </CardFooter>
     </Card>
