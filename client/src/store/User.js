@@ -103,7 +103,7 @@ const useUser = create(
       getMyBookings:async()=>{
         try {
           const {data} = await axios.get(`${BASE_URL}/user/get-bookings`)
-          console.log(data);
+          set({myBookings:data.bookings})
         } catch (error) {
           console.log(error);
         }
