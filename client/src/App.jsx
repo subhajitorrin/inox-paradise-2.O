@@ -14,6 +14,7 @@ import SideNavbarDesktop from "./components/Navbar/SideNavbarDesktop";
 import Login from "./components/Login/Login";
 import useUser from "./store/User";
 import Register from "./components/Register/Register";
+import MyBookings from "./pages/MyBookings";
 
 function App() {
   const { setMobile } = useMobile();
@@ -41,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route path="/mybookings" element={<MyBookings />} />
         <Route path="/schedule/:id" element={<MovieSchedule />} />
         <Route path="/seatmatrix/:scheduleid" element={<SeatMatrix />} />
         <Route path="/admin/*" element={<Admin />} />

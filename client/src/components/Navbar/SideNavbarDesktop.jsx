@@ -18,22 +18,20 @@ function SideNavbarDesktop() {
     {
       icon: <IoTicketOutline />,
       name: "Your Bookings",
-      desc: "View all your bookings"
+      desc: "View all your bookings",
+      path: "/mybookings"
     },
     {
       icon: <MdHelpOutline />,
       name: "Help & Support",
-      desc: "Get help from support team"
-    },
-    {
-      icon: <IoTicketOutline />,
-      name: "Upcoming Movies",
-      desc: "Check upcoming movies in theaters"
+      desc: "Get help from support team",
+      path: "/help"
     },
     {
       icon: <MdHelpOutline />,
       name: "FAQs",
-      desc: "Frequently Asked Questions"
+      desc: "Frequently Asked Questions",
+      path: "/faq"
     }
   ];
 
@@ -96,10 +94,8 @@ function SideNavbarDesktop() {
                   return (
                     <div
                       onClick={() => {
-                        if (index === 0) {
-                          navigate(`/mybookings/${user._id}`);
-                          setToggleSideNavbar(false);
-                        }
+                        navigate(item.path);
+                        setToggleSideNavbar(false);
                       }}
                       key={index}
                       className="flex flex-col cursor-pointer hover:bg-[#c6c6c6] px-[1rem] py-[5px]"
