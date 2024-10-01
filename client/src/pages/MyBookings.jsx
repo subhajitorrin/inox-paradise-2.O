@@ -1,8 +1,15 @@
 import BookingCard from "@/components/MyBookings/BookingCard";
 import Navbar from "@/components/Navbar/Navbar";
-import React from "react";
+import useUser from "@/store/User";
+import React, { useEffect } from "react";
 
 function MyBookings() {
+  const { myBookings, getMyBookings } = useUser();
+
+  useEffect(() => {
+    getMyBookings();
+  }, [getMyBookings]);
+
   return (
     <div className="w-full h-screen flex flex-col">
       <Navbar />
@@ -10,7 +17,13 @@ function MyBookings() {
         <h2 className="text-center font-[500] text-[85%]">
           *Here are your bookings
         </h2>
-        <BookingCard />
+        {myBookings.length > 0 ? (
+          myBookings.map((booking) => (
+            <BookingCard key={booking.id} booking={booking} /> // Assuming each booking has a unique id
+          ))
+        ) : (
+          <p className="text-center">No bookings found.</p>
+        )}
       </div>
     </div>
   );

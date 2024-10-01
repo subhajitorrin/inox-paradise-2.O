@@ -5,7 +5,7 @@ const ticketSchema = new mongoose.Schema({
   language: String,
   date: String,
   time: String,
-  theater: { type: mongoose.Schema.Types.ObjectId, ref: "Theater" },
+  theater: { type: mongoose.Schema.Types.ObjectId, ref: "TheaterAdmin" },
   seatCount: Number,
   seatCategory: String,
   seats: [
@@ -22,6 +22,6 @@ const ticketSchema = new mongoose.Schema({
   bookedAt: { type: Date, default: Date.now }
 });
 
-const ticketModel = mongoose.model("tickets", ticketSchema);
+const ticketModel = mongoose.model("Ticket", ticketSchema);
 
 export default ticketModel;

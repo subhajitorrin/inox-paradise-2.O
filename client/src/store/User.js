@@ -14,6 +14,7 @@ const useUser = create(
       isLogin: null,
       isAuthenticating: true,
       toggleSidenavbar: false,
+      myBookings:[],
       setIsLogin: (value) => set({ isLogin: value }),
       sendOtp: async (email, password, name) => {
         try {
@@ -99,6 +100,14 @@ const useUser = create(
           throw error;
         }
       },
+      getMyBookings:async()=>{
+        try {
+          const {data} = await axios.get(`${BASE_URL}/user/get-bookings`)
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }),
     {
       name: "Inox-User-Store",

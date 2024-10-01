@@ -246,7 +246,26 @@ async function getMyBookings(req, res) {
     return res.status(400).json({ msg: "Unauthorized" });
   }
   try {
-    const existingUser = await UserModel.findById(id).select("-password");
+    const existingUser = await UserModel.findById(id)
+      .select("-password")
+      .populate({
+        path: "myTickets",
+        populate: [
+          {
+            path: "movie",
+            select: "poster duration title"
+          },
+          {
+            path: "screen",
+            select: "screenName screenType"
+          },
+          {
+            path: "theater",
+            select: "name address city"
+          }
+        ]
+      });
+
     return res.status(200).json({ bookings: existingUser.myTickets });
   } catch (error) {
     console.log(error);
