@@ -107,6 +107,13 @@ const useUser = create(
         } catch (error) {
           console.log(error);
         }
+      },
+      cancelBooking:(id)=>{
+        try{
+          axios.put(`${BASE_URL}/user/cancel-booking/${id}`)
+        }catch(error){
+          console.log(error)
+        }
       }
     }),
     {
