@@ -18,9 +18,7 @@ function MyBookings() {
           *Here are your bookings
         </h2>
         {myBookings.length > 0 ? (
-          myBookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} /> // Assuming each booking has a unique id
-          ))
+          <BookingCard myBookings={myBookings} />
         ) : (
           <p className="text-center">No bookings found.</p>
         )}
