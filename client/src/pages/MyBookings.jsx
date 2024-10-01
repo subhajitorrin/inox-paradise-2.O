@@ -1,9 +1,12 @@
-import React from 'react'
+import Navbar from "@/components/Navbar/Navbar";
+import React from "react";
 
 function MyBookings() {
   return (
-    <div>MyBookings</div>
-  )
+    <div>
+      <Navbar />
+    </div>
+  );
 }
 
-export default MyBookings
+export default MyBookings;
