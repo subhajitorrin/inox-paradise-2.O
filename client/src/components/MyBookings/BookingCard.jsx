@@ -18,17 +18,17 @@ export default function BookingCard({ myBookings }) {
             <CardHeader className="relative p-0">
               <img
                 alt={`Poster for ${booking.movie.title}`}
-                className="w-full h-72 object-cover" // Adjusted height for vertical posters
+                className="w-full h-72 object-cover"
                 height="300"
                 src={
                   booking.movie.poster ||
                   `/placeholder.svg?height=300&width=200`
                 }
                 style={{
-                  aspectRatio: "200/300", // Aspect ratio adjusted for vertical posters
+                  aspectRatio: "200/300",
                   objectFit: "cover"
                 }}
-                width="200" // Adjusted width for vertical posters
+                width="200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
                 <CardTitle className="text-white text-lg">
@@ -39,11 +39,19 @@ export default function BookingCard({ myBookings }) {
             <CardContent className="grid gap-2 p-4">
               <div className="flex items-center">
                 <Calendar className="mr-2 h-4 w-4" />
-                <span className="text-sm">{booking.date}</span>
+                <span className="text-sm">
+                  {new Date(booking.date).toLocaleDateString()}
+                </span>
               </div>
               <div className="flex items-center">
                 <Clock className="mr-2 h-4 w-4" />
-                <span className="text-sm">{booking.time}</span>
+                <span className="text-sm">
+                  {new Date(booking.time).toLocaleTimeString(undefined, {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true
+                  })}
+                </span>
               </div>
               <div className="flex items-center">
                 <MapPin className="mr-2 h-4 w-4" />

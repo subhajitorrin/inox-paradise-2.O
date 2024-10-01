@@ -14,7 +14,7 @@ function MyBookings() {
     <div className="w-full h-screen flex flex-col">
       <Navbar />
       <div className="flex-1 px-[10%] overflow-y-auto scrollNone">
-        <h2 className="text-center font-[500] text-[85%]">
+        <h2 className="text-center font-[500] text-[85%] mb-[10px]">
           *Here are your bookings
         </h2>
         {myBookings.length > 0 ? (
