@@ -152,7 +152,7 @@ function SeatMatrix() {
       moviename: seatMatrix.movie.title,
       theatername: seatMatrix.theater.name,
       screenName: `${seatMatrix.screen.screenName} - ${seatMatrix.screen.screenType}`,
-      scheduleid
+      schedule: scheduleid
     };
     setPaymentData(paymentData);
     setIsPaymentPage(true);

@@ -21,7 +21,8 @@ const ticketSchema = new mongoose.Schema({
   foods: [String],
   bookedAt: { type: Date, default: Date.now },
   isCancelled: { type: Boolean, default: false },
-  isUpcoming: { type: Boolean, default: true }
+  isUpcoming: { type: Boolean, default: true },
+  schedule: { type: mongoose.Schema.Types.ObjectId, ref: "Schedule" }
 });
 
 const ticketModel = mongoose.model("Ticket", ticketSchema);

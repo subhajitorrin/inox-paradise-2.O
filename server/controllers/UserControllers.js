@@ -184,7 +184,7 @@ async function bookTicket(req, res) {
     }
 
     // Find schedule and check if exists
-    const schedule = await ScheduleModel.findById(ticketData.scheduleid);
+    const schedule = await ScheduleModel.findById(ticketData.schedule);
     if (!schedule) {
       throw new Error("Show not found");
     }
@@ -292,11 +292,23 @@ async function cancelBooking(req, res) {
     if (!ticket) return res.status(400).json({ message: "Ticket not found" });
     console.log(ticket);
 
-    const refundAmount = Math.floor(ticket.price - ticket.price * 0.6);
+    const refundAmount = Math.floor(
+      ticket.price - ticket.price * 0.6 - ticket.price * 0.18
+    );
 
     ticket.isCancelled = true;
 
-    return res.status(200).json({ message: "message" });
+    // updates in schedule
+    const schedule = await ScheduleModel.findById(ticket.schedule);
+    for (const seat of ticket.seats) {
+      schedule.bookedSeats.pull(seat.id);
+    }
+    schedule.bookedCount -= 1;
+    schedule.revenue -= refundAmount;
+    schedule.availableSeats += ticket.seats.length;
+
+    await Promise.all([schedule.save(), ticket.save()]);
+    return res.status(200).json({ message: "Ticket cancelled successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "internal server error" });
