@@ -9,6 +9,7 @@ import TicketModel from "../models/Ticket.js";
 import BookingSuccessEmailSend from "../utils/BookingSuccessEmailSend.js";
 import generateRandomString from "../utils/GenerateBookingId.js";
 import FoodModel from "../models/Food.js";
+import MovieModel from "../models/Movie.js";
 
 async function sendOtp(req, res) {
   const { email, password, name } = req.body;
@@ -290,7 +291,7 @@ async function cancelBooking(req, res) {
   try {
     const ticket = await TicketModel.findById(bookingid).populate({
       path: "movie",
-      select: "name"
+      select: "title"
     });
     const existingUser = await UserModel.findById(id);
 
@@ -316,28 +317,48 @@ async function cancelBooking(req, res) {
     const cancelletionMail = {
       title: "Movie Ticket Cancellation Confirmation",
       body: `
-        <p>Dear ${existingUser.name},</p>
-        
-        <p>We wanted to let you know that your recent movie ticket for <strong>${ticket
-          .movie.name}</strong> scheduled on <strong>${new Date(
-        ticket.date
-      ).toLocaleDateString()}</strong> at <strong>${new Date(
-        ticket.time
-      ).toLocaleTimeString(undefined, {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true
-      })}</strong> has been successfully cancelled.</p>
-        
-        <p>The total amount of Rs.<strong>${refundAmount}</strong> has been refunded to your wallet, which you can use for future bookings on our platform.</p>
-        
-        <p>If you have any further questions, feel free to reach out to our support team.</p>
-        
-        <p>Thank you for choosing us, and we look forward to serving you again!</p>
-        
-        <p>Best regards,<br />
-        The Inox Paradise Team</p>
-      `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <p style="color: #555;">Dear ${existingUser.name},</p>
+      
+      <p style="color: #555;">
+        We wanted to inform you that your movie ticket for 
+        <strong style="color: #e63946;">${ticket.movie
+          .title}</strong>, scheduled on 
+        <strong style="color: #1d3557;">${new Date(
+          ticket.date
+        ).toLocaleDateString()}</strong> 
+        at 
+        <strong style="color: #1d3557;">${new Date(
+          ticket.time
+        ).toLocaleTimeString(undefined, {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true
+        })}</strong> 
+        has been successfully cancelled.
+      </p>
+
+      <p style="color: #555;">
+        The total amount of 
+        <strong style="color: #457b9d;">Rs.${refundAmount}</strong> 
+        has been refunded to your wallet. You can use this amount for future bookings on our platform.
+      </p>
+
+      <p style="color: #555;">
+        If you have any further questions or need assistance, please don't hesitate to reach out to our 
+        <a href="mailto:support@inoxparadise.com" style="color: #e63946; text-decoration: none;">support team</a>.
+      </p>
+      
+      <p style="color: #555;">
+        Thank you for choosing Inox Paradise. We look forward to serving you again in the future!
+      </p>
+
+      <p style="color: #555;">
+        Best regards,<br />
+        <strong style="color: #e63946;">The Inox Paradise Team</strong>
+      </p>
+    </div>
+  `
     };
 
     await mailSender(
