@@ -77,7 +77,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
     setPaymentData({});
     setEmptySelectedSeats();
     setIsLoading(false);
-    navigate("/");
+    navigate("/mybookings");
   }
 
   async function handlePayment(withGstPrice) {
@@ -133,10 +133,6 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   useEffect(() => {
     getAllFoods(paymentData.theater);
   }, [paymentData]);
-
-  useEffect(()=>{
-    console.log(foods);
-  },[foods])
 
   return (
     <>
