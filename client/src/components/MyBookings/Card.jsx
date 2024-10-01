@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Calendar,
-  Clock,
-  Film,
-  MapPin,
-  Ticket,
-  Wallet 
-} from "lucide-react";
+import { Calendar, Clock, Film, MapPin, Ticket, Wallet } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -23,13 +16,14 @@ function CardContainer(booking) {
   console.log(booking.booking);
 
   const [isLoading, setIsLoading] = useState(false);
-  const { cancelBooking, getMyBookings } = useUser();
+  const { cancelBooking, getMyBookings, getUser } = useUser();
 
   async function handleCancelBooking(id) {
     try {
       setIsLoading(true);
       await cancelBooking(id);
       await getMyBookings();
+      await getUser();
       toast.success("Booking cancelled successfully");
     } catch (error) {
     } finally {
@@ -93,7 +87,7 @@ function CardContainer(booking) {
           </span>
         </div>
         <div className="flex items-center">
-          <Wallet  className="mr-2 h-4 w-4" />
+          <Wallet className="mr-2 h-4 w-4" />
           <span className="text-sm">{booking.booking.price}₹</span>
         </div>
       </CardContent>
