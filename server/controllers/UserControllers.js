@@ -261,5 +261,6 @@ export {
   loginWithEmailPass,
   getUser,
   logout,
-  bookTicket
+  bookTicket,
+  getMyBookings
 };
