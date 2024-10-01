@@ -267,6 +267,12 @@ async function getMyBookings(req, res) {
         ]
       });
 
+    if (existingUser && existingUser.myTickets) {
+      existingUser.myTickets.sort(
+        (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
+      );
+    }
+
     const currentTime = new Date();
     currentTime.setHours(currentTime.getHours() + 1);
 

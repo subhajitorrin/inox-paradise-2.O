@@ -108,9 +108,9 @@ const useUser = create(
           console.log(error);
         }
       },
-      cancelBooking:(id)=>{
+      cancelBooking:async(id)=>{
         try{
-          axios.put(`${BASE_URL}/user/cancel-booking/${id}`)
+          await axios.put(`${BASE_URL}/user/cancel-booking/${id}`)
         }catch(error){
           console.log(error.response.data)
           toast.error(error.response?.data?.message || error.message);
