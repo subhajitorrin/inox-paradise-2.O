@@ -27,7 +27,7 @@ const demoBookings = [
     screen: "Screen 1",
     seats: ["B1", "B2"],
     posterUrl:
-      "https://images.mid-day.com/images/images/2023/may/bloddydaddmainposter_d.jpg"
+      "https://assets.gadgets360cdn.com/pricee/assets/product/202402/Vedda_Poster_1_1707381080.jpg"
   },
   {
     movieTitle: "Interstellar",
@@ -37,7 +37,7 @@ const demoBookings = [
     screen: "Screen 2",
     seats: ["C1", "C2", "C3", "C4"],
     posterUrl:
-      "https://images.mid-day.com/images/images/2023/may/bloddydaddmainposter_d.jpg"
+      "https://cdn.marvel.com/content/1x/antmanandthewaspquantumania_lob_crd_03.jpg"
   },
   {
     movieTitle: "Tenet",
@@ -47,7 +47,7 @@ const demoBookings = [
     screen: "Screen 4",
     seats: ["D1", "D2"],
     posterUrl:
-      "https://images.mid-day.com/images/images/2023/may/bloddydaddmainposter_d.jpg"
+      "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00401441-jhkvdzzhks-portrait.jpg"
   }
 ];
 
@@ -59,17 +59,17 @@ export default function BookingCard({ bookings = demoBookings }) {
           <CardHeader className="relative p-0">
             <img
               alt={`Poster for ${booking.movieTitle}`}
-              className="w-full h-48 object-cover"
-              height="200"
-              src={booking.posterUrl || `/placeholder.svg?height=200&width=400`}
+              className="w-full h-72 object-cover" // Adjusted height for vertical posters
+              height="300"
+              src={booking.posterUrl || `/placeholder.svg?height=300&width=200`}
               style={{
-                aspectRatio: "400/200",
+                aspectRatio: "200/300", // Aspect ratio adjusted for vertical posters
                 objectFit: "cover"
               }}
-              width="400"
+              width="200" // Adjusted width for vertical posters
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-              <CardTitle className="text-white text-xl">
+              <CardTitle className="text-white text-lg">
                 {booking.movieTitle}
               </CardTitle>
             </div>
@@ -96,8 +96,11 @@ export default function BookingCard({ bookings = demoBookings }) {
               <span className="text-sm">{booking.seats.join(", ")}</span>
             </div>
           </CardContent>
-          <CardFooter className="p-4">
+          <CardFooter className="p-4 flex gap-[10px]">
             <Button className="w-full">Get E-Ticket</Button>
+            <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+              Cancel Booking
+            </Button>
           </CardFooter>
         </Card>
       ))}

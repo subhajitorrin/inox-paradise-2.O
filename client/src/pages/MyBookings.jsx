@@ -6,13 +6,11 @@ function MyBookings() {
   return (
     <div className="w-full h-screen flex flex-col">
       <Navbar />
-      <div className="flex-1">
+      <div className="flex-1 px-[10%] overflow-y-auto scrollNone">
         <h2 className="text-center font-[500] text-[85%]">
           *Here are your bookings
         </h2>
-        <div className="">
-          <BookingCard />
-        </div>
+        <BookingCard />
       </div>
     </div>
   );
