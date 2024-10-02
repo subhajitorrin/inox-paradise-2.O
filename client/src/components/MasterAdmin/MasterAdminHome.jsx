@@ -8,7 +8,7 @@ import EditMovie from "./EditMovie";
 import Overview from "./Overview";
 
 const list = [
-  { path: "/masteradmin", name: "Overview" },
+  // { path: "/masteradmin", name: "Overview" },
   { path: "/masteradmin/theater", name: "Theater" },
   { path: "/masteradmin/add-movie", name: "Add Movie" },
   { path: "/masteradmin/edit-movie", name: "Edit Movie" }
