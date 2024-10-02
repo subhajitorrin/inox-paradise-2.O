@@ -1,72 +1,105 @@
-import React, { useState } from "react";
-import  useMasterAdmin  from "../../store/MasterAdmin";
+import { useState } from "react";
+import useMasterAdmin from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { BeatLoader } from "react-spinners";
 
 function Login() {
   const loginMasterAdmin = useMasterAdmin((state) => state.loginMasterAdmin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await loginMasterAdmin(email, password);
-      console.log(res);
-      toast.success("Login successfull");
+      setIsLoading(true);
+      await loginMasterAdmin(email, password);
     } catch (error) {
-      console.error("Login failed:", error);
-      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-[#1f1e1e]">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[#2c2b2b] p-8 rounded-lg shadow-lg w-96"
-      >
-        <h2 className="text-white text-2xl mb-6 font-[500]">
-          Master Admin Login
-        </h2>
-        <div className="mb-4">
-          <label
-            className="block text-gray-300 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="outline-none w-full px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:bg-gray-600"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-300 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:bg-gray-600"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Login
-        </button>
-      </form>
+    <div className="flex items-center justify-center h-screen ">
+      <Card className="w-full max-w-md mx-auto ">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">
+            Master Admin Login
+          </CardTitle>
+          <CardDescription className="text-center ">
+            Enter your credentials to access the movie ticket booking admin
+            panel
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                disabled={isLoading}
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className=""
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Input
+                  disabled={isLoading}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 text-gray-500" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-gray-500" />
+                  )}
+                  <span className="sr-only">
+                    {showPassword ? "Hide password" : "Show password"}
+                  </span>
+                </Button>
+              </div>
+            </div>
+            <Button disabled={isLoading} type="submit" className="w-full">
+              {isLoading ? <BeatLoader color="#ffffff" size={5} /> : "Login"}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <Button disabled={isLoading} variant="link" className="text-sm">
+            Forgot Password?
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

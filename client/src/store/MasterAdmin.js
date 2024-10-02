@@ -27,9 +27,11 @@ const useMasterAdmin = create(
             masterAdmin: data.masterAdmin,
             isMasterAuthenticated: true
           });
+          toast.success("Login successfull");
           return data.masterAdmin;
         } catch (error) {
           console.error("Login error:", error.response?.data || error.message);
+          toast.error(error.response?.data?.message || error.message);
           throw error;
         } finally {
           set({ isLoading: false });
