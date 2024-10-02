@@ -2,11 +2,15 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
     rating: {
-      type: Number,
+      type: String,
       required: true
     },
     comment: {

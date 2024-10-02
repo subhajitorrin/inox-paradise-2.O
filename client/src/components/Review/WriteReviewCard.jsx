@@ -28,7 +28,7 @@ export function WriteReview({ toggle, setToggle }) {
       return;
     }
     setIsLoading(true);
-    await addReview();
+    await addReview(star, text);
     await getReviews();
     setIsLoading(false);
   }
@@ -69,6 +69,7 @@ export function WriteReview({ toggle, setToggle }) {
             disabled={isLoading}
             placeholder="Write your review here..."
             className
+            onChange={(e) => settext(e.target.value)}
           />
         </div>
         <DialogFooter>

@@ -381,6 +381,23 @@ async function cancelBooking(req, res) {
   }
 }
 
+async function addReview(req, res) {
+  const { role, id } = req;
+  if (role !== "user") {
+    return res.status(400).json({ message: "Unauthorized" });
+  }
+  const { star, text } = req.body;
+  if (!star || !text) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+  try {
+    console.log(star, text);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "internal server error" });
+  }
+}
+
 export {
   getFoods,
   sendOtp,
@@ -390,5 +407,6 @@ export {
   logout,
   bookTicket,
   getMyBookings,
-  cancelBooking
+  cancelBooking,
+  addReview
 };
