@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer/Footer";
 import BookingCard from "@/components/MyBookings/BookingCard";
 import Navbar from "@/components/Navbar/Navbar";
 import useUser from "@/store/User";
@@ -23,6 +24,7 @@ function MyBookings() {
           <p className="text-center">No bookings found.</p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

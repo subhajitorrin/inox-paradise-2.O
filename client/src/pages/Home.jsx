@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Carousol from "../components/Home/Carousol";
 import MovieRows from "../components/Home/MovieRows";
 import useMovie from "../store/Movie";
+import Footer from "@/components/Footer/Footer";
 
 function Home() {
   const { upcomingMoviesList, newReleaseMovieList } = useMovie();
@@ -19,6 +20,7 @@ function Home() {
       <Carousol />
       <MovieRows title={"New Releases"} list={newReleaseMovieList} />
       <MovieRows title={"Upcoming Movies"} list={upcomingMoviesList} />
+      <Footer />
     </div>
   );
 }

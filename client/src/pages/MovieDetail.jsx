@@ -17,6 +17,7 @@ import { Plus } from "lucide-react";
 import { ReviewContainer } from "@/components/Review/ReviewContainer";
 import { WriteReview } from "@/components/Review/WriteReviewCard";
 import useUser from "@/store/User";
+import Footer from "@/components/Footer/Footer";
 
 function movie() {
   const { id } = useParams();
@@ -341,6 +342,7 @@ function movie() {
             </div>
           </div>
           <MovieRows title={"New Releases"} list={newReleaseMovieList} />
+          <Footer />
         </>
       )}
     </>
