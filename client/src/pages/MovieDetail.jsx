@@ -12,6 +12,7 @@ import { IoShareSocial } from "react-icons/io5";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoMdTrendingUp } from "react-icons/io";
 import { BeatLoader } from "react-spinners";
+import ReviewCard from "@/components/Review/ReviewCard";
 
 function movie() {
   const { id } = useParams();
@@ -301,6 +302,11 @@ function movie() {
                       </div>
                     );
                   })}
+                </div>
+
+                {/* review section */}
+                <div className="">
+                  <ReviewCard />
                 </div>
               </div>
             </div>
