@@ -115,6 +115,15 @@ const useUser = create(
           console.log(error.response.data)
           toast.error(error.response?.data?.message || error.message);
         }
+      },
+      addReview:async(star,text)=>{
+        try{
+          await axios.post(`${BASE_URL}/user/add-review`,{star,text})
+          toast.success("Review added successfully")
+        }catch(error){
+          console.log(error)
+          toast.error(error.response?.data?.message || error.message);
+        }
       }
     }),
     {

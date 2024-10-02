@@ -10,8 +10,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "../ui/textarea";
+import useUser from "@/store/User";
+import useMovie from "@/store/Movie";
+import { useState } from "react";
 
 export function WriteReview({ toggle, setToggle }) {
+  const [star, setstar] = useState("");
+  const [text, settext] = useState("");
+  const { addReview } = useUser();
+  const { getReviews } = useMovie();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Dialog open={toggle} onOpenChange={setToggle}>
       <DialogContent className="sm:max-w-[425px]">
@@ -27,6 +35,16 @@ export function WriteReview({ toggle, setToggle }) {
               Star Rating (1-10)
             </Label>
             <Input
+              disabled={isLoading}
+              value={star}
+              onChange={(e) => {
+                if (
+                  (e.target.value <= 10 && e.target.value >= 1) ||
+                  e.target.value == ""
+                ) {
+                  setstar(e.target.value);
+                }
+              }}
               type="number"
               id="star-rating"
               min="1"
@@ -35,10 +53,24 @@ export function WriteReview({ toggle, setToggle }) {
               placeholder="Enter rating"
             />
           </div>
-          <Textarea placeholder="Write your review here..." className />
+          <Textarea
+            disabled={isLoading}
+            placeholder="Write your review here..."
+            className
+          />
         </div>
         <DialogFooter>
-          <Button type="submit">Add Review</Button>
+          <Button
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true);
+              await addReview();
+              await getReviews();
+              setIsLoading(false);
+            }}
+          >
+            Add Review
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
