@@ -23,6 +23,7 @@ const useMovie = create(
       selectedSeats: { category: "", price: "", seats: [] },
       selectedSeatNames:[],
       foods:[],
+      reviews:[],
       getMovies: async () => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-all-movies`);
@@ -164,6 +165,16 @@ const useMovie = create(
         try {
           const { data } = await axios.get(`${BASE_URL}/user/get-foods/${theaterid}`);
           set({ foods: data });
+          return data;
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+      getReviews: async (movieid) => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/get-reviews/${movieid}`);
+          set({ reviews: data });
           return data;
         } catch (error) {
           console.log(error);
