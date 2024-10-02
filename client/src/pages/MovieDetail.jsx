@@ -13,6 +13,7 @@ import { FaChevronRight } from "react-icons/fa6";
 import { IoMdTrendingUp } from "react-icons/io";
 import { BeatLoader } from "react-spinners";
 import ReviewCard from "@/components/Review/ReviewCard";
+import { Plus } from "lucide-react";
 
 function movie() {
   const { id } = useParams();
@@ -305,7 +306,11 @@ function movie() {
                 </div>
 
                 {/* review section */}
-                <div className="">
+                <div className="mt-[20px]">
+                  <div className=" font-[500] flex justify-between items-center">
+                    <h2 className="text-[110%]">Reviews</h2>{" "}
+                    <Plus className="text-[12px] cursor-pointer" />
+                  </div>
                   <ReviewCard />
                 </div>
               </div>
