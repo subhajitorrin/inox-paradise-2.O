@@ -9,33 +9,36 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "../ui/textarea";
 
 export function WriteReview({ toggle, setToggle }) {
   return (
     <Dialog open={toggle} onOpenChange={setToggle}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Write a Review</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Share your thoughts on the movie. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
+          <div className="flex-col flex ">
+            <Label htmlFor="star-rating" className=" mb-[10px]">
+              Star Rating (1-10)
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input
+              type="number"
+              id="star-rating"
+              min="1"
+              max="10"
+              className=""
+              placeholder="Enter rating"
+            />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
+          <Textarea placeholder="Write your review here..." className />
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit">Add Review</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
