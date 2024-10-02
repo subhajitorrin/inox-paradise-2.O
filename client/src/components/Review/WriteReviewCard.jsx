@@ -13,6 +13,7 @@ import { Textarea } from "../ui/textarea";
 import useUser from "@/store/User";
 import useMovie from "@/store/Movie";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function WriteReview({ toggle, setToggle }) {
   const [star, setstar] = useState("");
@@ -20,6 +21,17 @@ export function WriteReview({ toggle, setToggle }) {
   const { addReview } = useUser();
   const { getReviews } = useMovie();
   const [isLoading, setIsLoading] = useState(false);
+
+  async function handleAddReview() {
+    if (star == "" || text == "") {
+      toast.error("Fill all the fields");
+      return;
+    }
+    setIsLoading(true);
+    await addReview();
+    await getReviews();
+    setIsLoading(false);
+  }
   return (
     <Dialog open={toggle} onOpenChange={setToggle}>
       <DialogContent className="sm:max-w-[425px]">
@@ -60,15 +72,7 @@ export function WriteReview({ toggle, setToggle }) {
           />
         </div>
         <DialogFooter>
-          <Button
-            disabled={isLoading}
-            onClick={async () => {
-              setIsLoading(true);
-              await addReview();
-              await getReviews();
-              setIsLoading(false);
-            }}
-          >
+          <Button disabled={isLoading} onClick={handleAddReview}>
             Add Review
           </Button>
         </DialogFooter>
