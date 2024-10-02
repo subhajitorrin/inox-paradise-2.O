@@ -383,8 +383,17 @@ async function cancelBooking(req, res) {
 }
 
 async function calculateReview(movieId) {
-  const movie = await MovieModel.findById(movieId);
+  const [movie, reviews] = await Promise.all([
+    MovieModel.findById(movieId),
+    ReviewModel.find({ movie: movieId })
+  ]);
   let sum = 0;
+  for (const review of reviews) {
+    sum += parseFloat(review.rating);
+  }
+  let rating = (sum / reviews.length).toFixed(2);
+  movie.rating = rating;
+  await movie.save();
 }
 
 async function addReview(req, res) {
