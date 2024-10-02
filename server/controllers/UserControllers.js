@@ -386,12 +386,34 @@ async function addReview(req, res) {
   if (role !== "user") {
     return res.status(400).json({ message: "Unauthorized" });
   }
-  const { star, text } = req.body;
+  const { star, text, movieid } = req.body;
   if (!star || !text) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
-    console.log(star, text);
+    const [existingUser, movie] = await Promise.all([
+      UserModel.findById(id),
+      MovieModel.findById(movieid)
+    ]);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const review = new ReviewModel({
+      name: existingUser.name,
+      user: existingUser._id,
+      movie: movie._id,
+      rating: star,
+      comment: text
+    });
+
+    movie.reviews.push(review._id);
+    
+    await review.save();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "internal server error" });

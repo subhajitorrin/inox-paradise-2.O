@@ -9,6 +9,10 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
+    movie: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Movie"
+    },
     rating: {
       type: String,
       required: true
