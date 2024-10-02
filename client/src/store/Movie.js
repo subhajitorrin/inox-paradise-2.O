@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
 import { toast } from "react-toastify";
+import movie from "@/pages/MovieDetail";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -10,6 +11,7 @@ axios.defaults.withCredentials = true;
 const useMovie = create(
   persist(
     (set, get) => ({
+      movie: null,
       movieList: [],
       upcomingMoviesList: [],
       newReleaseMovieList: [],
@@ -51,7 +53,7 @@ const useMovie = create(
       getMovieById: async (id) => {
         try {
           const { data } = await axios.get(`${BASE_URL}/movie-by-id/${id}`);
-          return data;
+          set({movie: data})
         } catch (error) {
           console.log(error);
         }
@@ -174,8 +176,7 @@ const useMovie = create(
       getReviews: async (movieid) => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-reviews/${movieid}`);
-          console.log(data);
-          
+          await get().getMovieById(movieid);
           set({ reviews: data });
           return data;
         } catch (error) {

@@ -21,9 +21,9 @@ import useUser from "@/store/User";
 function movie() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [movie, setmovieDetail] = useState(null);
+  // const [movie, setmovieDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { getMovieById, getReviews, reviews } = useMovie();
+  const { getMovieById, getReviews, reviews, movie } = useMovie();
   const { isMobile } = useMobile();
   const [toggleReview, setToggleReview] = useState(false);
   const { user, setIsLogin } = useUser();

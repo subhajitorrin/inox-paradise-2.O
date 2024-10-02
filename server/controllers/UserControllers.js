@@ -391,7 +391,7 @@ async function calculateReview(movieId) {
   for (const review of reviews) {
     sum += parseFloat(review.rating);
   }
-  let rating = (sum / reviews.length).toFixed(2);
+  let rating = (sum / reviews.length).toFixed(1);
   movie.rating = rating;
   await movie.save();
 }

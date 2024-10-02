@@ -172,11 +172,12 @@ async function getReviews(req, res) {
 
   try {
     const reviews = await ReviewModel.find({ movie: movieid });
+    const rating = await MovieModel.findById(movieid).select("rating -_id");
 
     return res.status(200).json(reviews);
   } catch (error) {
     console.log(error);
-    
+
     return res.status(500).json({ message: "Error while fetching reviews" });
   }
 }
