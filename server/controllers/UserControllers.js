@@ -10,6 +10,7 @@ import BookingSuccessEmailSend from "../utils/BookingSuccessEmailSend.js";
 import generateRandomString from "../utils/GenerateBookingId.js";
 import FoodModel from "../models/Food.js";
 import MovieModel from "../models/Movie.js";
+import ReviewModel from "../models/Review.js";
 
 async function sendOtp(req, res) {
   const { email, password, name } = req.body;
@@ -381,13 +382,18 @@ async function cancelBooking(req, res) {
   }
 }
 
+async function calculateReview(movieId) {
+  const movie = await MovieModel.findById(movieId);
+  let sum = 0;
+}
+
 async function addReview(req, res) {
   const { role, id } = req;
   if (role !== "user") {
     return res.status(400).json({ message: "Unauthorized" });
   }
   const { star, text, movieid } = req.body;
-  if (!star || !text) {
+  if (!star || !text || !movieid) {
     return res.status(400).json({ message: "All fields are required" });
   }
   try {
@@ -412,8 +418,13 @@ async function addReview(req, res) {
     });
 
     movie.reviews.push(review._id);
-    
+
     await review.save();
+    await movie.save();
+
+    await calculateReview(movieid);
+
+    return res.status(200).json({ message: "Review added successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "internal server error" });

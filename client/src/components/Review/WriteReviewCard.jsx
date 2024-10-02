@@ -15,7 +15,7 @@ import useMovie from "@/store/Movie";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export function WriteReview({ toggle, setToggle }) {
+export function WriteReview({ toggle, setToggle, movieid }) {
   const [star, setstar] = useState("");
   const [text, settext] = useState("");
   const { addReview } = useUser();
@@ -27,10 +27,15 @@ export function WriteReview({ toggle, setToggle }) {
       toast.error("Fill all the fields");
       return;
     }
-    setIsLoading(true);
-    await addReview(star, text);
-    await getReviews();
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await addReview(star, text, movieid);
+      await getReviews();
+      setToggle(false);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   }
   return (
     <Dialog open={toggle} onOpenChange={setToggle}>

@@ -116,9 +116,9 @@ const useUser = create(
           toast.error(error.response?.data?.message || error.message);
         }
       },
-      addReview:async(star,text)=>{
+      addReview:async(star,text,movieid)=>{
         try{
-          await axios.post(`${BASE_URL}/user/add-review`,{star,text})
+          await axios.post(`${BASE_URL}/user/add-review`,{star,text,movieid})
           toast.success("Review added successfully")
         }catch(error){
           console.log(error)

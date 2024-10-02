@@ -330,6 +330,7 @@ function movie() {
                   <WriteReview
                     toggle={toggleReview}
                     setToggle={setToggleReview}
+                    movieid={id}
                   />
                 </div>
               </div>
