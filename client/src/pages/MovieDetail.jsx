@@ -15,6 +15,7 @@ import { BeatLoader } from "react-spinners";
 import ReviewCard from "@/components/Review/ReviewCard";
 import { Plus } from "lucide-react";
 import { ReviewContainer } from "@/components/Review/ReviewContainer";
+import { WriteReview } from "@/components/Review/WriteReviewCard";
 
 function movie() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ function movie() {
   const [isLoading, setIsLoading] = useState(true);
   const { getMovieById } = useMovie();
   const { isMobile } = useMobile();
+  const [toggleReview, setToggleReview] = useState(false);
 
   const { newReleaseMovieList, getNewReleaseMovies } = useMovie();
   useEffect(() => {
@@ -310,9 +312,15 @@ function movie() {
                 <div className="mt-[20px] w-full ">
                   <div className=" font-[500] flex justify-between items-center">
                     <h2 className="text-[110%]">Reviews</h2>{" "}
-                    <Plus className="text-[12px] cursor-pointer" />
+                    <span onClick={() => setToggleReview(true)}>
+                      <Plus className="text-[12px] cursor-pointer" />
+                    </span>
                   </div>
                   <ReviewContainer />
+                  <WriteReview
+                    toggle={toggleReview}
+                    setToggle={setToggleReview}
+                  />
                 </div>
               </div>
             </div>
