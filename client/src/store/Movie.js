@@ -171,6 +171,16 @@ const useMovie = create(
           throw error;
         }
       },
+      getReviews: async (movieid) => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/get-reviews/${movieid}`);
+          set({ reviews: data });
+          return data;
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      }
     }),
     {
       name: "Movie-Store",
