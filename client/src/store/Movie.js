@@ -174,6 +174,8 @@ const useMovie = create(
       getReviews: async (movieid) => {
         try {
           const { data } = await axios.get(`${BASE_URL}/get-reviews/${movieid}`);
+          console.log(data);
+          
           set({ reviews: data });
           return data;
         } catch (error) {

@@ -7,7 +7,7 @@ import {
   getMovieById,
   getSchedulesByMovieId,
   searchMovie,
-  getSeatMatrix
+  getSeatMatrix,getReviews
 } from "../controllers/MovieControllers.js";
 const MovieRouter = express.Router();
 MovieRouter.get("/get-all-movies", getAllMovies);
@@ -20,5 +20,5 @@ MovieRouter.get(
 );
 MovieRouter.get("/search", searchMovie);
 MovieRouter.get("/seatmatrix/:scheduleid", getSeatMatrix);
-MovieRouter.get("/seatmatrix/:scheduleid", getSeatMatrix);
+MovieRouter.get("/get-reviews/:movieid", getReviews);
 export default MovieRouter;

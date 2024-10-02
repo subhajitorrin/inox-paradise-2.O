@@ -1,6 +1,7 @@
 import MovieModel from "../models/Movie.js";
 import ScheduleModel from "../models/Schedule.js";
 import TheaterModel from "../models/TheaterAdmin.js";
+import ReviewModel from "../models/Review.js";
 
 async function getAllMovies(req, res) {
   try {
@@ -166,6 +167,20 @@ async function getSeatMatrix(req, res) {
   }
 }
 
+async function getReviews(req, res) {
+  const { movieid } = req.params;
+
+  try {
+    const reviews = await ReviewModel.find({ movie: movieid });
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    console.log(error);
+    
+    return res.status(500).json({ message: "Error while fetching reviews" });
+  }
+}
+
 export {
   getAllMovies,
   getUpcomingMovies,
@@ -173,5 +188,6 @@ export {
   getMovieById,
   getSchedulesByMovieId,
   searchMovie,
-  getSeatMatrix
+  getSeatMatrix,
+  getReviews
 };

@@ -23,10 +23,14 @@ function movie() {
   const navigate = useNavigate();
   const [movie, setmovieDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { getMovieById } = useMovie();
+  const { getMovieById, getReviews, reviews } = useMovie();
   const { isMobile } = useMobile();
   const [toggleReview, setToggleReview] = useState(false);
   const { user, setIsLogin } = useUser();
+
+  useEffect(() => {
+    getReviews(id);
+  }, []);
 
   const { newReleaseMovieList, getNewReleaseMovies } = useMovie();
   useEffect(() => {
@@ -326,7 +330,7 @@ function movie() {
                       <Plus className="text-[12px] cursor-pointer" />
                     </span>
                   </div>
-                  <ReviewContainer reviews={movie.reviews} />
+                  <ReviewContainer reviews={reviews} />
                   <WriteReview
                     toggle={toggleReview}
                     setToggle={setToggleReview}
