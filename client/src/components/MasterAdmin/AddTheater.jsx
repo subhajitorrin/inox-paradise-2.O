@@ -3,6 +3,7 @@ import useMasterAdmin from "../../store/MasterAdmin";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import TheaterCard from "./TheaterCard";
+import TheaterCard1 from "./TheaterCard1";
 
 function AddTheater() {
   const [theaterName, setTheaterName] = useState("");
@@ -256,7 +257,7 @@ function AddTheater() {
       <div className="h-full w-full">
         <div className="scrollNone flex flex-wrap gap-[20px] justify-center overflow-y-auto max-h-full p-[1rem]">
           {theaters.map((item, index) => {
-            return <TheaterCard key={index} item={item} />;
+            return <TheaterCard1 key={index} item={item} />;
           })}
         </div>
       </div>
