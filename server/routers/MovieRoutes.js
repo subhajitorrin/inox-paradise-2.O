@@ -20,4 +20,5 @@ MovieRouter.get(
 );
 MovieRouter.get("/search", searchMovie);
 MovieRouter.get("/seatmatrix/:scheduleid", getSeatMatrix);
+MovieRouter.get("/seatmatrix/:scheduleid", getSeatMatrix);
 export default MovieRouter;

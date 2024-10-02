@@ -10,11 +10,7 @@ import {
 import ReviewCard from "./ReviewCard";
 import useMovie from "@/store/Movie";
 
-export function ReviewContainer() {
-  const { getReviews, reviews } = useMovie();
-  React.useEffect(() => {
-    getReviews();
-  }, []);
+export function ReviewContainer({ reviews }) {
   return reviews.length > 0 ? (
     <Carousel className="w-full mt-[10px]">
       <CarouselContent className="w-[500px] ">

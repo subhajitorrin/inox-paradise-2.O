@@ -19,7 +19,6 @@ export function WriteReview({ toggle, setToggle, movieid }) {
   const [star, setstar] = useState("");
   const [text, settext] = useState("");
   const { addReview } = useUser();
-  const { getReviews } = useMovie();
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleAddReview() {
@@ -30,7 +29,6 @@ export function WriteReview({ toggle, setToggle, movieid }) {
     try {
       setIsLoading(true);
       await addReview(star, text, movieid);
-      await getReviews();
       setToggle(false);
     } catch (error) {
     } finally {

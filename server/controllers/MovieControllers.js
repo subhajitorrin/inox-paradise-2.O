@@ -41,7 +41,7 @@ async function getNewReleaseMovies(req, res) {
 async function getMovieById(req, res) {
   const { id } = req.params;
   try {
-    const movie = await MovieModel.findById(id);
+    const movie = await MovieModel.findById(id).populate("reviews");
     if (!movie) {
       return res.status(404).json({ message: "Movie not found" });
     }
@@ -92,7 +92,7 @@ async function getSchedulesByMovieId(req, res) {
       screenType: screen
     }).select("theater -_id");
 
-    let theaterSet = new Set(theaters.map((item) => item.theater.toString()));
+    let theaterSet = new Set(theaters.map(item => item.theater.toString()));
     theaterSet = Array.from(theaterSet);
 
     let list = [];

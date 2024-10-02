@@ -326,7 +326,7 @@ function movie() {
                       <Plus className="text-[12px] cursor-pointer" />
                     </span>
                   </div>
-                  <ReviewContainer />
+                  <ReviewContainer reviews={movie.reviews} />
                   <WriteReview
                     toggle={toggleReview}
                     setToggle={setToggleReview}
