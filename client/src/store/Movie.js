@@ -54,6 +54,7 @@ const useMovie = create(
         try {
           const { data } = await axios.get(`${BASE_URL}/movie-by-id/${id}`);
           set({movie: data})
+          return data
         } catch (error) {
           console.log(error);
         }

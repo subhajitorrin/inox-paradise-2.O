@@ -122,7 +122,7 @@ function SideNavbarDesktop() {
           )}
         </div>
         <div className="w-full px-[1rem] absolute bottom-[20px]">
-          <div
+          {/* <div
             onClick={() => {
               window.open("/admin", "_blank");
             }}
@@ -130,7 +130,7 @@ function SideNavbarDesktop() {
           >
             <RiAdminLine className="absolute left-[20px]" />
             <p>Admin Login</p>
-          </div>
+          </div> */}
           {user === null ? (
             <button
               onClick={() => {
