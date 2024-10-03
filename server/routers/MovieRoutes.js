@@ -7,13 +7,16 @@ import {
   getMovieById,
   getSchedulesByMovieId,
   searchMovie,
-  getSeatMatrix,getReviews
+  getSeatMatrix,
+  getReviews,
+  getTopMovies
 } from "../controllers/MovieControllers.js";
 const MovieRouter = express.Router();
 MovieRouter.get("/get-all-movies", getAllMovies);
 MovieRouter.get("/movie-by-id/:id", getMovieById);
 MovieRouter.get("/get-upcoming-movies", getUpcomingMovies);
 MovieRouter.get("/get-newrelease-movies", getNewReleaseMovies);
+MovieRouter.get("/get-top-movies", getTopMovies);
 MovieRouter.get(
   "/get-schedules-by-movie/:movieid/:date/:language/:screen",
   getSchedulesByMovieId

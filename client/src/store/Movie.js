@@ -15,6 +15,7 @@ const useMovie = create(
       movieList: [],
       upcomingMoviesList: [],
       newReleaseMovieList: [],
+      topMoviesList: [],
       selectedDateIndexOnScheule: 0,
       isLoading: false,
       scheduleList: [],
@@ -179,6 +180,16 @@ const useMovie = create(
           const { data } = await axios.get(`${BASE_URL}/get-reviews/${movieid}`);
           await get().getMovieById(movieid);
           set({ reviews: data });
+          return data;
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+      getTopMovies: async () => {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/get-top-movies`);
+          set({ topMoviesList: data });
           return data;
         } catch (error) {
           console.log(error);

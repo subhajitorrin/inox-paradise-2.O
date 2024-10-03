@@ -182,6 +182,18 @@ async function getReviews(req, res) {
   }
 }
 
+async function getTopMovies(req, res) {
+  try {
+    const movies = await MovieModel.find({ rating: { $gt: 0 } })
+      .sort({ rating: -1 })
+      .limit(10);
+    return res.status(200).json(movies);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error while fetching top movies" });
+  }
+}
+
 export {
   getAllMovies,
   getUpcomingMovies,
@@ -190,5 +202,6 @@ export {
   getSchedulesByMovieId,
   searchMovie,
   getSeatMatrix,
-  getReviews
+  getReviews,
+  getTopMovies
 };
