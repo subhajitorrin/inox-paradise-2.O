@@ -65,16 +65,20 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   }
 
   async function handlePaymentClick() {
-    setIsLoading(true);
-    // await handlePayment(totalPrice);
-    paymentData.withGstPrice = totalPrice;
-    paymentData.foods = foodsCart.map((food) => food.name);
-    await bookTicket(paymentData);
-    toast.success("Payment successful");
-    setPaymentData({});
-    setEmptySelectedSeats();
-    setIsLoading(false);
-    navigate("/mybookings");
+    try {
+      setIsLoading(true);
+      await handlePayment(totalPrice);
+      paymentData.withGstPrice = totalPrice;
+      paymentData.foods = foodsCart.map((food) => food.name);
+      await bookTicket(paymentData);
+      toast.success("Payment successful");
+      setPaymentData({});
+      setEmptySelectedSeats();
+      setIsLoading(false);
+      navigate("/mybookings");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function handlePayment(withGstPrice) {

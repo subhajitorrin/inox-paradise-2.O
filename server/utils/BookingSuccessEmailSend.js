@@ -281,9 +281,7 @@ async function BookingSuccessEmailSend(user, BookingData) {
             <p>Best regards,<br>INOXBOOK Team</p>
         `;
 
-  await mailSender(email, title, body, [
-    { path: imagePath, filename: `Ticket-${BookingData.bookingId}.png` }
-  ]);
+  await mailSender(email, title, body);
   // fs.unlink(imagePath, (err) => {
   //   if (err) console.error("Error deleting image:", err);
   //   else console.log("Image deleted successfully");
