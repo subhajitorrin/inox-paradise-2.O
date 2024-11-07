@@ -218,10 +218,10 @@ async function captureHtmlAsImage(htmlContent, imagePath) {
   await browser.close();
 }
 
-async function BookingSuccessEmailSend(user, BookingData, poster) {
+async function BookingSuccessEmailSend(user, BookingData) {
   // const qrCodeData = `BookingID:${BookingData.bookingId}`;
   // const qrCodeUrl = await generateQRCode(qrCodeData);
-  const htmlContent = HtmlContent(BookingData, poster, qrCodeUrl);
+  // const htmlContent = HtmlContent(BookingData, poster, qrCodeUrl);
   // const imagePath = path.join(
   //   __dirname,
   //   "Temp-Ticket-Images",

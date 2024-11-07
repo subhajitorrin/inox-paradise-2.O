@@ -216,7 +216,7 @@ async function bookTicket(req, res) {
     await Promise.all([schedule.save(), user.save(), newTicket.save()]);
 
     // Send booking success email (commented out)
-    await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
+    await BookingSuccessEmailSend(user, ticketData);
 
     // Return success response
     return res.status(200).json({ message: "Ticket booked successfully" });
