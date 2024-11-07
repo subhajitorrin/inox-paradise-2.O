@@ -1,22 +1,25 @@
 import mailSender from "./SendMail.js";
-import puppeteer from 'puppeteer';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
+import puppeteer from "puppeteer";
+import fs from "fs";
+import { fileURLToPath } from "url";
 import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function HtmlContent(BookingData, poster, qrCodeUrl) {
-  const foodItemsHtml = BookingData.foods && BookingData.foods.length > 0
-    ? `
+  const foodItemsHtml =
+    BookingData.foods && BookingData.foods.length > 0
+      ? `
     <div class="food-container">
       <p class="food-header">
         Food
       </p>
-      ${BookingData.foods.map(food => `<p class="food-item">${food} x 1</p>`).join('')}
+      ${BookingData.foods
+        .map((food) => `<p class="food-item">${food} x 1</p>`)
+        .join("")}
     </div>`
-    : '';
+      : "";
 
   return `
     <!DOCTYPE html>
@@ -147,9 +150,17 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
             <img src="${poster}" alt="Movie Poster" />
             </div>
             <div class="topinfo info">
-              <p class="movie-title fontBold fontsize20">${BookingData.moviename}</p>
+              <p class="movie-title fontBold fontsize20">${
+                BookingData.moviename
+              }</p>
               <p>${BookingData.language} 2D</p>
-              <p>${new Date(BookingData.date).toLocaleDateString("en-GB", {day: "numeric",month: "short"})} | ${new Date('2024-09-28T04:30:00.000Z').toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+              <p>${new Date(BookingData.date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short"
+              })} | ${new Date("2024-09-28T04:30:00.000Z").toLocaleString(
+    "en-US",
+    { hour: "numeric", minute: "numeric", hour12: true }
+  )}</p>
               <p>${BookingData.theatername}</p>
               ${foodItemsHtml}
             </div>
@@ -161,7 +172,9 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
             </div>
             <div class="bottomdetails ticketdetails textcenter">
               <p>${BookingData.seatCount}Tickets</p>
-              <p class="font-weight-bold fontBold fontsize17">${BookingData.screenName}</p>
+              <p class="font-weight-bold fontBold fontsize17">${
+                BookingData.screenName
+              }</p>
               <p class="uppercase">
                 ${BookingData.seatCategory} - ${arrToString(BookingData.seats)}
               </p>
@@ -181,15 +194,19 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
 }
 
 async function captureHtmlAsImage(htmlContent, imagePath) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless
+  });
   const page = await browser.newPage();
   await page.setContent(htmlContent);
 
   // Wait for the `.ticket` element to be available
-  await page.waitForSelector('.ticket');
+  await page.waitForSelector(".ticket");
 
   // Get the bounding box of the `.ticket` element
-  const element = await page.$('.ticket');
+  const element = await page.$(".ticket");
   const boundingBox = await element.boundingBox();
 
   // Capture only the bounding box of the `.ticket` element
@@ -205,30 +222,52 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
   const qrCodeData = `BookingID:${BookingData.bookingId}`;
   const qrCodeUrl = await generateQRCode(qrCodeData);
   const htmlContent = HtmlContent(BookingData, poster, qrCodeUrl);
-  const imagePath = path.join(__dirname, "Temp-Ticket-Images", `${Date.now()}.png`);
+  const imagePath = path.join(
+    __dirname,
+    "Temp-Ticket-Images",
+    `${Date.now()}.png`
+  );
   await captureHtmlAsImage(htmlContent, imagePath);
 
-  const foodItemsHtml = BookingData.foods && BookingData.foods.length > 0
-    ? BookingData.foods.map(food => `<li>${food} x 1</li>`).join('')
-    : '<li>None</li>';
+  const foodItemsHtml =
+    BookingData.foods && BookingData.foods.length > 0
+      ? BookingData.foods.map((food) => `<li>${food} x 1</li>`).join("")
+      : "<li>None</li>";
 
   const email = user.email;
   const title = "Ticket Booking Successfull";
   const body = `
             <h1>Booking Confirmation</h1>
             <p>Dear Customer,</p>
-            <p>Thank you ${user.name} for booking with us! Your ticket has been successfully booked. Below are the details of your booking:</p>
+            <p>Thank you ${
+              user.name
+            } for booking with us! Your ticket has been successfully booked. Below are the details of your booking:</p>
             <h2>Booking Id - ${BookingData.bookingId}</h2>
             <h3>Booking Details</h3>
             <ul>
                 <li><strong>Movie Name:</strong> ${BookingData.moviename}</li>
                 <li><strong>Language:</strong> ${BookingData.language}</li>
-                <li><strong>Date:</strong> ${new Date(BookingData.date).toLocaleDateString("en-GB", {day: "numeric",month: "short"})}</li>
-                <li><strong>Time:</strong> ${new Date('2024-09-28T04:30:00.000Z').toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</li>
+                <li><strong>Date:</strong> ${new Date(
+                  BookingData.date
+                ).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short"
+                })}</li>
+                <li><strong>Time:</strong> ${new Date(
+                  "2024-09-28T04:30:00.000Z"
+                ).toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true
+                })}</li>
                 <li><strong>Theater:</strong> ${BookingData.theatername}</li>
                 <li><strong>Seat Count:</strong> ${BookingData.seatCount}</li>
-                <li><strong>Booked Seats:</strong> ${arrToString(BookingData.seats)}</li>
-                <li><strong>Seat Category:</strong> ${BookingData.seatCategory}</li>
+                <li><strong>Booked Seats:</strong> ${arrToString(
+                  BookingData.seats
+                )}</li>
+                <li><strong>Seat Category:</strong> ${
+                  BookingData.seatCategory
+                }</li>
                 <li><strong>Price:</strong> ₹${BookingData.withGstPrice}</li>
                 <li><strong>Screen:</strong> ${BookingData.screenName}</li>
                 <li><strong>Foods:</strong>
@@ -242,24 +281,28 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
             <p>Best regards,<br>INOXBOOK Team</p>
         `;
 
-  await mailSender(email, title, body, [{ path: imagePath, filename: `Ticket-${BookingData.bookingId}.png` }]);
-  fs.unlink(imagePath, err => {
-    if (err) console.error('Error deleting image:', err);
-    else console.log('Image deleted successfully');
+  await mailSender(email, title, body, [
+    { path: imagePath, filename: `Ticket-${BookingData.bookingId}.png` }
+  ]);
+  fs.unlink(imagePath, (err) => {
+    if (err) console.error("Error deleting image:", err);
+    else console.log("Image deleted successfully");
   });
 }
 
 function arrToString(arr) {
-  let str = ""
+  let str = "";
   arr.forEach((item) => {
-    str += `${item.name}, `
-  })
-  return str
+    str += `${item.name}, `;
+  });
+  return str;
 }
 
 async function generateQRCode(data) {
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(data)}`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(
+    data
+  )}`;
   return qrCodeUrl;
 }
 
-export default BookingSuccessEmailSend
+export default BookingSuccessEmailSend;
