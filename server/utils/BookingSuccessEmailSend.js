@@ -14,7 +14,7 @@ function HtmlContent(BookingData, poster, qrCodeUrl) {
       <p class="food-header">
         Food
       </p>
-      ${BookingData.foods.map(food => `<p class="food-item">${food.name} x 1</p>`).join('')}
+      ${BookingData.foods.map(food => `<p class="food-item">${food} x 1</p>`).join('')}
     </div>`
     : '';
 
@@ -209,7 +209,7 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
   await captureHtmlAsImage(htmlContent, imagePath);
 
   const foodItemsHtml = BookingData.foods && BookingData.foods.length > 0
-    ? BookingData.foods.map(food => `<li>${food.name} x 1</li>`).join('')
+    ? BookingData.foods.map(food => `<li>${food} x 1</li>`).join('')
     : '<li>None</li>';
 
   const email = user.email;

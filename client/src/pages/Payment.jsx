@@ -20,10 +20,6 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
   const { setEmptySelectedSeats } = useMovie();
   const [totalPrice, setTotalPrice] = useState(0);
   const [timer, setTimer] = useState(300);
-  const [foodList, setFoodList] = useState([
-    { name: "Popcorn", price: 100, image: "https://via.placeholder.com/200" },
-    { name: "Coke", price: 50, image: "https://via.placeholder.com/200" }
-  ]);
   const [foodsCart, setFoodsCart] = useState([]);
 
   const formatSeconds = (seconds) => {
@@ -53,13 +49,13 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
     setTotalPrice(calculatedPrice);
   }, [paymentData]);
 
-  function handleAddFood(name, price) {
+  function handleAddFood(name) {
     if (foodsCart.length === 3) {
-      alert("Max 3 food items");
+      toast.warn("Max 3 food items");
       return;
     }
-    setFoodsCart((prev) => [...prev, { name, price }]);
-    setTotalPrice((prev) => prev + parseInt(price));
+    setFoodsCart((prev) => [...prev, name]);
+    setTotalPrice((prev) => prev + parseInt(name.price));
   }
 
   function handleRemoveFood(index) {
@@ -70,8 +66,9 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
 
   async function handlePaymentClick() {
     setIsLoading(true);
-    await handlePayment(totalPrice);
+    // await handlePayment(totalPrice);
     paymentData.withGstPrice = totalPrice;
+    paymentData.foods = foodsCart.map((food) => food.name);
     await bookTicket(paymentData);
     toast.success("Payment successful");
     setPaymentData({});
