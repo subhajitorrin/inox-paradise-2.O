@@ -70,7 +70,7 @@ function Payment({ paymentData, setPaymentData, setIsPaymentPage }) {
 
   async function handlePaymentClick() {
     setIsLoading(true);
-    // await handlePayment(totalPrice);
+    await handlePayment(totalPrice);
     paymentData.withGstPrice = totalPrice;
     await bookTicket(paymentData);
     toast.success("Payment successful");

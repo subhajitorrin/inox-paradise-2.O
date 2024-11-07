@@ -216,7 +216,7 @@ async function bookTicket(req, res) {
     await Promise.all([schedule.save(), user.save(), newTicket.save()]);
 
     // Send booking success email (commented out)
-    // await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
+    await BookingSuccessEmailSend(user, ticketData, ticketData.movie.poster);
 
     // Return success response
     return res.status(200).json({ message: "Ticket booked successfully" });
@@ -304,9 +304,10 @@ async function cancelBooking(req, res) {
 
     if (!ticket) return res.status(400).json({ message: "Ticket not found" });
 
-    const refundAmount = Math.floor(
-      ticket.price - ticket.price * 0.6 - ticket.price * 0.18
-    );
+    const gstDeduct = ticket.price * 0.18;
+    const serviceChargeDeduct = (ticket.price - gstDeduct) * 0.6;
+
+    const refundAmount = Math.floor(ticket.price - serviceChargeDeduct);
 
     ticket.isCancelled = true;
 
