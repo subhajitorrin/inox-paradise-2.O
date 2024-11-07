@@ -219,15 +219,15 @@ async function captureHtmlAsImage(htmlContent, imagePath) {
 }
 
 async function BookingSuccessEmailSend(user, BookingData, poster) {
-  const qrCodeData = `BookingID:${BookingData.bookingId}`;
-  const qrCodeUrl = await generateQRCode(qrCodeData);
+  // const qrCodeData = `BookingID:${BookingData.bookingId}`;
+  // const qrCodeUrl = await generateQRCode(qrCodeData);
   const htmlContent = HtmlContent(BookingData, poster, qrCodeUrl);
-  const imagePath = path.join(
-    __dirname,
-    "Temp-Ticket-Images",
-    `${Date.now()}.png`
-  );
-  await captureHtmlAsImage(htmlContent, imagePath);
+  // const imagePath = path.join(
+  //   __dirname,
+  //   "Temp-Ticket-Images",
+  //   `${Date.now()}.png`
+  // );
+  // await captureHtmlAsImage(htmlContent, imagePath);
 
   const foodItemsHtml =
     BookingData.foods && BookingData.foods.length > 0
@@ -284,10 +284,10 @@ async function BookingSuccessEmailSend(user, BookingData, poster) {
   await mailSender(email, title, body, [
     { path: imagePath, filename: `Ticket-${BookingData.bookingId}.png` }
   ]);
-  fs.unlink(imagePath, (err) => {
-    if (err) console.error("Error deleting image:", err);
-    else console.log("Image deleted successfully");
-  });
+  // fs.unlink(imagePath, (err) => {
+  //   if (err) console.error("Error deleting image:", err);
+  //   else console.log("Image deleted successfully");
+  // });
 }
 
 function arrToString(arr) {

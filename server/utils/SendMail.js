@@ -17,7 +17,7 @@ const mailSender = async (email, title, body, attachments) => {
       to: email,
       subject: title,
       html: body,
-      attachments
+      // attachments
     });
     return info;
   } catch (error) {
