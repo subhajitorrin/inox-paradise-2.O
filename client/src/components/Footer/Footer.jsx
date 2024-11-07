@@ -88,15 +88,15 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2 text-gray-600">
                 <Mail size={18} />
-                <span>info@movietickets.com</span>
+                <span>orrin2op@gmail.com</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-600">
                 <Phone size={18} />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 9876543210</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-600">
                 <MapPin size={18} />
-                <span>123 Cinema Street, Movie City</span>
+                <span>Kolkata</span>
               </li>
             </ul>
           </div>
@@ -105,8 +105,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-200 text-center">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Movie Ticket Booking. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} InoxParadise. All rights reserved.
           </p>
         </div>
       </div>
