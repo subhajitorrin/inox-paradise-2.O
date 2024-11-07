@@ -24,6 +24,10 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("Hello InoxParadise");
+});
+
 app.use("/", MasterAdminRotuer);
 app.use("/", MovieRouter);
 app.use("/", TheaterRouter);
