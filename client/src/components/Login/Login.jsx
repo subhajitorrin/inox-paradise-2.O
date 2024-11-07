@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import useUser  from "@/store/User";
+import useUser from "@/store/User";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
@@ -70,10 +70,6 @@ function Login() {
             onValueChange={setLoginMethod}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="email">Email</TabsTrigger>
-              <TabsTrigger value="otp">OTP</TabsTrigger>
-            </TabsList>
             <TabsContent value="email">
               <h2 className="text-lg font-semibold mb-4">Login with Email</h2>
               <form onSubmit={handleSubmit} className="space-y-4">

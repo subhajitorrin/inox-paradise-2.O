@@ -91,10 +91,6 @@ const Footer = () => {
                 <span>orrin2op@gmail.com</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-600">
-                <Phone size={18} />
-                <span>+91 9876543210</span>
-              </li>
-              <li className="flex items-center space-x-2 text-gray-600">
                 <MapPin size={18} />
                 <span>Kolkata</span>
               </li>
